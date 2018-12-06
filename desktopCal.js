@@ -113,7 +113,7 @@ function floatingDay( dow, year, month, day ) {
  */
 function checkHoliday( country, year, month, day ) {
 
-	var holidays, date, m;
+	var holidays, date, m, n;
 
 	switch ( country ) {
 		case 'br':
@@ -159,9 +159,9 @@ function checkHoliday( country, year, month, day ) {
 	}
 
 	if ( holidays.hasOwnProperty( month ) && holidays[ month ].includes( day ) )
-		return "holiday";
+		return 'holiday';
 	else
-		return "";
+		return '';
 }
 
 /**
@@ -201,9 +201,14 @@ function generateCalendar( month, year ) {
 	}
 
 	d = 1;
-	month = month < 12 ? month++ : 1;
+	if ( month < 12 ) 
+		month++;
+	else {
+		month = 1;
+		year++;
+	}
 	while ( dow > 0 && dow < 7 ) {
-		html += '<td class="disabled ' + checkHoliday( country, month == 1 ? year + 1 : year, month, d ) + '">' + d;
+		html += '<td class="disabled ' + checkHoliday( country, year, month, d ) + '">' + d;
 		d++;
 		dow++;
 	}

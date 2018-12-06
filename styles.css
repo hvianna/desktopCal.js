@@ -255,7 +255,7 @@ td.holiday {
 	color: #c00;
 }
 .calendar table tr td:first-child.disabled,
-td.holiday.disabled {
+.calendar table td.holiday.disabled {
 	color: #fcc;
 }
 
