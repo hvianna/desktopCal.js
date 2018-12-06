@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+<!--
+/**
+ * desktopCal.js
+ * A printable desktop calendar generator built with HTML, CSS & JavaScript.
+ *
+ * https://github.com/hvianna/desktopCal.js
+ *
+ * Copyright (C) 2018 Henrique Vianna <hvianna@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+-->	
+	<title>desktopCal.js</title>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+	<link rel="stylesheet" href="styles.css">
+	<script src="desktopCal.js"></script>
+</head>
+
+<body>
+	<a href="https://github.com/hvianna/desktopCal.js/" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+	<div class="container">
+		<header>
+			<div id="cal-header" class="cal-header">
+				<div class="elements">
+					<div class="cal-image"></div>
+					<div class="cal-content">
+						<div class="cal-title"></div>
+						<div class="calendar"></div>
+					</div>
+				</div>
+			</div>
+			<h1>desktopCal.js</h1>
+			<div class="description">a printable desktop calendar generator built with HTML, CSS & JavaScript</div>
+		</header>
+
+		<h2>Side one</h2>
+		<label class="custom-file-upload">
+			<input type="file" accept="image/*" onchange="loadImage( this, 'top' );">
+			<i class="fas fa-cloud-upload-alt"></i> Load Image
+		</label>
+		<br><br>
+		<input type="text" id="top-year" placeholder="Year" maxlength="4" onchange="updatePreview();">
+		<select id="top-month" onchange="updatePreview();">
+			<option value="">Month</option>
+			<option value="1">January</option>
+			<option value="2">February</option>
+			<option value="3">March</option>
+			<option value="4">April</option>
+			<option value="5">May</option>
+			<option value="6">June</option>
+			<option value="7">July</option>
+			<option value="8">August</option>
+			<option value="9">September</option>
+			<option value="10">October</option>
+			<option value="11">November</option>
+			<option value="12">December</option>
+		</select>
+		<br>
+
+		<h2>Side two</h2>
+		<label class="custom-file-upload">
+			<input type="file" accept="image/*" onchange="loadImage( this, 'bottom' );">
+			<i class="fas fa-cloud-upload-alt"></i> Load Image
+		</label>
+		<br><br>
+		<input type="text" id="bottom-year" placeholder="Year" maxlength="4" onchange="updatePreview();">
+		<select id="bottom-month" onchange="updatePreview();">
+			<option value="">Month</option>
+			<option value="1">January</option>
+			<option value="2">February</option>
+			<option value="3">March</option>
+			<option value="4">April</option>
+			<option value="5">May</option>
+			<option value="6">June</option>
+			<option value="7">July</option>
+			<option value="8">August</option>
+			<option value="9">September</option>
+			<option value="10">October</option>
+			<option value="11">November</option>
+			<option value="12">December</option>
+		</select>
+		<br>
+
+		<h2>Print it!</h2>
+
+		<p>For best results:</p>
+		<ul>
+			<li>Configure the smallest margins allowed by your printer;</li>
+			<li>Configure your printer to print background colors and images!</li>
+		</ul>
+
+		<button type="button" onclick="window.print();"><i class="fas fa-print"></i> Print</button>
+
+		<div class="credits">
+			Copyright &copy; 2018 Henrique Vianna<br>
+			Source code available on <a href="https://github.com/hvianna/desktopCal.js/">GitHub</a>. Licensed under the <a href="https://www.gnu.org/licenses/agpl.html">GNU AGPL-3.0 license</a>.
+		</div>
+	</div> <!-- .container -->
+
+	<div class="preview">
+		<div class="preview-header">
+			Your calendar:
+		</div>
+		<div class="preview-content">
+			<div id="top-half" class="top-half">
+				<div class="elements">
+					<div class="cal-image"></div>
+					<div class="cal-content">
+						<div class="cal-title"></div>
+						<div class="calendar"></div>
+					</div>
+				</div>
+				<div class="fold-line">
+					fold on all dashed lines
+				</div>
+			</div>
+			<div id="bottom-half" class="bottom-half">
+				<div class="elements">
+					<div class="cal-image"></div>
+					<div class="cal-content">
+						<div class="cal-title"></div>
+						<div class="calendar"></div>
+					</div>
+				</div>
+				<div class="fold-line">
+					fold on all dashed lines
+				</div>
+			</div>
+		</div>
+		<div class="preview-footer">
+		</div>
+	</div> <!-- .preview -->
+
+</body>
+</html>

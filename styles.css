@@ -1,0 +1,260 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+}
+
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+header {
+	margin-bottom: 60px;
+	text-align: center;
+}
+
+h1 {
+	color: #f5f5f5;
+	font-size: 72px;
+	font-style: oblique;
+	font-weight: 900;
+	letter-spacing: -.05em;
+	margin-top: -20px;
+	text-shadow: 1px 1px 2px #000;
+}
+
+h2 {
+	border-bottom: 1px solid #ccc;
+	color: #555;
+	font-size: 20px;
+	margin: 40px 0 20px;
+	padding-bottom: 10px;
+}
+
+button, input, select {
+	font: inherit;
+	padding: 6px;
+}
+
+button {
+	background-color: #f0f0f0;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	color: #555;
+	cursor: pointer;
+	width: 150px;
+}
+
+p {
+	margin-bottom: 1em;
+}
+
+ul {
+	line-height: 1.5;
+	margin-bottom: 40px;
+}
+
+.cal-header {
+	background-image: url(img/desktopCal.png);
+	background-size: 660px 230px;
+	background-repeat: no-repeat;
+	font-size: 60%;
+	height: 230px;
+	margin: 0 auto;
+	overflow: hidden;
+	width: 660px;
+}
+.cal-header .cal-title {
+	margin: .75em 0;
+	font-weight: 900;
+}
+.cal-header .cal-content {
+	transform: skewX(-16.5deg) translateY(10px) translateX(35px);
+	width: 50%;
+}
+.cal-header .cal-image {
+	height: 90%;
+	transform: skewX(-16.5deg) translateY(10px) translateX(42px);
+	width: 30%;
+}
+.cal-header .calendar table {
+	width: 85%;
+	margin: 0 20px;
+}
+.cal-header .calendar table th,
+.cal-header .calendar table td {
+	height: 20px;
+	font-size: 100%;
+}
+
+.description {
+	color: #666;
+	font-size: 13px;
+	font-style: oblique;
+}
+
+.container {
+	display: inline-block;
+	padding: 20px 60px;
+	vertical-align: top;
+	width: 1000px;
+}
+
+.custom-file-upload {
+	background-color: #f0f0f0;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	color: #555;
+	cursor: pointer;
+	display: inline-block;
+	padding: 6px;
+	text-align: center;
+	width: 150px;
+}
+.custom-file-upload input {
+	display: none;
+}
+
+.credits {
+	border-top: 1px dotted #ccc;
+	color: #555;
+	font-size: 11px;
+	margin-top: 50px;
+	padding: 10px 0;
+}
+
+
+/**
+ * Preview area
+ */
+
+.preview {
+	display: inline-block;
+}
+
+.preview-content {
+	border: 2px solid #000;
+	font-size: 12pt;
+	height: 250mm; /* A4 = 297mm */
+/*	transform: scale(0.5); */
+	width: 185mm; /* A4 = 210mm */
+}
+
+.preview-header {
+	color: #555;
+	font-size: 30px;
+	font-weight: 900;
+	margin: 40px 0;
+}
+
+.preview-footer {
+	margin: 40px 0;
+	text-align: center;
+}
+
+.top-half {
+	height: 50%;
+	position: relative;
+	transform: rotate(180deg);
+}
+
+.bottom-half {
+	border-top: 1px dashed #000;
+	height: 50%;
+	position: relative;
+}
+
+.fold-line {
+	border-top: 1px dashed #000;
+	bottom: 0;
+	height: 20%;
+	padding-top: 40px;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+}
+
+.elements {
+	display: flex;
+	height: 100%;
+}
+
+/**
+ * Calendar styles
+ */
+
+.calendar table {
+	border-collapse: collapse;
+	margin: 0 auto;
+	width: 90%;
+}
+.calendar table th,
+.calendar table td {
+	border: 1px solid #ddd;
+	height: 40px;
+	padding: .5em;
+	width: 14.3%;
+}
+.calendar table th {
+	font-size: 80%;
+	font-weight: normal;
+	text-align: center;
+	text-transform: uppercase;
+}
+.calendar table td {
+	text-align: right;
+	vertical-align: top;
+}
+.calendar table td.disabled {
+	color: #ccc;
+}
+.calendar table tr th:first-child,
+.calendar table tr td:first-child {
+	color: #c00;
+}
+.calendar table tr td:first-child.disabled {
+	color: #fcc;
+}
+
+.cal-image {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: auto 100%;
+	height: 80%;
+	overflow: hidden;
+	width: 40%;
+}
+
+.cal-content {
+	width: 60%;
+}
+
+.cal-title {
+	font-size: 130%;
+	font-weight: bold;
+	margin: 1em 0;
+	text-align: center;
+}
+
+/**
+ * Layout for printing
+ */
+
+@media print {
+
+	.container,
+	.preview-header,
+	.preview-footer {
+		display: none;
+	}
+
+	.preview-content {
+		border: none;
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+/*		transform: scale(1); */
+		width: 100%;
+	}
+
+}
