@@ -42,7 +42,7 @@ function generateCalendar( month, year ) {
 	var html, dow, prevMon,	i;
 
 	if ( ( year & 3 ) == 0 && ( ( year % 25 ) != 0 || ( year & 15 ) == 0 ) )
-		ndays[2]++; // leap year 
+		ndays[2]++; // leap year
 
 	prevMon = month > 1 ? month - 1 : 12;
 
@@ -105,9 +105,25 @@ function initialize() {
 		month = d.getMonth() + 1,
 		year = d.getFullYear();
 
+	// display current month calendar on site header
 	area.querySelector('.cal-image').style = `background-image: url(img/${ images[ Math.floor( Math.random() * images.length ) ] })`;
 	area.querySelector('.cal-title').innerText = monthName[ month ] + ' ' + year;
 	area.querySelector('.calendar').innerHTML = generateCalendar( month, year );
+
+	// suggest current month for calendar front...
+	document.getElementById('bottom-year').value = year;
+	document.getElementById('bottom-month').selectedIndex = month;
+
+	if ( month == 12 ) {
+		month = 1;
+		year++;
+	}
+	else
+		month++;
+
+	// ...and next month for calendar back
+	document.getElementById('top-year').value = year;
+	document.getElementById('top-month').selectedIndex = month;
 
 }
 
