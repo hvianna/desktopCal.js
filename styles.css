@@ -7,8 +7,12 @@ body {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
+a {
+	color: #00c;
+}
+
 header {
-	margin-bottom: 60px;
+	margin-bottom: 20px;
 	text-align: center;
 }
 
@@ -49,8 +53,12 @@ p {
 }
 
 ul {
-	line-height: 1.5;
-	margin-bottom: 40px;
+	background-image: url(img/icons8-training.png);
+	background-repeat: no-repeat;
+	background-size: 60px;
+	line-height: 1.6;
+	margin-bottom: 30px;
+	padding: 0 0 10px 90px;
 }
 
 .cal-header {
@@ -93,33 +101,76 @@ ul {
 }
 
 .container {
-	display: inline-block;
-	padding: 20px 60px;
-	vertical-align: top;
-	width: 1000px;
+	margin: 0 auto;
+	max-width: 100%;
+	width: 1600px;
 }
 
-.custom-file-upload {
+.config {
+	display: inline-block;
+	padding: 20px 20px 20px 0;
+	vertical-align: top;
+	width: 800px;
+}
+
+.config-block {
+	display: inline-block;
+	width: calc( 50% - 20px );
+}
+.config-block input {
+	width: 150px;
+}
+
+.right {
+	float: right;
+}
+
+.custom-file-button {
 	background-color: #f0f0f0;
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	color: #555;
 	cursor: pointer;
 	display: inline-block;
+	margin-bottom: 20px;
 	padding: 6px;
 	text-align: center;
 	width: 150px;
 }
-.custom-file-upload input {
+.custom-file-button::before {
+	background-image: url(img/icons8-image-file.png);
+	background-size: 24px;
+	content: '';
+	display: inline-block;
+	height: 24px;
+	vertical-align: text-top;
+	width: 24px;
+}
+.custom-file-button input {
 	display: none;
+}
+
+.print-button::before {
+	background-image: url(img/icons8-print.png);
+	background-size: 24px;
+	content: '';
+	display: inline-block;
+	height: 24px;
+	margin-right: 10px;
+	vertical-align: text-top;
+	width: 24px;
+}
+
+.note,
+.credits {
+	color: #555;
+	font-size: 12px;
+	padding: 10px 0;
 }
 
 .credits {
 	border-top: 1px dotted #ccc;
-	color: #555;
-	font-size: 11px;
 	margin-top: 50px;
-	padding: 10px 0;
 }
 
 
@@ -129,26 +180,14 @@ ul {
 
 .preview {
 	display: inline-block;
+	margin: 40px 0;
 }
 
 .preview-content {
 	border: 2px solid #000;
 	font-size: 12pt;
 	height: 250mm; /* A4 = 297mm */
-/*	transform: scale(0.5); */
 	width: 185mm; /* A4 = 210mm */
-}
-
-.preview-header {
-	color: #555;
-	font-size: 30px;
-	font-weight: 900;
-	margin: 40px 0;
-}
-
-.preview-footer {
-	margin: 40px 0;
-	text-align: center;
 }
 
 .top-half {
@@ -167,10 +206,13 @@ ul {
 	border-top: 1px dashed #000;
 	bottom: 0;
 	height: 20%;
-	padding-top: 40px;
+	padding-top: 25px;
 	position: absolute;
 	text-align: center;
 	width: 100%;
+}
+.fold-line img {
+	vertical-align: middle;
 }
 
 .elements {
@@ -208,10 +250,12 @@ ul {
 	color: #ccc;
 }
 .calendar table tr th:first-child,
-.calendar table tr td:first-child {
+.calendar table tr td:first-child,
+td.holiday {
 	color: #c00;
 }
-.calendar table tr td:first-child.disabled {
+.calendar table tr td:first-child.disabled,
+td.holiday.disabled {
 	color: #fcc;
 }
 
@@ -241,10 +285,20 @@ ul {
 
 @media print {
 
-	.container,
+	.config,
+	.github-link,
 	.preview-header,
 	.preview-footer {
 		display: none;
+	}
+
+	.container {
+		margin: 0;
+		width: 100%;
+	}
+
+	.preview {
+		margin: 0;
 	}
 
 	.preview-content {
@@ -253,7 +307,6 @@ ul {
 		left: 0;
 		position: absolute;
 		top: 0;
-/*		transform: scale(1); */
 		width: 100%;
 	}
 
