@@ -28,10 +28,13 @@ h1 {
 
 h2 {
 	border-bottom: 1px solid #ccc;
-	color: #555;
 	font-size: 20px;
 	margin: 40px 0 20px;
 	padding-bottom: 10px;
+}
+
+h3 {
+	margin: 30px 0 10px;
 }
 
 button, input, select {
@@ -101,16 +104,13 @@ ul {
 }
 
 .container {
-	margin: 0 auto;
-	max-width: 100%;
-	width: 1600px;
+	display: flex;
+	justify-content: space-evenly;
 }
 
 .config {
-	display: inline-block;
-	padding: 20px 20px 20px 0;
-	vertical-align: top;
-	width: 800px;
+	color: #555;
+	padding: 20px;
 }
 
 .config-block {
@@ -129,7 +129,6 @@ ul {
 	background-color: #f0f0f0;
 	border: 1px solid #ccc;
 	border-radius: 5px;
-	color: #555;
 	cursor: pointer;
 	display: inline-block;
 	margin-bottom: 20px;
@@ -163,7 +162,6 @@ ul {
 
 .note,
 .credits {
-	color: #555;
 	font-size: 12px;
 	padding: 10px 0;
 }
@@ -179,7 +177,6 @@ ul {
  */
 
 .preview {
-	display: inline-block;
 	margin: 40px 0;
 }
 
@@ -206,7 +203,7 @@ ul {
 	border-top: 1px dashed #000;
 	bottom: 0;
 	height: 20%;
-	padding-top: 25px;
+	padding-top: 15px;
 	position: absolute;
 	text-align: center;
 	width: 100%;

@@ -22,6 +22,20 @@
 
 
 /**
+ * Global variables
+ */
+var monthName = {
+	en: [ '', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
+	pt: [ '', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro' ]
+}
+
+var weekDays = {
+	en: [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
+	pt: [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb' ]
+}
+
+
+/**
  * Loads an image from user's computer into a calendar panel
  *
  * @param {HTMLInputElement object} obj    handler of the HTML file element
@@ -172,12 +186,11 @@ function checkHoliday( country, year, month, day ) {
  *
  * @returns {string} HTML table for the calendar
  */
-function generateCalendar( month, year ) {
+function generateCalendar( month, year, lang = 'en', country = 'us' ) {
 
 	var ndays = [ 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 
-	var html, dow, prevMon,	i, d,
-		country = 'br';
+	var html, dow, prevMon,	i, d;
 
 	if ( ( year & 3 ) == 0 && ( ( year % 25 ) != 0 || ( year & 15 ) == 0 ) )
 		ndays[2]++; // leap year
@@ -185,7 +198,11 @@ function generateCalendar( month, year ) {
 	prevMon = month > 1 ? month - 1 : 12;
 
 	dow = ( new Date( year, month - 1, 1 ) ).getDay();
-	html = '<table><tr><th>Sun<th>Mon<th>Tue<th>Wed<th>Thu<th>Fri<th>Sat';
+	html = '<table><tr>';
+
+	for ( i = 0; i < 7; i++ )
+		html += '<th>' + weekDays[ lang ][ i ];
+
 	html += '<tr>'
 
 	for ( i = dow, d = ndays[ prevMon ] - i + 1; i > 0; i--, d++ )
@@ -227,14 +244,15 @@ function updatePreview() {
 	var area = [ document.getElementById('top-half'), document.getElementById('bottom-half') ],
 		year = [ document.getElementById('top-year').value, document.getElementById('bottom-year').value ],
 		month = [ document.getElementById('top-month').value, document.getElementById('bottom-month').value ],
-		mName = [ document.getElementById('top-month')[document.getElementById('top-month').selectedIndex].text, document.getElementById('bottom-month')[document.getElementById('bottom-month').selectedIndex].text ];
+		lang = document.getElementById('lang').value,
+		country = document.getElementById('country').value;
 
 	var i, j;
 
 	for ( i = 0; i < 2; i++ ) {
 		if ( month[ i ] && year[ i ] ) {
-			area[ i ].querySelector('.cal-title').innerText = mName[ i ] + ' ' + year[ i ];
-			area[ i ].querySelector('.calendar').innerHTML = generateCalendar( month[ i ], year[ i ] );
+			area[ i ].querySelector('.cal-title').innerText = monthName[ lang ][ month[ i ] ] + ' ' + year[ i ];
+			area[ i ].querySelector('.calendar').innerHTML = generateCalendar( month[ i ], year[ i ], lang, country );
 		}
 	}
 }
@@ -243,8 +261,7 @@ function updatePreview() {
 
 function initialize() {
 
-	var monthName = [ '', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
-		images = [ 'xmas.jpg', 'rio.jpg', 'allure.jpg', 'charqueada.jpg', 'st-thomas.jpg', 'peach-flower.jpg' ];
+	var images = [ 'xmas.jpg', 'rio.jpg', 'allure.jpg', 'charqueada.jpg', 'st-thomas.jpg', 'peach-flower.jpg' ];
 
 	var area = document.getElementById('cal-header'),
 		d = new Date(),
@@ -253,7 +270,7 @@ function initialize() {
 
 	// display current month calendar on site header
 	area.querySelector('.cal-image').style = `background-image: url(img/${ images[ Math.floor( Math.random() * images.length ) ] })`;
-	area.querySelector('.cal-title').innerText = monthName[ month ] + ' ' + year;
+	area.querySelector('.cal-title').innerText = monthName.en[ month ] + ' ' + year;
 	area.querySelector('.calendar').innerHTML = generateCalendar( month, year );
 
 	// suggest current month for calendar front...

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml" lang="en-US">
 <head>
 	<meta charset="utf-8">
 <!--
@@ -26,6 +26,15 @@
  */
 -->
 	<title>desktopCal.js</title>
+	<link rel="icon" type="image/png" sizes="64x64" href="img/favicon64.png">
+	<meta property="og:url" content="https://hvianna.github.io/desktopCal.js/">
+	<meta property="og:title" content="desktopCal.js">
+	<meta property="og:image" content="https://hvianna.github.io/desktopCal.js/img/sharing.png">
+	<meta property="og:site_name" content="desktopCal.js">
+	<meta property="og:description" content="A one-sheet desktop calendar generator built with HTML, CSS & JavaScript">
+	<meta property="og:type" content="website">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="@HenriqueVianna">
 	<link rel="stylesheet" href="styles.css">
 	<script src="desktopCal.js"></script>
 </head>
@@ -48,8 +57,16 @@
 				<div class="description">a one-sheet desktop calendar generator built with HTML, CSS & JavaScript</div>
 			</header>
 
+			<h2>Build your calendar</h2>
+
 			<div class="config-block">
-				<h2>Front</h2>
+				<strong>Language:</strong>
+				<select id="lang" onchange="updatePreview();">
+					<option value="en">English</option>
+					<option value="pt">Português</option>
+				</select>
+
+				<h3>Front:</h3>
 				<label class="custom-file-button">
 					<input type="file" accept="image/*" onchange="loadImage( this, 'bottom' );">
 					Load Image
@@ -74,7 +91,13 @@
 			</div>
 
 			<div class="config-block right">
-				<h2>Back</h2>
+				<strong>National Holidays:</strong>
+				<select id="country" onchange="updatePreview();">
+					<option value="us">United States</option>
+					<option value="br">Brasil</option>
+				</select>
+
+				<h3>Back:</h3>
 				<label class="custom-file-button">
 					<input type="file" accept="image/*" onchange="loadImage( this, 'top' );">
 					Load Image
@@ -105,7 +128,7 @@
 			<p>For best results:</p>
 			<ul>
 				<li>Configure your printer to print background colors and images!</li>
-				<li>Set the smallest margins allowed by your printer.</li>
+				<li>Set the smallest margins your printer allows.</li>
 			</ul>
 
 			<button type="button" class="print-button" onclick="window.print();">Print</button>
@@ -131,6 +154,7 @@
 						<img src="img/icons8-fold.png">
 						fold on all dashed lines
 						<img src="img/icons8-c-fold-leaflet.png">
+						<div class="note center">Created with <strong>desktopCal.js</strong> - https://hvianna.github.io/desktopCal.js/</div>
 					</div>
 				</div>
 				<div id="bottom-half" class="bottom-half">
@@ -145,6 +169,7 @@
 						<img src="img/icons8-fold.png">
 						fold on all dashed lines
 						<img src="img/icons8-c-fold-leaflet.png">
+						<div class="note center">Created with <strong>desktopCal.js</strong> - https://hvianna.github.io/desktopCal.js/</div>
 					</div>
 				</div>
 			</div>
