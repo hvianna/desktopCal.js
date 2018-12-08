@@ -1,11 +1,11 @@
 desktopCal.js
 =============
 
-A one-sheet desktop calendar generator built with HTML, CSS & JavaScript.
+Calendar generator built with HTML, CSS & JavaScript.
 
 https://hvianna.github.io/desktopCal.js/
 
-This is Work In Progress.
+Work In Progress. For now, it allows you to build a one-sheet foldable desktop calendar with images loaded from your PC.
 
 
 ## Acknowledgements
