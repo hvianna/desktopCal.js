@@ -1,6 +1,6 @@
 /**
  * desktopCal.js
- * A one-sheet desktop calendar generator built with HTML, CSS & JavaScript.
+ * Calendar generator built with HTML, CSS & JavaScript.
  *
  * https://github.com/hvianna/desktopCal.js
  *
@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
+var _VERSION = '18.12';
 
 /**
  * Global variables
@@ -34,7 +34,6 @@ var weekDays = {
 	pt: [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb' ]
 }
 
-
 /**
  * Loads an image from user's computer into a calendar panel
  *
@@ -46,9 +45,7 @@ function loadImage( obj, side ) {
 	var reader = new FileReader();
 
 	reader.onload = function() {
-		var dataURL = reader.result;
-		var imageObj = new Image();
-		document.querySelector(`.${side}-half .cal-image`).style = `background-image: url(${dataURL})`;
+		document.querySelector(`.${side}-half .cal-image`).style = `background-image: url(${ reader.result })`;
 	}
 
 	reader.readAsDataURL( obj.files[0] );
@@ -206,7 +203,7 @@ function generateCalendar( month, year, lang = 'en', country = 'us' ) {
 	html += '<tr>'
 
 	for ( i = dow, d = ndays[ prevMon ] - i + 1; i > 0; i--, d++ )
-		html += '<td class="disabled ' + checkHoliday( country, month == 1 ? year - 1 : year, prevMon, d ) + '">' + d;
+		html += '<td class="prev-month ' + checkHoliday( country, month == 1 ? year - 1 : year, prevMon, d ) + '">' + d;
 
 	for ( i = 1; i <= ndays[ month ]; i++ ) {
 		html += '<td class="' + checkHoliday( country, year, month, i ) + '">' + i;
@@ -225,7 +222,7 @@ function generateCalendar( month, year, lang = 'en', country = 'us' ) {
 		year++;
 	}
 	while ( dow > 0 && dow < 7 ) {
-		html += '<td class="disabled ' + checkHoliday( country, year, month, d ) + '">' + d;
+		html += '<td class="next-month ' + checkHoliday( country, year, month, d ) + '">' + d;
 		d++;
 		dow++;
 	}
@@ -257,8 +254,9 @@ function updatePreview() {
 	}
 }
 
-
-
+/**
+ * Initialize user interface on page load
+ */
 function initialize() {
 
 	var images = [ 'xmas.jpg', 'rio.jpg', 'allure.jpg', 'charqueada.jpg', 'st-thomas.jpg', 'peach-flower.jpg' ];

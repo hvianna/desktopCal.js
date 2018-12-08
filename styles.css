@@ -58,10 +58,10 @@ p {
 ul {
 	background-image: url(img/icons8-training.png);
 	background-repeat: no-repeat;
-	background-size: 60px;
+	background-size: 80px;
 	line-height: 1.6;
 	margin-bottom: 30px;
-	padding: 0 0 10px 90px;
+	padding: 0 0 10px 110px;
 }
 
 .cal-header {
@@ -95,12 +95,6 @@ ul {
 .cal-header .calendar table td {
 	height: 20px;
 	font-size: 100%;
-}
-
-.description {
-	color: #666;
-	font-size: 13px;
-	font-style: oblique;
 }
 
 .container {
@@ -180,11 +174,21 @@ ul {
 	margin: 40px 0;
 }
 
+.preview-header {
+	font-size: 26px;
+	font-style: oblique;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
 .preview-content {
 	border: 2px solid #000;
-	font-size: 12pt;
-	height: 250mm; /* A4 = 297mm */
-	width: 185mm; /* A4 = 210mm */
+	font-size: 9pt;
+	height: 715px;
+	width: 550px;
+}
+.preview-content .note {
+	display: none;
 }
 
 .top-half {
@@ -221,15 +225,19 @@ ul {
  * Calendar styles
  */
 
+.calendar {
+	height: calc( 80% - 6em );
+}
 .calendar table {
 	border-collapse: collapse;
+	height: 100%;
 	margin: 0 auto;
 	width: 90%;
 }
 .calendar table th,
 .calendar table td {
 	border: 1px solid #ddd;
-	height: 40px;
+	height: 14.3%;
 	padding: .5em;
 	width: 14.3%;
 }
@@ -243,16 +251,19 @@ ul {
 	text-align: right;
 	vertical-align: top;
 }
-.calendar table td.disabled {
+.calendar table td.prev-month,
+.calendar table td.next-month {
 	color: #ccc;
 }
-.calendar table tr th:first-child,
-.calendar table tr td:first-child,
-td.holiday {
+.calendar table th:first-child,
+.calendar table td:first-child,
+.calendar table td.holiday {
 	color: #c00;
 }
-.calendar table tr td:first-child.disabled,
-.calendar table td.holiday.disabled {
+.calendar table td:first-child.prev-month,
+.calendar table td:first-child.next-month,
+.calendar table td.holiday.prev-month, 
+.calendar table td.holiday.next-month {
 	color: #fcc;
 }
 
@@ -285,7 +296,7 @@ td.holiday {
 	.config,
 	.github-link,
 	.preview-header,
-	.preview-footer {
+	.credits {
 		display: none;
 	}
 
@@ -300,11 +311,15 @@ td.holiday {
 
 	.preview-content {
 		border: none;
+		font-size: 12pt;
 		height: 100%;
 		left: 0;
 		position: absolute;
 		top: 0;
 		width: 100%;
+	}
+	.preview-content .note {
+		display: block;
 	}
 
 }
