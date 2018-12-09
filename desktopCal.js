@@ -288,8 +288,15 @@ function changeLayout() {
  */
 function initialize() {
 
-	// set a default language and load page HTML
-	lang = 'en';
+	var browserLang = navigator.language.split('-');
+
+	// try to use browser preferred language
+	if ( Object.keys( msg ).includes( browserLang[0] ) )
+		lang = browserLang[0];
+	else
+		lang = 'en'; // if language not available, defaults to English
+
+	// generate page HTML
 	document.getElementById('container').innerHTML = pageTemplate();
 
 	var d = new Date(),
