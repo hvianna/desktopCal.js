@@ -19,20 +19,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-var _VERSION = '18.12';
+var _VERSION = '19.1-dev';
 
-/**
- * Global variables
- */
-var monthName = {
-	en: [ '', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
-	pt: [ '', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro' ]
-}
-
-var weekDays = {
-	en: [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
-	pt: [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb' ]
-}
 
 /**
  * Loads an image from user's computer into a calendar panel
@@ -180,10 +168,12 @@ function checkHoliday( country, year, month, day ) {
  *
  * @param {number} month
  * @param {number} year
+ * @param {string} lang 	desired language
+ * @param {string} country  country for national holidays
  *
  * @returns {string} HTML table for the calendar
  */
-function generateCalendar( month, year, lang = 'en', country = 'us' ) {
+function generateCalendar( month, year, lang, country ) {
 
 	var ndays = [ 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 
@@ -241,13 +231,12 @@ function updatePreview() {
 	var area = [ document.getElementById('top-half'), document.getElementById('bottom-half') ],
 		year = [ document.getElementById('top-year').value, document.getElementById('bottom-year').value ],
 		month = [ document.getElementById('top-month').value, document.getElementById('bottom-month').value ],
-		lang = document.getElementById('lang').value,
 		country = document.getElementById('country').value;
 
 	var i, j;
 
 	for ( i = 0; i < 2; i++ ) {
-		if ( month[ i ] && year[ i ] ) {
+		if ( month[ i ] > 0 && year[ i ] > 0 ) {
 			area[ i ].querySelector('.cal-title').innerText = monthName[ lang ][ month[ i ] ] + ' ' + year[ i ];
 			area[ i ].querySelector('.calendar').innerHTML = generateCalendar( month[ i ], year[ i ], lang, country );
 		}
@@ -255,21 +244,35 @@ function updatePreview() {
 }
 
 /**
- * Initialize user interface on page load
+ * Updates site header with a live calendar
  */
-function initialize() {
+function updateSiteHeader() {
 
 	var images = [ 'xmas.jpg', 'rio.jpg', 'allure.jpg', 'charqueada.jpg', 'st-thomas.jpg', 'peach-flower.jpg' ];
 
 	var area = document.getElementById('cal-header'),
 		d = new Date(),
 		month = d.getMonth() + 1,
-		year = d.getFullYear();
+		year = d.getFullYear(),
+		country = document.getElementById('country').value;
 
 	// display current month calendar on site header
 	area.querySelector('.cal-image').style = `background-image: url(img/${ images[ Math.floor( Math.random() * images.length ) ] })`;
-	area.querySelector('.cal-title').innerText = monthName.en[ month ] + ' ' + year;
-	area.querySelector('.calendar').innerHTML = generateCalendar( month, year );
+	area.querySelector('.cal-title').innerText = monthName[ lang ][ month ] + ' ' + year;
+	area.querySelector('.calendar').innerHTML = generateCalendar( month, year, lang, country );
+}
+
+/**
+ * Initialize user interface on page load
+ */
+function initialize() {
+
+	lang = 'en';
+	document.getElementById('container').innerHTML = pageTemplate();
+
+	var d = new Date(),
+		month = d.getMonth() + 1,
+		year = d.getFullYear();
 
 	// suggest current month for calendar front...
 	document.getElementById('bottom-year').value = year;
@@ -286,8 +289,8 @@ function initialize() {
 	document.getElementById('top-year').value = year;
 	document.getElementById('top-month').selectedIndex = month;
 
+	updateSiteHeader();
 	updatePreview();
-
 }
 
-window.onload = initialize;
+document.addEventListener( 'DOMContentLoaded', initialize );

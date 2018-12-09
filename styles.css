@@ -126,9 +126,9 @@ ul {
 	cursor: pointer;
 	display: inline-block;
 	margin-bottom: 20px;
-	padding: 6px;
+	padding: 6px 12px;
 	text-align: center;
-	width: 150px;
+	min-width: 150px;
 }
 .custom-file-button::before {
 	background-image: url(img/icons8-image-file.png);
