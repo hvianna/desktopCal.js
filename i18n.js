@@ -43,12 +43,16 @@ var msg = {
 }
 
 var monthName = {
+	es: [ 'Mes', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubure', 'Noviembre', 'Diciembre' ],
 	en: [ 'Month', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
+	fr: [ 'Mois', 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ],
 	pt: [ 'Mês', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro' ]
 }
 
 var weekDays = {
+	es: [ 'Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb' ],
 	en: [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
+	fr: [ 'Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam' ],
 	pt: [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb' ]
 }
 
@@ -115,9 +119,17 @@ function changeLang( obj ) {
 			values[ i ] = elems[ i ].value;
 	}
 
-//	console.log(elems);
+	var elems = document.querySelectorAll('.cal-image');
+	var pics = [];
+
+	for ( i = 0; i < elems.length; i++ )
+		pics[ i ] = elems[ i ].style.backgroundImage;
+
+	// upadte page HTML
 
 	document.getElementById('container').innerHTML = pageTemplate();
+
+	// restore input and select values
 
 	elems = document.querySelectorAll('input[type="text"], select:not(#lang)');
 
@@ -127,6 +139,12 @@ function changeLang( obj ) {
 		else
 			elems[ i ].value = values[ i ];
 	}
+
+	// restore selected pictures
+
+	elems = document.querySelectorAll('.cal-image');
+	for ( i = 0; i < elems.length; i++ )
+		elems[ i ].style.backgroundImage = pics[ i ];
 
 	updateSiteHeader();
 	updatePreview();
