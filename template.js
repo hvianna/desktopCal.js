@@ -81,7 +81,7 @@ function pageTemplate() {
 				<li>${msg[lang].tipHeaders}</li>
 			</ul>
 
-			<button type="button" class="print-button" onclick="window.print();">${msg[lang].printIt}</button>
+			<button type="button" class="print-button" onclick="window.print();">${msg[lang].print}</button>
 
 		</div> <!-- .config -->
 
