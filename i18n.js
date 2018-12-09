@@ -8,6 +8,48 @@ var msg = {
 	en: {
 		design:     'Design your calendar',
 		language:   'Language',
+		desktopCal: 'Desktop calendar',
+		wallSingle: 'Wall calendar<br>(single month)',
+		front:      'Front',
+		back:       'Back',
+		loadImage:  'Load Image',
+		holidays:   'National Holidays', 
+		year:       'Year',
+		imgNotice:  'Images are NOT uploaded anywhere outside your computer. All processing takes place on your browser.',
+		printIt:    'Print It!',
+		print:      'Print',
+		tipBgImg:   'Configure your printer to print <strong>background images;</strong>',
+		tipMargins: 'Set the minimum margins allowed;',
+		tipHeaders: 'Turn off all headers and footers.',
+		preview:    'Preview',
+		fold:       'fold on all dashed lines',
+	},
+
+	es: {
+		design:     'Design your calendar',
+		language:   'Language',
+		desktopCal: 'Desktop calendar',
+		wallSingle: 'Wall calendar<br>(single month)',
+		front:      'Front',
+		back:       'Back',
+		loadImage:  'Load Image',
+		holidays:   'National Holidays', 
+		year:       'Year',
+		imgNotice:  'Images are NOT uploaded anywhere outside your computer. All processing takes place on your browser.',
+		printIt:    'Print It!',
+		print:      'Print',
+		tipBgImg:   'Configure your printer to print <strong>background images;</strong>',
+		tipMargins: 'Set the minimum margins allowed;',
+		tipHeaders: 'Turn off all headers and footers.',
+		preview:    'Preview',
+		fold:       'fold on all dashed lines',
+	},
+
+	fr: {
+		design:     'Design your calendar',
+		language:   'Language',
+		desktopCal: 'Desktop calendar',
+		wallSingle: 'Wall calendar<br>(single month)',
 		front:      'Front',
 		back:       'Back',
 		loadImage:  'Load Image',
@@ -26,6 +68,8 @@ var msg = {
 	pt: {
 		design:     'Monte seu calendário',
 		language:   'Idioma',
+		desktopCal: 'Calendário de mesa',
+		wallSingle: 'Calendário de parede<br>(um mês)',
 		front:      'Frente',
 		back:       'Verso',
 		loadImage:  'Carregar Imagem',
@@ -99,25 +143,25 @@ function countryOptions() {
 	return html;
 }
 
-
 function changeLang( obj ) {
 
-	if ( typeof obj == 'object' )
-		lang = obj.value;
-	else
-		lang = obj;
+	lang = obj.value;
 
 	// save values from input and select elements, so we can restore them after changing the language
 
-	var elems = document.querySelectorAll('input[type="text"], select:not(#lang)');
+	var elems = document.querySelectorAll('input[type="text"], input[type="radio"], select:not(#lang)');
 	var values = [];
 
 	for ( i = 0; i < elems.length; i++ ) {
 		if ( elems[ i ].localName == 'select' )
 			values[ i ] = elems[ i ].selectedIndex;
+		else if ( elems[ i ].attributes.type.nodeValue == 'radio' )
+			values[ i ] = elems[ i ].checked;
 		else
 			values[ i ] = elems[ i ].value;
 	}
+
+	// save user selected pictures
 
 	var elems = document.querySelectorAll('.cal-image');
 	var pics = [];
@@ -131,22 +175,25 @@ function changeLang( obj ) {
 
 	// restore input and select values
 
-	elems = document.querySelectorAll('input[type="text"], select:not(#lang)');
+	elems = document.querySelectorAll('input[type="text"], input[type="radio"], select:not(#lang)');
 
 	for ( i = 0; i < elems.length; i++ ) {
 		if ( elems[ i ].localName == 'select' )
 			elems[ i ].selectedIndex = values[ i ];
+		else if ( elems[ i ].attributes.type.nodeValue == 'radio' )
+			elems[ i ].checked = values[ i ];
 		else
 			elems[ i ].value = values[ i ];
 	}
 
-	// restore selected pictures
+	// restore calendar pictures
 
 	elems = document.querySelectorAll('.cal-image');
 	for ( i = 0; i < elems.length; i++ )
 		elems[ i ].style.backgroundImage = pics[ i ];
 
+	// update site header and preview
+
 	updateSiteHeader();
 	updatePreview();
-
 }

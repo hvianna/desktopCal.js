@@ -16,12 +16,36 @@ function pageTemplate() {
 
 			<h2>${msg[lang].design}</h2>
 
-			<div class="config-block">
-				<strong>${msg[lang].language}:</strong>
-				<select id="lang" onchange="changeLang( this );">
-					${langOptions()}
-				</select>
+			<div class="bottom20">
+				<div class="config-block">
+					<strong>Language / Langue / Idioma:</strong>
+					<select id="lang" onchange="changeLang( this );">
+						${langOptions()}
+					</select>
+				</div>
 
+				<div class="config-block right">
+					<strong>${msg[lang].holidays}:</strong>
+					<select id="country" onchange="updatePreview();">
+						${countryOptions()}
+					</select>
+				</div>
+			</div>
+
+			<div class="flex-blocks center">
+				<label class="label-layout">
+					<input type="radio" name="layout" value="desktop" checked="checked" onclick="changeLayout();"><br>
+					<img src="img/layout-desktop.png">
+					${msg[lang].desktopCal}
+				</label>
+				<label class="label-layout">
+					<input type="radio" name="layout" value="wall-single" onclick="changeLayout();"><br>
+					<img src="img/layout-wall-single.png">
+					${msg[lang].wallSingle}
+				</label>
+			</div>
+
+			<div id="front-config" class="config-block">
 				<h3>${msg[lang].front}:</h3>
 				<label class="custom-file-button">
 					<input type="file" accept="image/*" onchange="loadImage( this, 'bottom' );">
@@ -34,12 +58,7 @@ function pageTemplate() {
 				</select>
 			</div>
 
-			<div class="config-block right">
-				<strong>${msg[lang].holidays}:</strong>
-				<select id="country" onchange="updatePreview();">
-					${countryOptions()}
-				</select>
-
+			<div id="back-config" class="config-block right">
 				<h3>${msg[lang].back}:</h3>
 				<label class="custom-file-button">
 					<input type="file" accept="image/*" onchange="loadImage( this, 'top' );">
@@ -70,7 +89,7 @@ function pageTemplate() {
 			<div class="preview-header">
 				${msg[lang].preview}:
 			</div>
-			<div class="preview-content">
+			<div id="preview-content">
 				<div id="top-half" class="top-half">
 					<div class="elements">
 						<div class="cal-image"></div>

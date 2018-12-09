@@ -34,7 +34,8 @@ h2 {
 }
 
 h3 {
-	margin: 30px 0 10px;
+	font-size: 18px;
+	margin: 20px 0 10px;
 }
 
 button, input, select {
@@ -62,6 +63,10 @@ ul {
 	line-height: 1.6;
 	margin-bottom: 30px;
 	padding: 0 0 10px 110px;
+}
+
+.bottom20 {
+	margin-bottom: 20px;
 }
 
 .cal-header {
@@ -107,9 +112,14 @@ ul {
 	padding: 20px;
 }
 
+.flex-blocks {
+	display: flex;
+	justify-content: space-evenly;
+}
+
 .config-block {
 	display: inline-block;
-	width: calc( 50% - 20px );
+/*	width: calc( 50% - 20px );*/
 }
 .config-block input {
 	width: 150px;
@@ -117,6 +127,18 @@ ul {
 
 .right {
 	float: right;
+}
+
+.label-layout {
+	cursor: pointer;
+	padding: 6px;
+}
+.label-layout:hover {
+	background-color: #f0f0f0;
+}
+.label-layout img {
+	display: block;
+	height: 150px;
 }
 
 .custom-file-button {
@@ -181,13 +203,13 @@ ul {
 	margin-bottom: 20px;
 }
 
-.preview-content {
+#preview-content {
 	border: 2px solid #000;
 	font-size: 9pt;
 	height: 715px;
 	width: 550px;
 }
-.preview-content .note {
+#preview-content .note {
 	display: none;
 }
 
@@ -219,6 +241,38 @@ ul {
 .elements {
 	display: flex;
 	height: 100%;
+}
+
+.center {
+	text-align: center;
+}
+
+#preview-content.wall-single {
+	font-size: 12pt;
+}
+#preview-content.wall-single .top-half {
+	transform: none;
+}
+#preview-content.wall-single .bottom-half {
+	border-top: none;
+}
+#preview-content.wall-single .fold-line,
+#preview-content.wall-single .bottom-half .cal-image,
+#preview-content.wall-single .top-half .cal-content {
+	display: none;
+} 
+#preview-content.wall-single .top-half .cal-image,
+#preview-content.wall-single .bottom-half .cal-content {
+	height: 100%;
+	width: 100%;
+}
+#preview-content.wall-single .top-half .cal-image {
+	background-size: 100%;
+}
+#preview-content.wall-single .calendar table th,
+#preview-content.wall-single .calendar table td {
+	border-width: 1px 0;
+	text-align: center;
 }
 
 /**
@@ -309,7 +363,7 @@ ul {
 		margin: 0;
 	}
 
-	.preview-content {
+	#preview-content {
 		border: none;
 		font-size: 12pt;
 		height: 100%;
@@ -318,8 +372,11 @@ ul {
 		top: 0;
 		width: 100%;
 	}
-	.preview-content .note {
+	#preview-content .note {
 		display: block;
 	}
 
+	#preview-content.wall-single {
+		font-size: 15pt;
+	}
 }

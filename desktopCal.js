@@ -32,6 +32,9 @@ function loadImage( obj, side ) {
 
 	var reader = new FileReader();
 
+	if ( document.querySelector('input[name="layout"]:checked').value != 'desktop' )
+		side = 'top';
+
 	reader.onload = function() {
 		document.querySelector(`.${side}-half .cal-image`).style = `background-image: url(${ reader.result })`;
 	}
@@ -235,6 +238,8 @@ function updatePreview() {
 
 	var i, j;
 
+	changeLayout();
+
 	for ( i = 0; i < 2; i++ ) {
 		if ( month[ i ] > 0 && year[ i ] > 0 ) {
 			area[ i ].querySelector('.cal-title').innerText = monthName[ lang ][ month[ i ] ] + ' ' + year[ i ];
@@ -263,10 +268,27 @@ function updateSiteHeader() {
 }
 
 /**
+ * Changes calendar layout
+ */
+function changeLayout() {
+
+	var layout = document.querySelector('input[name="layout"]:checked').value;
+
+	document.getElementById('preview-content').className = layout;
+
+	if ( layout == 'desktop' )
+		document.getElementById('back-config').style.display = 'block';
+	else
+		document.getElementById('back-config').style.display = 'none';
+
+}
+
+/**
  * Initialize user interface on page load
  */
 function initialize() {
 
+	// set a default language and load page HTML
 	lang = 'en';
 	document.getElementById('container').innerHTML = pageTemplate();
 
@@ -289,6 +311,7 @@ function initialize() {
 	document.getElementById('top-year').value = year;
 	document.getElementById('top-month').selectedIndex = month;
 
+	// update site header and calendar preview
 	updateSiteHeader();
 	updatePreview();
 }
