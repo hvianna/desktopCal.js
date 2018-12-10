@@ -25,12 +25,12 @@ function pageTemplate() {
 
 			<div class="flex-blocks center">
 				<label class="label-layout">
-					<input type="radio" name="layout" value="desktop" checked="checked" onclick="changeLayout();"><br>
+					<input type="radio" name="layout" value="desktop" checked="checked" onclick="setLayout();"><br>
 					<img src="img/layout-desktop.png">
 					${msg[lang].desktopCal}
 				</label>
 				<label class="label-layout">
-					<input type="radio" name="layout" value="wall-single" onclick="changeLayout();"><br>
+					<input type="radio" name="layout" value="wall-single" onclick="setLayout();"><br>
 					<img src="img/layout-wall-single.png">
 					${msg[lang].wallSingle}
 				</label>

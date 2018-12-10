@@ -85,7 +85,7 @@ function computus( year ) {
 }
 
 /**
- * Returns the first day that falls in the specified day of week (for floating holidays)
+ * Returns the first occurrence of the specified day of week (for floating holidays)
  * 
  * @param {number} dow    day of week: 0 - 6 = Sunday - Saturday
  * @param {number} year
@@ -94,7 +94,7 @@ function computus( year ) {
  *
  * @returns {number} day of month that falls in the desired day of week.
  */
-function floatingDay( dow, year, month, day ) {
+function floatingDoW( dow, year, month, day ) {
 
 	while ( ( new Date( year, month - 1, day ) ).getDay() != dow ) {
 		day++;
@@ -119,48 +119,45 @@ function checkHoliday( country, year, month, day ) {
 
 	switch ( country ) {
 		case 'br':
-			holidays = {
-				1: [ 1 ],
-				4: [ 21 ],
-				5: [ 1 ],
-				9: [ 7 ],
-				10: [ 12 ],
-				11: [ 2, 15 ],
-				12: [ 25 ]
-			}
+			holidays = [ '1-1',	'4-21',	'5-1', '9-7', '10-12', '11-2', '11-15', '12-25' ];
 
-			// calculates floating BR holidays, based on Easter Day
+			// calculates floating holidays based on Easter Day
 			date = computus( year );
 
 			for ( n of [ -2, -45, 107 ] ) { // Good Friday, Carnival, Corpus Christ
-
 				date.setDate( date.getDate() + n );
-
-				var m = date.getMonth() + 1;
-				if ( holidays.hasOwnProperty( m ) )
-					holidays[ m ].push( date.getDate() );
-				else
-					holidays[ m ] = [ date.getDate() ];
+				m = date.getMonth() + 1;
+				holidays.push( `${m}-${date.getDate()}` );
 			}
 
 			break;
 
 		case 'us':
-			// https://en.wikipedia.org/wiki/Federal_holidays_in_the_United_States
-			holidays = {
-				1: [ 1, floatingDay( 1, year, 1, 15 ) ],
-				2: [ floatingDay( 1, year, 2, 15 ) ],
-				5: [ floatingDay( 1, year, 5, 25 ) ],
-				7: [ 4 ],
-				9: [ floatingDay( 1, year, 9, 1 ) ],
-				10: [ floatingDay( 1, year, 10, 8 ) ], 
-				11: [ 11, floatingDay( 4, year, 11, 22 ) ],
-				12: [ 25 ]
+			holidays = [
+				'1-1', `1-${ floatingDoW( 1, year, 1, 15 ) }`,
+				`2-${ floatingDoW( 1, year, 2, 15 ) }`,
+				`5-${ floatingDoW( 1, year, 5, 25 ) }`,
+				'7-4',
+				`9-${ floatingDoW( 1, year, 9, 1 ) }`,
+				`10-${ floatingDoW( 1, year, 10, 8 ) }`, 
+				'11-11', `11-${ floatingDoW( 4, year, 11, 22 ) }`,
+				'12-25'
+			];
+			break;
+
+		case 'fr':
+			holidays = [ '1-1', '5-1', '5-8', '7-14', '8-15', '11-1', '11-11', '12-25', '12-26' ];
+
+			date = computus( year );
+			for ( n of [ -2, 3, 38, 11 ] ) { // Good Friday, Easter Monday, Ascension Day, Whit Monday
+				date.setDate( date.getDate() + n );
+				m = date.getMonth() + 1;
+				holidays.push( `${m}-${date.getDate()}` );
 			}
 			break;
 	}
 
-	if ( holidays.hasOwnProperty( month ) && holidays[ month ].includes( day ) )
+	if ( holidays.includes( `${month}-${day}` ) )
 		return 'holiday';
 	else
 		return '';
@@ -191,7 +188,7 @@ function generateCalendar( month, year, lang, country ) {
 	html = '<table><tr>';
 
 	for ( i = 0; i < 7; i++ )
-		html += '<th>' + weekDays[ lang ][ i ];
+		html += '<th>' + msg[ lang ].weekDays[ i ];
 
 	html += '<tr>'
 
@@ -238,11 +235,11 @@ function updatePreview() {
 
 	var i, j;
 
-	changeLayout();
+	setLayout();
 
 	for ( i = 0; i < 2; i++ ) {
 		if ( month[ i ] > 0 && year[ i ] > 0 ) {
-			area[ i ].querySelector('.cal-title').innerText = monthName[ lang ][ month[ i ] ] + ' ' + year[ i ];
+			area[ i ].querySelector('.cal-title').innerText = msg[ lang ].monthNames[ month[ i ] ] + ' ' + year[ i ];
 			area[ i ].querySelector('.calendar').innerHTML = generateCalendar( month[ i ], year[ i ], lang, country );
 		}
 	}
@@ -251,7 +248,7 @@ function updatePreview() {
 /**
  * Changes calendar layout
  */
-function changeLayout() {
+function setLayout() {
 
 	var layout = document.querySelector('input[name="layout"]:checked').value;
 

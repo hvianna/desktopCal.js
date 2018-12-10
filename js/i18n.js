@@ -4,8 +4,17 @@
 
 var lang; // current language
 
+var countries = {
+	us: { name: 'United States' },
+	br: { name: 'Brasil' },
+	fr: { name: 'France' },
+}
+
 var msg = {
 	en: {
+		langName:   'English',
+		monthNames: [ 'Month', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
+		weekDays:   [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
 		design:     'Design your calendar',
 		language:   'Language',
 		desktopCal: 'Desktop calendar',
@@ -26,6 +35,9 @@ var msg = {
 	},
 
 	es: {
+		langName:   'Español',
+		monthNames: [ 'Mes', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubure', 'Noviembre', 'Diciembre' ],
+		weekDays:   [ 'Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb' ],
 		design:     'Diseña tu calendario',
 		language:   'Idioma',
 		desktopCal: 'Calendario de escritorio',
@@ -46,6 +58,9 @@ var msg = {
 	},
 
 	fr: {
+		langName:   'Français',
+		monthNames: [ 'Mois', 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ],
+		weekDays:   [ 'Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam' ],
 		design:     'Concevez votre calendrier',
 		language:   'Langue',
 		desktopCal: 'Calendrier de bureau',
@@ -53,7 +68,7 @@ var msg = {
 		front:      'Face',
 		back:       'Verso',
 		loadImage:  'Charger Image',
-		holidays:   'Vacances Nationales', 
+		holidays:   'Jours fériés', 
 		year:       'Année',
 		imgNotice:  'Les images ne sont PAS téléchargées ailleurs que sur votre ordinateur. Tous les traitements ont lieu dans votre navigateur.',
 		printIt:    'Imprime le!',
@@ -66,6 +81,9 @@ var msg = {
 	},
 
 	pt: {
+		langName:   'Português',
+		monthNames: [ 'Mês', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro' ],
+		weekDays:   [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb' ],
 		design:     'Crie seu calendário',
 		language:   'Idioma',
 		desktopCal: 'Calendário de mesa',
@@ -86,34 +104,14 @@ var msg = {
 	}
 }
 
-var monthName = {
-	es: [ 'Mes', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubure', 'Noviembre', 'Diciembre' ],
-	en: [ 'Month', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
-	fr: [ 'Mois', 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ],
-	pt: [ 'Mês', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro' ]
-}
-
-var weekDays = {
-	es: [ 'Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb' ],
-	en: [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
-	fr: [ 'Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam' ],
-	pt: [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb' ]
-}
-
 
 function langOptions() {
 
-	var languages = [
-		{ value: 'en', text: 'English' },
-		{ value: 'es', text: 'Español' },
-		{ value: 'fr', text: 'Français' },
-		{ value: 'pt', text: 'Português' },
-	];
+	var html = '',
+		keys = Object.keys( msg );
 
-	var html = '';
-
-	for ( var i = 0; i < languages.length; i++ )
-		html += `<option value="${ languages[ i ].value }" ${ languages[ i ].value == lang ? ' selected' : '' }>${ languages[ i ].text }</option>`;
+	for ( var i = 0; i < keys.length; i++ )
+		html += `<option value="${ keys[ i ] }" ${ keys[ i ] == lang ? ' selected' : '' }>${ msg[ keys[ i ] ].langName }</option>`;
 
 	return html;
 }
@@ -123,22 +121,18 @@ function monthOptions() {
 	var html = '';
 
 	for ( var i = 0; i < 13; i++ )
-		html += `<option value="${ i }">${ monthName[ lang ][ i ] }</option>`;
+		html += `<option value="${ i }">${ msg[ lang ].monthNames[ i ] }</option>`;
 
 	return html;
 }
 
 function countryOptions() {
 
-	var countries = [
-		{ value: 'us', text: 'United States' },
-		{ value: 'br', text: 'Brasil' },
-	];
+	var html = '',
+		keys = Object.keys( countries );
 
-	var html = '';
-
-	for ( var i = 0; i < countries.length; i++ )
-		html += `<option value="${ countries[ i ].value }">${ countries[ i ].text }</option>`;
+	for ( var i = 0; i < keys.length; i++ )
+		html += `<option value="${ keys[ i ] }">${ countries[ keys[ i ] ].name }</option>`;
 
 	return html;
 }
