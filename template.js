@@ -2,15 +2,6 @@ function pageTemplate() {
 	return `
 		<div class="config">
 			<header>
-				<div id="cal-header" class="cal-header">
-					<div class="elements">
-						<div class="cal-image"></div>
-						<div class="cal-content">
-							<div class="cal-title"></div>
-							<div class="calendar"></div>
-						</div>
-					</div>
-				</div>
 				<h1>desktopCal.js</h1>
 			</header>
 
@@ -124,7 +115,7 @@ function pageTemplate() {
 			<div class="credits">
 				<strong>desktopCal.js</strong> Copyright &copy; 2018 Henrique Vianna<br>
 				Source code available on <a href="https://github.com/hvianna/desktopCal.js/">GitHub</a>. Licensed under the <a href="https://www.gnu.org/licenses/agpl.html">GNU AGPL-3.0 license</a>.<br>
-				Photos by <a href="https://github.com/Vortander">@vortander</a> and <a href="https://github.com/hvianna">@hvianna</a>. Icons by <a href="https://icons8.com/">icons8</a>.
+				Icons by <a href="https://icons8.com/">icons8</a>. Photos by <a href="https://source.unsplash.com/">Unsplash</a> and <a href="https://picsum.photos/">Lorem Picsum</a>.
 			</div>
 		</div> <!-- .preview -->
 	`;

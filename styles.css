@@ -69,39 +69,6 @@ ul {
 	margin-bottom: 20px;
 }
 
-.cal-header {
-	background-image: url(img/desktopCal.png);
-	background-size: 660px 230px;
-	background-repeat: no-repeat;
-	font-size: 60%;
-	height: 230px;
-	margin: 0 auto;
-	overflow: hidden;
-	width: 660px;
-}
-.cal-header .cal-title {
-	margin: .75em 0;
-	font-weight: 900;
-}
-.cal-header .cal-content {
-	transform: skewX(-16.5deg) translateY(10px) translateX(35px);
-	width: 50%;
-}
-.cal-header .cal-image {
-	height: 90%;
-	transform: skewX(-16.5deg) translateY(10px) translateX(42px);
-	width: 30%;
-}
-.cal-header .calendar table {
-	width: 85%;
-	margin: 0 20px;
-}
-.cal-header .calendar table th,
-.cal-header .calendar table td {
-	height: 20px;
-	font-size: 100%;
-}
-
 .container {
 	display: flex;
 	justify-content: space-evenly;
@@ -110,6 +77,7 @@ ul {
 .config {
 	color: #555;
 	padding: 20px;
+	width: 700px;
 }
 
 .flex-blocks {

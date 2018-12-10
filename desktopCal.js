@@ -249,25 +249,6 @@ function updatePreview() {
 }
 
 /**
- * Updates site header with a live calendar
- */
-function updateSiteHeader() {
-
-	var images = [ 'xmas.jpg', 'rio.jpg', 'allure.jpg', 'charqueada.jpg', 'st-thomas.jpg', 'peach-flower.jpg' ];
-
-	var area = document.getElementById('cal-header'),
-		d = new Date(),
-		month = d.getMonth() + 1,
-		year = d.getFullYear(),
-		country = document.getElementById('country').value;
-
-	// display current month calendar on site header
-	area.querySelector('.cal-image').style = `background-image: url(img/${ images[ Math.floor( Math.random() * images.length ) ] })`;
-	area.querySelector('.cal-title').innerText = monthName[ lang ][ month ] + ' ' + year;
-	area.querySelector('.calendar').innerHTML = generateCalendar( month, year, lang, country );
-}
-
-/**
  * Changes calendar layout
  */
 function changeLayout() {
@@ -288,7 +269,10 @@ function changeLayout() {
  */
 function initialize() {
 
-	var browserLang = navigator.language.split('-');
+	var d = new Date(),
+		month = d.getMonth() + 1,
+		year = d.getFullYear(),
+		browserLang = navigator.language.split('-');
 
 	// try to use browser preferred language
 	if ( Object.keys( msg ).includes( browserLang[0] ) )
@@ -298,10 +282,6 @@ function initialize() {
 
 	// generate page HTML
 	document.getElementById('container').innerHTML = pageTemplate();
-
-	var d = new Date(),
-		month = d.getMonth() + 1,
-		year = d.getFullYear();
 
 	// suggest current month for calendar front...
 	document.getElementById('bottom-year').value = year;
@@ -318,8 +298,11 @@ function initialize() {
 	document.getElementById('top-year').value = year;
 	document.getElementById('top-month').selectedIndex = month;
 
-	// update site header and calendar preview
-	updateSiteHeader();
+	// pick two random images
+	document.getElementById('top-half').querySelector('.cal-image').style.backgroundImage = 'url(https://picsum.photos/800/600/?random)';
+	document.getElementById('bottom-half').querySelector('.cal-image').style.backgroundImage = 'url(https://source.unsplash.com/random/800x600)';
+
+	// update calendar preview
 	updatePreview();
 }
 

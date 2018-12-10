@@ -192,8 +192,6 @@ function changeLang( obj ) {
 	for ( i = 0; i < elems.length; i++ )
 		elems[ i ].style.backgroundImage = pics[ i ];
 
-	// update site header and preview
-
-	updateSiteHeader();
+	// update preview
 	updatePreview();
 }
