@@ -274,7 +274,7 @@ function changeLayout() {
 
 	var layout = document.querySelector('input[name="layout"]:checked').value;
 
-	document.getElementById('preview-content').className = layout;
+	document.getElementById('preview').className = layout;
 
 	if ( layout == 'desktop' )
 		document.getElementById('back-config').style.display = 'block';

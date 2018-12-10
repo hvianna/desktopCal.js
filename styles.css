@@ -192,7 +192,7 @@ ul {
  * Preview area
  */
 
-.preview {
+#preview {
 	margin: 40px 0;
 }
 
@@ -203,13 +203,13 @@ ul {
 	margin-bottom: 20px;
 }
 
-#preview-content {
+.preview-content {
 	border: 2px solid #000;
 	font-size: 9pt;
 	height: 715px;
 	width: 550px;
 }
-#preview-content .note {
+.preview-content .note {
 	display: none;
 }
 
@@ -247,30 +247,30 @@ ul {
 	text-align: center;
 }
 
-#preview-content.wall-single {
+.wall-single .preview-content {
 	font-size: 12pt;
 }
-#preview-content.wall-single .top-half {
+.wall-single .top-half {
 	transform: none;
 }
-#preview-content.wall-single .bottom-half {
+.wall-single .bottom-half {
 	border-top: none;
 }
-#preview-content.wall-single .fold-line,
-#preview-content.wall-single .bottom-half .cal-image,
-#preview-content.wall-single .top-half .cal-content {
+.wall-single .fold-line,
+.wall-single .bottom-half .cal-image,
+.wall-single .top-half .cal-content {
 	display: none;
-} 
-#preview-content.wall-single .top-half .cal-image,
-#preview-content.wall-single .bottom-half .cal-content {
+}
+.wall-single .top-half .cal-image,
+.wall-single .bottom-half .cal-content {
 	height: 100%;
 	width: 100%;
 }
-#preview-content.wall-single .top-half .cal-image {
+.wall-single .top-half .cal-image {
 	background-size: 100%;
 }
-#preview-content.wall-single .calendar table th,
-#preview-content.wall-single .calendar table td {
+.wall-single .calendar table th,
+.wall-single .calendar table td {
 	border-width: 1px 0;
 	text-align: center;
 }
@@ -316,7 +316,7 @@ ul {
 }
 .calendar table td:first-child.prev-month,
 .calendar table td:first-child.next-month,
-.calendar table td.holiday.prev-month, 
+.calendar table td.holiday.prev-month,
 .calendar table td.holiday.next-month {
 	color: #fcc;
 }
@@ -347,6 +347,16 @@ ul {
 
 @media print {
 
+	html,
+	body,
+	.container,
+	#preview,
+	.preview-content {
+		height: 100%;
+		margin: 0;
+		width: 100%;
+	}
+
 	.config,
 	.github-link,
 	.preview-header,
@@ -354,29 +364,29 @@ ul {
 		display: none;
 	}
 
-	.container {
-		margin: 0;
-		width: 100%;
-	}
-
-	.preview {
-		margin: 0;
-	}
-
-	#preview-content {
+	.preview-content {
 		border: none;
 		font-size: 12pt;
-		height: 100%;
 		left: 0;
 		position: absolute;
 		top: 0;
-		width: 100%;
 	}
-	#preview-content .note {
+	.preview-content .note {
 		display: block;
+		margin-top: -4em;
+		padding: 0;
 	}
 
-	#preview-content.wall-single {
+	.wall-single .preview-content {
 		font-size: 15pt;
+	}
+	.wall-single .calendar {
+		height: calc( 100% - 8em );
+	}
+	.wall-single .calendar table td {
+		vertical-align: middle;
+	}
+	.wall-single .top-half .note {
+		display: none;
 	}
 }

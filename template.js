@@ -85,11 +85,11 @@ function pageTemplate() {
 
 		</div> <!-- .config -->
 
-		<div class="preview">
+		<div id="preview">
 			<div class="preview-header">
 				${msg[lang].preview}:
 			</div>
-			<div id="preview-content">
+			<div class="preview-content">
 				<div id="top-half" class="top-half">
 					<div class="elements">
 						<div class="cal-image"></div>
@@ -102,8 +102,8 @@ function pageTemplate() {
 						<img src="img/icons8-fold.png">
 						${msg[lang].fold}
 						<img src="img/icons8-c-fold-leaflet.png">
-						<div class="note center">Created with <strong>desktopCal.js</strong> - https://hvianna.github.io/desktopCal.js/</div>
 					</div>
+					<div class="note center">Created with <strong>desktopCal.js</strong></div>
 				</div>
 				<div id="bottom-half" class="bottom-half">
 					<div class="elements">
@@ -117,8 +117,8 @@ function pageTemplate() {
 						<img src="img/icons8-fold.png">
 						${msg[lang].fold}
 						<img src="img/icons8-c-fold-leaflet.png">
-						<div class="note center">Created with <strong>desktopCal.js</strong> - https://hvianna.github.io/desktopCal.js/</div>
 					</div>
+					<div class="note center">Created with <strong>desktopCal.js</strong></div>
 				</div>
 			</div>
 			<div class="credits">
