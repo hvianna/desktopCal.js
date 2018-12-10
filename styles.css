@@ -87,7 +87,6 @@ ul {
 
 .config-block {
 	display: inline-block;
-/*	width: calc( 50% - 20px );*/
 }
 .config-block input {
 	width: 150px;
@@ -172,7 +171,7 @@ ul {
 }
 
 .preview-content {
-	border: 2px solid #000;
+	box-shadow: 1px 1px 6px rgba(0,0,0,.3);
 	font-size: 9pt;
 	height: 715px;
 	width: 550px;
@@ -326,14 +325,13 @@ ul {
 	}
 
 	.config,
-	.github-link,
 	.preview-header,
 	.credits {
 		display: none;
 	}
 
 	.preview-content {
-		border: none;
+		box-shadow: none;
 		font-size: 12pt;
 		left: 0;
 		position: absolute;
