@@ -256,12 +256,13 @@ function updatePreview() {
 			w = canvas.width;
 			h = canvas.height;
 			// scale and center original image as needed
-			if ( w > h ) { // landscape
+			if ( ( w > h && img.width / img.height <= w / h ) ||
+				 ( h > w && img.height / img.width > h / w ) ) {
 				h = w / img.width * img.height;
 				initialX = 0;
 				initialY = ( h - canvas.height ) * img.height / h / 2;
 			}
-			else { // portrait
+			else {
 				w = h / img.height * img.width;
 				initialX = ( w - canvas.width ) * img.width / w / 2;
 				initialY = 0;
