@@ -30,13 +30,16 @@ var _VERSION = '19.1-dev';
  */
 function loadImage( obj, side ) {
 
-	var reader = new FileReader();
+	var reader = new FileReader(),
+		layout = document.getElementById('preview').className;
 
-	if ( document.querySelector('input[name="layout"]:checked').value != 'desktop' )
+	if ( layout != 'desktop' )
 		side = 'top';
 
 	reader.onload = function() {
 		document.querySelector(`.${side}-half .cal-image`).style = `background-image: url(${ reader.result })`;
+		if ( layout == 'digital' )
+			updatePreview();
 	}
 
 	reader.readAsDataURL( obj.files[0] );
@@ -233,14 +236,37 @@ function updatePreview() {
 		month = [ document.getElementById('top-month').value, document.getElementById('bottom-month').value ],
 		country = document.getElementById('country').value;
 
-	var i, j;
+	var i, j, canvas, ctx, img, w, h, initialX, initialY;
 
-	setLayout();
+	if ( document.getElementById('preview').className != 'digital' ) {
+		for ( i = 0; i < 2; i++ ) {
+			if ( month[ i ] > 0 && year[ i ] > 0 ) {
+				area[ i ].querySelector('.cal-title').innerText = msg[ lang ].monthNames[ month[ i ] ] + ' ' + year[ i ];
+				area[ i ].querySelector('.calendar').innerHTML = generateCalendar( month[ i ], year[ i ], lang, country );
+			}
+		}
+	}
+	else {
+		canvas = document.getElementById('canvas');
+		ctx = canvas.getContext('2d');
+		img = new Image();
 
-	for ( i = 0; i < 2; i++ ) {
-		if ( month[ i ] > 0 && year[ i ] > 0 ) {
-			area[ i ].querySelector('.cal-title').innerText = msg[ lang ].monthNames[ month[ i ] ] + ' ' + year[ i ];
-			area[ i ].querySelector('.calendar').innerHTML = generateCalendar( month[ i ], year[ i ], lang, country );
+		img.src = document.getElementById('top-half').querySelector('.cal-image').style.backgroundImage.match(/url\("([^"]*)"\)/)[1];
+		img.onload = function() {
+			w = canvas.width;
+			h = canvas.height;
+			// scale and center original image as needed
+			if ( w > h ) { // landscape
+				h = w / img.width * img.height;
+				initialX = 0;
+				initialY = ( h - canvas.height ) * img.height / h / 2;
+			}
+			else { // portrait
+				w = h / img.height * img.width;
+				initialX = ( w - canvas.width ) * img.width / w / 2;
+				initialY = 0;
+			}
+			ctx.drawImage( img, initialX, initialY, img.width, img.height, 0, 0, w, h );
 		}
 	}
 }
@@ -252,13 +278,23 @@ function setLayout() {
 
 	var layout = document.querySelector('input[name="layout"]:checked').value;
 
+	document.getElementById('config').className = layout;
 	document.getElementById('preview').className = layout;
 
-	if ( layout == 'desktop' )
-		document.getElementById('back-config').style.display = 'block';
-	else
-		document.getElementById('back-config').style.display = 'none';
+	updatePreview();
+}
 
+/**
+ * Set canvas size
+ */
+function setCanvas() {
+
+	var canvas = document.getElementById('canvas');
+
+	canvas.width = document.getElementById('canvas-width').value;
+	canvas.height = document.getElementById('canvas-height').value;
+
+	updatePreview();
 }
 
 /**
@@ -299,8 +335,13 @@ function initialize() {
 	document.getElementById('top-half').querySelector('.cal-image').style.backgroundImage = 'url(https://picsum.photos/800/600/?random)';
 	document.getElementById('bottom-half').querySelector('.cal-image').style.backgroundImage = 'url(https://source.unsplash.com/random/800x600)';
 
-	// update calendar preview
-	updatePreview();
+	// init canvas width and height fields with the display's dimensions
+	document.getElementById('canvas-width').value = window.screen.width * window.devicePixelRatio;
+	document.getElementById('canvas-height').value = window.screen.height * window.devicePixelRatio;
+	setCanvas();
+
+	// configure initial layout and update preview
+	setLayout();
 }
 
 document.addEventListener( 'DOMContentLoaded', initialize );

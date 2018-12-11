@@ -1,21 +1,21 @@
 function pageTemplate() {
 	return `
-		<div class="config">
+		<div id="config">
 			<header>
 				<h1>desktopCal.js</h1>
 			</header>
 
 			<h2>${msg[lang].design}</h2>
 
-			<div class="bottom20">
-				<div class="config-block">
+			<div class="config-blocks bottom20">
+				<div>
 					<strong>Language / Langue / Idioma:</strong>
 					<select id="lang" onchange="changeLang( this );">
 						${langOptions()}
 					</select>
 				</div>
 
-				<div class="config-block right">
+				<div>
 					<strong>${msg[lang].holidays}:</strong>
 					<select id="country" onchange="updatePreview();">
 						${countryOptions()}
@@ -34,32 +34,44 @@ function pageTemplate() {
 					<img src="img/layout-wall-single.png">
 					${msg[lang].wallSingle}
 				</label>
+				<label class="label-layout">
+					<input type="radio" name="layout" value="digital" onclick="setLayout();"><br>
+					Digital Wallpaper
+				</label>
 			</div>
 
-			<div id="front-config" class="config-block">
-				<h3>${msg[lang].front}:</h3>
-				<label class="custom-file-button">
-					<input type="file" accept="image/*" onchange="loadImage( this, 'bottom' );">
-					${msg[lang].loadImage}
-				</label>
-				<br>
-				<input type="text" id="bottom-year" placeholder="${msg[lang].year}" maxlength="4" onchange="updatePreview();">
-				<select id="bottom-month" onchange="updatePreview();">
-					${monthOptions()}
-				</select>
-			</div>
+			<div class="config-blocks">
+				<div id="front-config">
+					<h3>${msg[lang].front}:</h3>
+					<label class="custom-file-button">
+						<input type="file" accept="image/*" onchange="loadImage( this, 'bottom' );">
+						${msg[lang].loadImage}
+					</label>
+					<br>
+					<input type="text" id="bottom-year" placeholder="${msg[lang].year}" maxlength="4" onchange="updatePreview();">
+					<select id="bottom-month" onchange="updatePreview();">
+						${monthOptions()}
+					</select>
+				</div>
 
-			<div id="back-config" class="config-block right">
-				<h3>${msg[lang].back}:</h3>
-				<label class="custom-file-button">
-					<input type="file" accept="image/*" onchange="loadImage( this, 'top' );">
-					${msg[lang].loadImage}
-				</label>
-				<br>
-				<input type="text" id="top-year" placeholder="${msg[lang].year}" maxlength="4" onchange="updatePreview();">
-				<select id="top-month" onchange="updatePreview();">
-					${monthOptions()}
-				</select>
+				<div id="back-config">
+					<h3>${msg[lang].back}:</h3>
+					<label class="custom-file-button">
+						<input type="file" accept="image/*" onchange="loadImage( this, 'top' );">
+						${msg[lang].loadImage}
+					</label>
+					<br>
+					<input type="text" id="top-year" placeholder="${msg[lang].year}" maxlength="4" onchange="updatePreview();">
+					<select id="top-month" onchange="updatePreview();">
+						${monthOptions()}
+					</select>
+				</div>
+
+				<div id="canvas-config">
+					<input id="canvas-width" type="text" maxlength="4" placeholder="width" onchange="setCanvas();">
+					x
+					<input id="canvas-height" type="text" maxlength="4" placeholder="width" onchange="setCanvas();">
+				</div>
 			</div>
 
 			<div class="note">${msg[lang].imgNotice}</div>
@@ -80,6 +92,7 @@ function pageTemplate() {
 			<div class="preview-header">
 				${msg[lang].preview}:
 			</div>
+			<canvas id="canvas"></canvas>
 			<div class="preview-content">
 				<div id="top-half" class="top-half">
 					<div class="elements">

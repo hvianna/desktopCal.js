@@ -74,10 +74,16 @@ ul {
 	justify-content: space-evenly;
 }
 
-.config {
+#config {
 	color: #555;
 	padding: 20px;
 	width: 700px;
+}
+
+.config-blocks {
+	align-items: flex-end;
+	display: flex;
+	justify-content: space-between;
 }
 
 .flex-blocks {
@@ -88,7 +94,7 @@ ul {
 .config-block {
 	display: inline-block;
 }
-.config-block input {
+.config-blocks input {
 	width: 150px;
 }
 
@@ -128,7 +134,9 @@ ul {
 	vertical-align: text-top;
 	width: 24px;
 }
-.custom-file-button input {
+.custom-file-button input,
+#config:not(.digital) #canvas-config,
+#config:not(.desktop) #back-config {
 	display: none;
 }
 
@@ -161,6 +169,7 @@ ul {
 
 #preview {
 	margin: 40px 0;
+	width: 550px;
 }
 
 .preview-header {
@@ -176,8 +185,15 @@ ul {
 	height: 715px;
 	width: 550px;
 }
+
+#preview:not(.digital) #canvas,
 .preview-content .note {
 	display: none;
+}
+
+#canvas {
+	max-height: 715px;
+	max-width: 550px;
 }
 
 .top-half {
@@ -214,6 +230,8 @@ ul {
 	text-align: center;
 }
 
+/* single month wall calendar */
+
 .wall-single .preview-content {
 	font-size: 12pt;
 }
@@ -240,6 +258,15 @@ ul {
 .wall-single .calendar table td {
 	border-width: 1px 0;
 	text-align: center;
+}
+
+/* digital wallpaper calendar */
+
+.digital #canvas {
+	display: block;
+}
+.digital .preview-content {
+	display: none;
 }
 
 /**
@@ -324,7 +351,7 @@ ul {
 		width: 100%;
 	}
 
-	.config,
+	#config,
 	.preview-header,
 	.credits {
 		display: none;
