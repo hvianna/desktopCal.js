@@ -25,18 +25,18 @@ function pageTemplate() {
 
 			<div class="flex-blocks center">
 				<label class="label-layout">
-					<input type="radio" name="layout" value="desktop" checked="checked" onclick="setLayout();"><br>
+					<input type="radio" name="layout" value="desktop" checked="checked" onclick="updatePreview();"><br>
 					<img src="img/layout-desktop.png">
 					${msg[lang].desktopCal}
 				</label>
 				<label class="label-layout">
-					<input type="radio" name="layout" value="wall-single" onclick="setLayout();"><br>
+					<input type="radio" name="layout" value="wall-single" onclick="updatePreview();"><br>
 					<img src="img/layout-wall-single.png">
 					${msg[lang].wallSingle}
 				</label>
 				<label class="label-layout">
-					<input type="radio" name="layout" value="digital" onclick="setLayout();"><br>
-					Digital Wallpaper
+					<input type="radio" name="layout" value="digital" onclick="updatePreview();"><br>
+					${msg[lang].digitalBg}
 				</label>
 			</div>
 
@@ -68,23 +68,34 @@ function pageTemplate() {
 				</div>
 
 				<div id="canvas-config">
-					<input id="canvas-width" type="text" maxlength="4" placeholder="width" onchange="setCanvas();">
+					<h3>${msg[lang].sizeOrient}:</h3>
+					<button type="button" class="rotate-button" onclick="rotateCanvas();"></button>
+					<input id="canvas-width" type="text" maxlength="4" placeholder="width" onchange="updatePreview();">
 					x
-					<input id="canvas-height" type="text" maxlength="4" placeholder="width" onchange="setCanvas();">
+					<input id="canvas-height" type="text" maxlength="4" placeholder="width" onchange="updatePreview();">
+					${msg[lang].pixels}
 				</div>
 			</div>
 
 			<div class="note">${msg[lang].imgNotice}</div>
 
-			<h2>${msg[lang].printIt}</h2>
+			<div id="print-config">
+				<h2>${msg[lang].printIt}</h2>
 
-			<ul>
-				<li>${msg[lang].tipBgImg}</li>
-				<li>${msg[lang].tipMargins}</li>
-				<li>${msg[lang].tipHeaders}</li>
-			</ul>
+				<ul>
+					<li>${msg[lang].tipBgImg}</li>
+					<li>${msg[lang].tipMargins}</li>
+					<li>${msg[lang].tipHeaders}</li>
+				</ul>
 
-			<button type="button" class="print-button" onclick="window.print();">${msg[lang].print}</button>
+				<button type="button" class="print-button" onclick="window.print();">${msg[lang].print}</button>
+			</div>
+
+			<div id="download-config">
+				<h2>${msg[lang].downloadIt}</h2>
+
+					<a href="#" class="button download-button" download="desktopCal.png" onclick="downloadCalendar(this);">${msg[lang].download}</a>
+			</div>
 
 		</div> <!-- .config -->
 

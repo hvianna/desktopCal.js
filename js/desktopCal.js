@@ -89,7 +89,7 @@ function computus( year ) {
 
 /**
  * Returns the first occurrence of the specified day of week (for floating holidays)
- * 
+ *
  * @param {number} dow    day of week: 0 - 6 = Sunday - Saturday
  * @param {number} year
  * @param {number} month
@@ -142,7 +142,7 @@ function checkHoliday( country, year, month, day ) {
 				`5-${ floatingDoW( 1, year, 5, 25 ) }`,
 				'7-4',
 				`9-${ floatingDoW( 1, year, 9, 1 ) }`,
-				`10-${ floatingDoW( 1, year, 10, 8 ) }`, 
+				`10-${ floatingDoW( 1, year, 10, 8 ) }`,
 				'11-11', `11-${ floatingDoW( 4, year, 11, 22 ) }`,
 				'12-25'
 			];
@@ -208,7 +208,7 @@ function generateCalendar( month, year, lang, country ) {
 	}
 
 	d = 1;
-	if ( month < 12 ) 
+	if ( month < 12 )
 		month++;
 	else {
 		month = 1;
@@ -234,11 +234,16 @@ function updatePreview() {
 	var area = [ document.getElementById('top-half'), document.getElementById('bottom-half') ],
 		year = [ document.getElementById('top-year').value, document.getElementById('bottom-year').value ],
 		month = [ document.getElementById('top-month').value, document.getElementById('bottom-month').value ],
-		country = document.getElementById('country').value;
+		country = document.getElementById('country').value,
+		layout = document.querySelector('input[name="layout"]:checked').value;
 
 	var i, j, canvas, ctx, img, w, h, initialX, initialY;
 
-	if ( document.getElementById('preview').className != 'digital' ) {
+	// set layout
+	document.getElementById('config').className = layout;
+	document.getElementById('preview').className = layout;
+
+	if ( layout != 'digital' ) {
 		for ( i = 0; i < 2; i++ ) {
 			if ( month[ i ] > 0 && year[ i ] > 0 ) {
 				area[ i ].querySelector('.cal-title').innerText = msg[ lang ].monthNames[ month[ i ] ] + ' ' + year[ i ];
@@ -248,9 +253,12 @@ function updatePreview() {
 	}
 	else {
 		canvas = document.getElementById('canvas');
+		canvas.width = document.getElementById('canvas-width').value;
+		canvas.height = document.getElementById('canvas-height').value;
 		ctx = canvas.getContext('2d');
-		img = new Image();
 
+		img = new Image();
+		img.crossOrigin = 'anonymous';
 		img.src = document.getElementById('top-half').querySelector('.cal-image').style.backgroundImage.match(/url\("([^"]*)"\)/)[1];
 		img.onload = function() {
 			w = canvas.width;
@@ -273,29 +281,24 @@ function updatePreview() {
 }
 
 /**
- * Changes calendar layout
+ * Rotate canvas
  */
-function setLayout() {
+function rotateCanvas() {
 
-	var layout = document.querySelector('input[name="layout"]:checked').value;
+	var tmp = document.getElementById('canvas-width').value;
 
-	document.getElementById('config').className = layout;
-	document.getElementById('preview').className = layout;
+	document.getElementById('canvas-width').value = document.getElementById('canvas-height').value;
+	document.getElementById('canvas-height').value = tmp;
 
 	updatePreview();
 }
 
 /**
- * Set canvas size
+ * Download canvas as a PNG image
  */
-function setCanvas() {
+function downloadCalendar( obj ) {
 
-	var canvas = document.getElementById('canvas');
-
-	canvas.width = document.getElementById('canvas-width').value;
-	canvas.height = document.getElementById('canvas-height').value;
-
-	updatePreview();
+	obj.href = document.getElementById('canvas').toDataURL('image/png');
 }
 
 /**
@@ -339,10 +342,9 @@ function initialize() {
 	// init canvas width and height fields with the display's dimensions
 	document.getElementById('canvas-width').value = window.screen.width * window.devicePixelRatio;
 	document.getElementById('canvas-height').value = window.screen.height * window.devicePixelRatio;
-	setCanvas();
 
-	// configure initial layout and update preview
-	setLayout();
+	// update preview
+	updatePreview();
 }
 
 document.addEventListener( 'DOMContentLoaded', initialize );
