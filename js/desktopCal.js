@@ -173,14 +173,16 @@ function checkHoliday( country, year, month, day ) {
  * @param {number} year
  * @param {string} lang 	desired language
  * @param {string} country  country for national holidays
+ * @param {object} [canvas] canvas object where the calendar should be rendered
  *
- * @returns {string} HTML table for the calendar
+ * @returns {string|undefined} undefined if calendar rendered on canvas, otherwise returns HTML table for the calendar
  */
-function generateCalendar( month, year, lang, country ) {
+function generateCalendar( month, year, lang, country, canvas = null ) {
 
 	var ndays = [ 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 
-	var html, dow, prevMon,	i, d;
+	var html, dow, prevMon,	i, d,
+		ctx, cellSize, initialX, initialY, currLine; // auxiliary variables for canvas
 
 	if ( ( year & 3 ) == 0 && ( ( year % 25 ) != 0 || ( year & 15 ) == 0 ) )
 		ndays[2]++; // leap year
@@ -188,41 +190,84 @@ function generateCalendar( month, year, lang, country ) {
 	prevMon = month > 1 ? month - 1 : 12;
 
 	dow = ( new Date( year, month - 1, 1 ) ).getDay();
-	html = '<table><tr>';
 
-	for ( i = 0; i < 7; i++ )
-		html += '<th>' + msg[ lang ].weekDays[ i ];
+	if ( canvas ) {
+		ctx = canvas.getContext('2d');
+		cellSize = 60 * window.devicePixelRatio;
+		initialX = canvas.width - 12 * cellSize;
+		initialY = canvas.height - 12 * cellSize;
 
-	html += '<tr>'
+		ctx.fillStyle = 'rgba( 255, 255, 255, .8 )';
+		ctx.fillRect( initialX, initialY, 10 * cellSize, 10 * cellSize );
+		ctx.translate( initialX + cellSize, initialY + cellSize );
 
-	for ( i = dow, d = ndays[ prevMon ] - i + 1; i > 0; i--, d++ )
-		html += '<td class="prev-month ' + checkHoliday( country, month == 1 ? year - 1 : year, prevMon, d ) + '">' + d;
+		ctx.fillStyle = '#000';
+		ctx.font = 'bold ' + cellSize / 1.5 + 'px sans-serif';
+		ctx.textAlign = 'center';
+		ctx.fillText( msg[ lang ].monthNames[ month ] + ' ' + year, cellSize * 4, cellSize / 2 ); // calendar center is 4*cellsize
+		ctx.font = cellSize / 2 + 'px sans-serif';
+		currLine = cellSize * 2;
+	}
+	else
+		html = '<table><tr>';
 
+	// print week days initials
+	for ( i = 0; i < 7; i++ ) {
+		if ( canvas ) {
+			ctx.fillStyle = i == 0 ? '#c00' : '#000';
+			ctx.fillText( msg[ lang ].weekDays[ i ].charAt(0), i * cellSize * 1.3, currLine );
+		}
+		else
+			html += '<th>' + msg[ lang ].weekDays[ i ];
+	}
+
+	// if there are empty cells at the beginning, these are previous month's days
+	if ( canvas )
+		currLine += cellSize;
+	else {
+		html += '<tr>'
+		for ( i = dow, d = ndays[ prevMon ] - i + 1; i > 0; i--, d++ )
+			html += '<td class="prev-month ' + checkHoliday( country, month == 1 ? year - 1 : year, prevMon, d ) + '">' + d;
+	}
+
+	// loop for the current month
 	for ( i = 1; i <= ndays[ month ]; i++ ) {
-		html += '<td class="' + checkHoliday( country, year, month, i ) + '">' + i;
+		if ( canvas ) {
+			ctx.fillStyle = ( dow == 0 || checkHoliday( country, year, month, i ) ) ? '#c00' : '#000';
+			ctx.fillText( i, dow * cellSize * 1.3, currLine );
+		}
+		else
+			html += '<td class="' + checkHoliday( country, year, month, i ) + '">' + i;
+
 		dow++;
 		if ( dow == 7 ) {
-			html += '<tr>';
 			dow = 0;
+			if ( canvas )
+				currLine += cellSize;
+			else
+				html += '<tr>';
 		}
 	}
 
-	d = 1;
-	if ( month < 12 )
-		month++;
-	else {
-		month = 1;
-		year++;
-	}
-	while ( dow > 0 && dow < 7 ) {
-		html += '<td class="next-month ' + checkHoliday( country, year, month, d ) + '">' + d;
-		d++;
-		dow++;
-	}
+	// fill remaining cells with next month's days
+	if ( ! canvas ) {
+		d = 1;
+		if ( month < 12 )
+			month++;
+		else {
+			month = 1;
+			year++;
+		}
+		while ( dow > 0 && dow < 7 ) {
+			html += '<td class="next-month ' + checkHoliday( country, year, month, d ) + '">' + d;
+			d++;
+			dow++;
+		}
 
-	html += '</table>';
+		html += '</table>';
 
-	return html;
+		return html;
+	}
 
 }
 
@@ -276,6 +321,7 @@ function updatePreview() {
 				initialY = 0;
 			}
 			ctx.drawImage( img, initialX, initialY, img.width, img.height, 0, 0, w, h );
+			generateCalendar( month[ 1 ], year[ 1 ], lang, country, canvas );
 		}
 	}
 }
