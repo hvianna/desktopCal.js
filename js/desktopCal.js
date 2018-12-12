@@ -193,12 +193,15 @@ function generateCalendar( month, year, lang, country, canvas = null ) {
 
 	if ( canvas ) {
 		ctx = canvas.getContext('2d');
-		cellSize = 60 * window.devicePixelRatio;
-		initialX = canvas.width - 12 * cellSize;
+		cellSize = Math.min( canvas.width, canvas.height ) * .05 * window.devicePixelRatio;
+		if ( canvas.height > canvas.width )
+			initialX = ( canvas.width - 10 * cellSize ) / 2;
+		else
+			initialX = canvas.width - 12 * cellSize;
 		initialY = canvas.height - 12 * cellSize;
 
 		ctx.fillStyle = 'rgba( 255, 255, 255, .8 )';
-		ctx.fillRect( initialX, initialY, 10 * cellSize, 10 * cellSize );
+		ctx.roundRect( initialX, initialY, cellSize * 10, cellSize * 10, cellSize / 2 ).fill();
 		ctx.translate( initialX + cellSize, initialY + cellSize );
 
 		ctx.fillStyle = '#000';
@@ -345,6 +348,21 @@ function rotateCanvas() {
 function downloadCalendar( obj ) {
 
 	obj.href = document.getElementById('canvas').toDataURL('image/png');
+}
+
+/**
+ * Draws a rounded rectangle on canvas
+ * https://stackoverflow.com/a/7838871/2370385
+ */
+CanvasRenderingContext2D.prototype.roundRect = function ( x, y, w, h, r ) {
+	this.beginPath();
+	this.moveTo(x+r, y);
+	this.arcTo(x+w, y,   x+w, y+h, r);
+	this.arcTo(x+w, y+h, x,   y+h, r);
+	this.arcTo(x,   y+h, x,   y,   r);
+	this.arcTo(x,   y,   x+w, y,   r);
+	this.closePath();
+	return this;
 }
 
 /**
