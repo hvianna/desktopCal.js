@@ -200,7 +200,7 @@ function generateCalendar( month, year, lang, country, canvas = null ) {
 			initialX = canvas.width - 12 * cellSize;
 		initialY = canvas.height - 12 * cellSize;
 
-		ctx.fillStyle = 'rgba( 255, 255, 255, .8 )';
+		ctx.fillStyle = 'rgba( 255, 255, 255, .75 )';
 		ctx.roundRect( initialX, initialY, cellSize * 10, cellSize * 10, cellSize / 2 ).fill();
 		ctx.translate( initialX + cellSize, initialY + cellSize );
 
@@ -252,8 +252,14 @@ function generateCalendar( month, year, lang, country, canvas = null ) {
 		}
 	}
 
-	// fill remaining cells with next month's days
-	if ( ! canvas ) {
+	if ( canvas ) {
+		ctx.fillStyle = 'rgba( 128, 128, 128, .5 )';
+		ctx.textAlign = 'right';
+		ctx.setTransform( 1, 0, 0, 1, 0, 0 );
+		ctx.font = cellSize / 4 + 'px sans-serif';
+		ctx.fillText( 'created with desktopCal.js', canvas.width - cellSize / 2, canvas.height - cellSize / 2 );
+	}
+	else { // fill remaining cells with next month's days
 		d = 1;
 		if ( month < 12 )
 			month++;
@@ -373,7 +379,9 @@ function initialize() {
 	var d = new Date(),
 		month = d.getMonth() + 1,
 		year = d.getFullYear(),
-		browserLang = navigator.language.split('-');
+		browserLang = navigator.language.split('-'),
+		w = window.screen.width * window.devicePixelRatio,
+		h = window.screen.height * window.devicePixelRatio;
 
 	// try to use browser preferred language
 	if ( Object.keys( msg ).includes( browserLang[0] ) )
@@ -400,12 +408,12 @@ function initialize() {
 	document.getElementById('top-month').selectedIndex = month;
 
 	// pick two random images
-	document.getElementById('top-half').querySelector('.cal-image').style.backgroundImage = 'url(https://picsum.photos/800/600/?random)';
-	document.getElementById('bottom-half').querySelector('.cal-image').style.backgroundImage = 'url(https://source.unsplash.com/random/800x600)';
+	document.getElementById('top-half').querySelector('.cal-image').style.backgroundImage = `url(https://picsum.photos/${w}/${h}/?random)`;
+	document.getElementById('bottom-half').querySelector('.cal-image').style.backgroundImage = `url(https://source.unsplash.com/random/${w}x${h})`;
 
 	// init canvas width and height fields with the display's dimensions
-	document.getElementById('canvas-width').value = window.screen.width * window.devicePixelRatio;
-	document.getElementById('canvas-height').value = window.screen.height * window.devicePixelRatio;
+	document.getElementById('canvas-width').value = w;
+	document.getElementById('canvas-height').value = h;
 
 	// update preview
 	updatePreview();
