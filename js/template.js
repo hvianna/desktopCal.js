@@ -36,6 +36,7 @@ function pageTemplate() {
 				</label>
 				<label class="label-layout">
 					<input type="radio" name="layout" value="digital" onclick="updatePreview();"><br>
+					<img src="img/layout-wallpaper.png">
 					${msg[lang].digitalBg}
 				</label>
 			</div>
