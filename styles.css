@@ -60,15 +60,6 @@ p {
 	margin-bottom: 1em;
 }
 
-ul {
-	background-image: url(img/icons8-training.png);
-	background-repeat: no-repeat;
-	background-size: 80px;
-	line-height: 1.6;
-	margin-bottom: 30px;
-	padding: 0 0 10px 110px;
-}
-
 .bottom20 {
 	margin-bottom: 20px;
 }
@@ -76,6 +67,16 @@ ul {
 .container {
 	display: flex;
 	justify-content: space-evenly;
+}
+
+.lang-selection {
+	display: flex;
+	justify-content: space-evenly;
+	list-style: none;
+	padding: 0;
+}
+.lang-selection li img {
+	width: 32px;
 }
 
 #config {
@@ -183,6 +184,15 @@ ul {
 	height: 24px;
 	vertical-align: text-top;
 	width: 24px;
+}
+
+#print-config ul {
+	background-image: url(img/icons8-training.png);
+	background-repeat: no-repeat;
+	background-size: 80px;
+	line-height: 1.6;
+	margin-bottom: 30px;
+	padding: 0 0 10px 110px;
 }
 
 .note,

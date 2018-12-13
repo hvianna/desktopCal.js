@@ -4,17 +4,13 @@ function pageTemplate() {
 			<header>
 				<h1>desktopCal.js</h1>
 			</header>
+			<ul class="lang-selection">
+				${langOptions()}
+			</ul>
 
 			<h2>${msg[lang].design}</h2>
 
 			<div class="config-blocks bottom20">
-				<div>
-					<strong>Language / Langue / Idioma:</strong>
-					<select id="lang" onchange="changeLang( this );">
-						${langOptions()}
-					</select>
-				</div>
-
 				<div>
 					<strong>${msg[lang].holidays}:</strong>
 					<select id="country" onchange="updatePreview();">
@@ -141,7 +137,7 @@ function pageTemplate() {
 				<strong>desktopCal.js</strong> Copyright &copy; 2018 Henrique Vianna<br>
 				Source code available on <a href="https://github.com/hvianna/desktopCal.js/">GitHub</a>. Licensed under the <a href="https://www.gnu.org/licenses/agpl.html">GNU AGPL-3.0 license</a>.<br>
 				Icons by <a href="https://icons8.com/">icons8</a>. Photos by <a href="https://source.unsplash.com/">Unsplash</a> and <a href="https://picsum.photos/">Lorem Picsum</a>.<br>
-				Digital devices mockup by <a href="https://www.pixeden.com/psd-web-elements/flat-responsive-showcase-psd-vol2">Pixeden</a>.
+				Devices mockup template by <a href="https://www.pixeden.com/psd-web-elements/flat-responsive-showcase-psd-vol2">Pixeden</a>.
 			</div>
 		</div> <!-- .preview -->
 	`;

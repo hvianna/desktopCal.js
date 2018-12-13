@@ -2,8 +2,8 @@
  * i18n functions and global variables
  */
 
-// current language
-var lang;
+// current language and country
+var lang, country;
 
 // countries for holiday selection list
 var countries = {
@@ -16,6 +16,7 @@ var countries = {
 var msg = {
 	en: {
 		langName:   'English',
+		defCountry: 'us',
 		monthNames: [ 'Month', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
 		weekDays:   [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
 		design:     'Design your calendar',
@@ -44,6 +45,7 @@ var msg = {
 
 	es: {
 		langName:   'Español',
+		defCountry: 'us',
 		monthNames: [ 'Mes', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubure', 'Noviembre', 'Diciembre' ],
 		weekDays:   [ 'Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb' ],
 		design:     'Diseña tu calendario',
@@ -72,6 +74,7 @@ var msg = {
 
 	fr: {
 		langName:   'Français',
+		defCountry: 'fr',
 		monthNames: [ 'Mois', 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ],
 		weekDays:   [ 'Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam' ],
 		design:     'Concevez votre calendrier',
@@ -100,6 +103,7 @@ var msg = {
 
 	pt: {
 		langName:   'Português',
+		defCountry: 'br',
 		monthNames: [ 'Mês', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro' ],
 		weekDays:   [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb' ],
 		design:     'Crie seu calendário',
@@ -134,7 +138,7 @@ function langOptions() {
 		keys = Object.keys( msg );
 
 	for ( var i = 0; i < keys.length; i++ )
-		html += `<option value="${ keys[ i ] }" ${ keys[ i ] == lang ? ' selected' : '' }>${ msg[ keys[ i ] ].langName }</option>`;
+		html += `<li><a href="javascript:changeLang('${ keys[ i ] }');" title="${ msg[ keys[ i ] ].langName }"><img src="img/icons8-${ keys[ i ] }-flag.png"></a></li>`;
 
 	return html;
 }
@@ -155,21 +159,25 @@ function countryOptions() {
 		keys = Object.keys( countries );
 
 	for ( var i = 0; i < keys.length; i++ )
-		html += `<option value="${ keys[ i ] }">${ countries[ keys[ i ] ].name }</option>`;
+		html += `<option value="${ keys[ i ] }" ${ keys[ i ] == country ? 'selected="selected"' : '' }>${ countries[ keys[ i ] ].name }</option>`;
 
 	return html;
 }
 
-function changeLang( obj ) {
+function changeLang( newLang ) {
 
-	lang = obj.value;
+	if ( ! Object.keys( msg ).includes( newLang ) ) // invalid language?
+		return false;
+
+	lang = newLang;
+	country = msg[ lang ].defCountry;
 
 	// save values from input and select elements, so we can restore them after changing the language
 
-	var elems = document.querySelectorAll('input[type="text"], input[type="radio"], select:not(#lang)');
+	var elems = document.querySelectorAll('input[type="text"], input[type="radio"], select:not(#country)');
 	var values = [];
 
-	for ( i = 0; i < elems.length; i++ ) {
+	for ( var i = 0; i < elems.length; i++ ) {
 		if ( elems[ i ].localName == 'select' )
 			values[ i ] = elems[ i ].selectedIndex;
 		else if ( elems[ i ].attributes.type.nodeValue == 'radio' )
@@ -192,7 +200,7 @@ function changeLang( obj ) {
 
 	// restore input and select values
 
-	elems = document.querySelectorAll('input[type="text"], input[type="radio"], select:not(#lang)');
+	elems = document.querySelectorAll('input[type="text"], input[type="radio"], select:not(#country)');
 
 	for ( i = 0; i < elems.length; i++ ) {
 		if ( elems[ i ].localName == 'select' )

@@ -114,23 +114,21 @@ function floatingDoW( dow, year, month, day ) {
  * @param {number} month
  * @param {number} day
  *
- * @returns {string} "holiday" if it's a holiday, empty string otherwise.
+ * @returns {string} "holiday" if date is a holiday, empty string otherwise.
  */
 function checkHoliday( country, year, month, day ) {
 
-	var holidays, date, m, n;
+	var holidays, easter, date, d;
 
 	switch ( country ) {
 		case 'br':
 			holidays = [ '1-1',	'4-21',	'5-1', '9-7', '10-12', '11-2', '11-15', '12-25' ];
 
 			// calculates floating holidays based on Easter Day
-			date = computus( year );
-
-			for ( n of [ -2, -45, 107 ] ) { // Good Friday, Carnival, Corpus Christ
-				date.setDate( date.getDate() + n );
-				m = date.getMonth() + 1;
-				holidays.push( `${m}-${date.getDate()}` );
+			easter = computus( year );
+			for ( d of [ -48, -47, -2, 60 ] ) { // Carnival (monday and tuesday), Good Friday, Corpus Christ
+				date = new Date( easter.getTime() + d * 86400000);
+				holidays.push( `${ date.getMonth() + 1 }-${ date.getDate() }` );
 			}
 
 			break;
@@ -151,11 +149,10 @@ function checkHoliday( country, year, month, day ) {
 		case 'fr':
 			holidays = [ '1-1', '5-1', '5-8', '7-14', '8-15', '11-1', '11-11', '12-25', '12-26' ];
 
-			date = computus( year );
-			for ( n of [ -2, 3, 38, 11 ] ) { // Good Friday, Easter Monday, Ascension Day, Whit Monday
-				date.setDate( date.getDate() + n );
-				m = date.getMonth() + 1;
-				holidays.push( `${m}-${date.getDate()}` );
+			easter = computus( year );
+			for ( d of [ -2, 1, 39, 50 ] ) { // Good Friday, Easter Monday, Ascension Day, Whit Monday
+				date = new Date( easter.getTime() + d * 86400000 );
+				holidays.push( `${ date.getMonth() + 1 }-${ date.getDate() }` );
 			}
 			break;
 	}
@@ -357,8 +354,14 @@ function downloadCalendar( obj ) {
 }
 
 /**
- * Draws a rounded rectangle on canvas
+ * Adds method for drawing a rounded rectangle on canvas 2D context
  * https://stackoverflow.com/a/7838871/2370385
+ *
+ * @param {number} x x-coordinate of the top left corner
+ * @param {number} y y-coordinate of the top left corner
+ * @param {number} w rectangle width
+ * @param {number} h rectangle height
+ * @param {number} r round corner radius (in pixels)
  */
 CanvasRenderingContext2D.prototype.roundRect = function ( x, y, w, h, r ) {
 	this.beginPath();
@@ -383,11 +386,16 @@ function initialize() {
 		w = window.screen.width * window.devicePixelRatio,
 		h = window.screen.height * window.devicePixelRatio;
 
-	// try to use browser preferred language
+	// try to use browser preferred language and country
 	if ( Object.keys( msg ).includes( browserLang[0] ) )
 		lang = browserLang[0];
 	else
 		lang = 'en'; // if language not available, defaults to English
+
+	if ( Object.keys( countries ).includes( browserLang[1].toLowerCase() ) )
+		country = browserLang[1].toLowerCase();
+	else
+		country = msg[ lang ].defCountry;
 
 	// generate page HTML
 	document.getElementById('container').innerHTML = pageTemplate();
@@ -408,8 +416,8 @@ function initialize() {
 	document.getElementById('top-month').selectedIndex = month;
 
 	// pick two random images
-	document.getElementById('top-half').querySelector('.cal-image').style.backgroundImage = `url(https://picsum.photos/${w}/${h}/?random)`;
-	document.getElementById('bottom-half').querySelector('.cal-image').style.backgroundImage = `url(https://source.unsplash.com/random/${w}x${h})`;
+	document.getElementById('top-half').querySelector('.cal-image').style.backgroundImage = `url(https://picsum.photos/${w}/${w*.75}/?random)`;
+	document.getElementById('bottom-half').querySelector('.cal-image').style.backgroundImage = `url(https://source.unsplash.com/random/${w}x${w*.75})`;
 
 	// init canvas width and height fields with the display's dimensions
 	document.getElementById('canvas-width').value = w;
