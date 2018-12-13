@@ -190,12 +190,29 @@ function generateCalendar( month, year, lang, country, canvas = null ) {
 
 	if ( canvas ) {
 		ctx = canvas.getContext('2d');
-		cellSize = Math.min( canvas.width, canvas.height ) * .05 * window.devicePixelRatio;
-		if ( canvas.height > canvas.width )
-			initialX = ( canvas.width - 10 * cellSize ) / 2;
-		else
-			initialX = canvas.width - 12 * cellSize;
-		initialY = canvas.height - 12 * cellSize;
+		cellSize = Math.min( canvas.width, canvas.height ) * document.getElementById('cal-size').value * window.devicePixelRatio;
+
+		switch ( document.getElementById('h-align').value ) {
+			case 'left':
+				initialX = 2 * cellSize;
+				break;
+			case 'center':
+				initialX = ( canvas.width - 10 * cellSize ) / 2;
+				break;
+			default:
+				initialX = canvas.width - 12 * cellSize;
+		}
+
+		switch ( document.getElementById('v-align').value ) {
+			case 'top':
+				initialY = 2 * cellSize;
+				break;
+			case 'center':
+				initialY = ( canvas.height - 10 * cellSize ) / 2;
+				break;
+			default:
+				initialY = canvas.height - 12 * cellSize;
+		}
 
 		ctx.fillStyle = 'rgba( 255, 255, 255, .75 )';
 		ctx.roundRect( initialX, initialY, cellSize * 10, cellSize * 10, cellSize / 2 ).fill();

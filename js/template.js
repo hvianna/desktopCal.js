@@ -67,10 +67,26 @@ function pageTemplate() {
 				<div id="canvas-config">
 					<h3>${msg[lang].sizeOrient}:</h3>
 					<button type="button" class="rotate-button" onclick="rotateCanvas();"></button>
-					<input id="canvas-width" type="text" maxlength="4" placeholder="width" onchange="updatePreview();">
+					<input id="canvas-width" class="bottom20" type="text" maxlength="4" placeholder="${msg[lang].width}" onchange="updatePreview();">
 					x
-					<input id="canvas-height" type="text" maxlength="4" placeholder="width" onchange="updatePreview();">
+					<input id="canvas-height" class="bottom20" type="text" maxlength="4" placeholder="${msg[lang].height}" onchange="updatePreview();">
 					${msg[lang].pixels}
+					<br>
+					<select id="cal-size" onchange="updatePreview();" title="${msg[lang].calSize}">
+						<option value=".03">${msg[lang].small}</option>
+						<option value=".05" selected>${msg[lang].medium}</option>
+						<option value=".07">${msg[lang].large}</option>
+					</select>
+					<select id="h-align" onchange="updatePreview();" title="${msg[lang].horAlign}">
+						<option value="left">${msg[lang].left}</option>
+						<option value="center">${msg[lang].horCenter}</option>
+						<option value="right" selected>${msg[lang].right}</option>
+					</select>
+					<select id="v-align" onchange="updatePreview();" title="${msg[lang].verAlign}">
+						<option value="top">${msg[lang].top}</option>
+						<option value="center">${msg[lang].verCenter}</option>
+						<option value="bottom" selected>${msg[lang].bottom}</option>
+					</select>
 				</div>
 			</div>
 
