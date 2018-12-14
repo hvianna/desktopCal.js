@@ -12,14 +12,20 @@ function pageTemplate() {
 
 			<div class="config-blocks bottom20">
 				<div>
+					<h3>${msg[lang].layout}:</h3>
+				</div>
+				<div>
 					<strong>${msg[lang].holidays}:</strong>
-					<select id="country" onchange="updatePreview();">
+					<select id="country" onchange="changeCountry( this.value );">
 						${countryOptions()}
+					</select>
+					<select id="region" onchange="updatePreview();">
+						${regionOptions()}
 					</select>
 				</div>
 			</div>
 
-			<div class="flex-blocks center">
+			<div class="flex-blocks center bottom20">
 				<label class="label-layout">
 					<input type="radio" name="layout" value="desktop" checked="checked" onclick="updatePreview();"><br>
 					<img src="img/layout-desktop.png">

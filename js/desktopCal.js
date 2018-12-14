@@ -95,7 +95,7 @@ function computus( year ) {
  * @param {number} month
  * @param {number} day    starting day to check
  *
- * @returns {number} day of month that falls in the desired day of week.
+ * @returns {number} day of month that falls on the given day of week.
  */
 function floatingDoW( dow, year, month, day ) {
 
@@ -107,74 +107,15 @@ function floatingDoW( dow, year, month, day ) {
 }
 
 /**
- * Checks if date is a holiday in the specified country
- *
- * @param {string} country
- * @param {number} year
- * @param {number} month
- * @param {number} day
- *
- * @returns {string} "holiday" if date is a holiday, empty string otherwise.
- */
-function checkHoliday( country, year, month, day ) {
-
-	var holidays, easter, date, d;
-
-	switch ( country ) {
-		case 'br':
-			holidays = [ '1-1',	'4-21',	'5-1', '9-7', '10-12', '11-2', '11-15', '12-25' ];
-
-			// calculates floating holidays based on Easter Day
-			easter = computus( year );
-			for ( d of [ -48, -47, -2, 60 ] ) { // Carnival (monday and tuesday), Good Friday, Corpus Christ
-				date = new Date( easter.getTime() + d * 86400000);
-				holidays.push( `${ date.getMonth() + 1 }-${ date.getDate() }` );
-			}
-
-			break;
-
-		case 'us':
-			holidays = [
-				'1-1', `1-${ floatingDoW( 1, year, 1, 15 ) }`,
-				`2-${ floatingDoW( 1, year, 2, 15 ) }`,
-				`5-${ floatingDoW( 1, year, 5, 25 ) }`,
-				'7-4',
-				`9-${ floatingDoW( 1, year, 9, 1 ) }`,
-				`10-${ floatingDoW( 1, year, 10, 8 ) }`,
-				'11-11', `11-${ floatingDoW( 4, year, 11, 22 ) }`,
-				'12-25'
-			];
-			break;
-
-		case 'fr':
-			holidays = [ '1-1', '5-1', '5-8', '7-14', '8-15', '11-1', '11-11', '12-25', '12-26' ];
-
-			easter = computus( year );
-			for ( d of [ -2, 1, 39, 50 ] ) { // Good Friday, Easter Monday, Ascension Day, Whit Monday
-				date = new Date( easter.getTime() + d * 86400000 );
-				holidays.push( `${ date.getMonth() + 1 }-${ date.getDate() }` );
-			}
-			break;
-	}
-
-	if ( holidays.includes( `${month}-${day}` ) )
-		return 'holiday';
-	else
-		return '';
-}
-
-/**
  * Generates the calendar for the specified month / year
  *
  * @param {number} month
  * @param {number} year
- * @param {string} lang 	desired language
- * @param {string} country  country for national holidays
  * @param {object} [canvas] canvas object where the calendar should be rendered
  *
  * @returns {string|undefined} undefined if calendar rendered on canvas, otherwise returns HTML table for the calendar
  */
-function generateCalendar( month, year, lang, country, canvas = null ) {
+function generateCalendar( month, year, canvas = null ) {
 
 	var ndays = [ 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 
@@ -244,17 +185,17 @@ function generateCalendar( month, year, lang, country, canvas = null ) {
 	else {
 		html += '<tr>'
 		for ( i = dow, d = ndays[ prevMon ] - i + 1; i > 0; i--, d++ )
-			html += '<td class="prev-month ' + checkHoliday( country, month == 1 ? year - 1 : year, prevMon, d ) + '">' + d;
+			html += '<td class="prev-month ' + checkHoliday( month == 1 ? year - 1 : year, prevMon, d ) + '">' + d;
 	}
 
 	// loop for the current month
 	for ( i = 1; i <= ndays[ month ]; i++ ) {
 		if ( canvas ) {
-			ctx.fillStyle = ( dow == 0 || checkHoliday( country, year, month, i ) ) ? '#c00' : '#000';
+			ctx.fillStyle = ( dow == 0 || checkHoliday( year, month, i ) ) ? '#c00' : '#000';
 			ctx.fillText( i, dow * cellSize * 1.3, currLine );
 		}
 		else
-			html += '<td class="' + checkHoliday( country, year, month, i ) + '">' + i;
+			html += '<td class="' + checkHoliday( year, month, i ) + '">' + i;
 
 		dow++;
 		if ( dow == 7 ) {
@@ -282,7 +223,7 @@ function generateCalendar( month, year, lang, country, canvas = null ) {
 			year++;
 		}
 		while ( dow > 0 && dow < 7 ) {
-			html += '<td class="next-month ' + checkHoliday( country, year, month, d ) + '">' + d;
+			html += '<td class="next-month ' + checkHoliday( year, month, d ) + '">' + d;
 			d++;
 			dow++;
 		}
@@ -311,11 +252,14 @@ function updatePreview() {
 	document.getElementById('config').className = layout;
 	document.getElementById('preview').className = layout;
 
+	// show/hide region selection
+	document.getElementById('region').style.display = countries[ country ].hasOwnProperty('regions') ? 'inline' : 'none';
+
 	if ( layout != 'digital' ) {
 		for ( i = 0; i < 2; i++ ) {
 			if ( month[ i ] > 0 && year[ i ] > 0 ) {
 				area[ i ].querySelector('.cal-title').innerText = msg[ lang ].monthNames[ month[ i ] ] + ' ' + year[ i ];
-				area[ i ].querySelector('.calendar').innerHTML = generateCalendar( month[ i ], year[ i ], lang, country );
+				area[ i ].querySelector('.calendar').innerHTML = generateCalendar( month[ i ], year[ i ] );
 			}
 		}
 	}
@@ -344,7 +288,7 @@ function updatePreview() {
 				initialY = 0;
 			}
 			ctx.drawImage( img, initialX, initialY, img.width, img.height, 0, 0, w, h );
-			generateCalendar( month[ 1 ], year[ 1 ], lang, country, canvas );
+			generateCalendar( month[ 1 ], year[ 1 ], canvas );
 		}
 	}
 }

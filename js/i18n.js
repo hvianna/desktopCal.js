@@ -8,7 +8,10 @@ var lang, country;
 // countries for holiday selection list
 var countries = {
 	us: { name: 'United States' },
-	br: { name: 'Brasil' },
+	br: {
+		name: 'Brasil',
+		regions: [ 'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MG', 'MT', 'MS', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO' ],
+	},
 	fr: { name: 'France' },
 }
 
@@ -21,6 +24,7 @@ var msg = {
 		weekDays:   [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
 		design:     'Design your calendar',
 		language:   'Language',
+		layout:     'Layout',
 		desktopCal: 'Desktop calendar',
 		wallSingle: 'Wall calendar',
 		digitalBg:  'Digital wallpaper',
@@ -43,7 +47,7 @@ var msg = {
 		height:     'Height',
 		pixels:     'pixels',
 		loadImage:  'Load Image',
-		holidays:   'National Holidays',
+		holidays:   'Holidays',
 		year:       'Year',
 		imgNotice:  'Images are NOT uploaded anywhere outside your computer. All processing takes place in your browser.',
 		printIt:    'Print It!',
@@ -64,6 +68,7 @@ var msg = {
 		weekDays:   [ 'Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb' ],
 		design:     'Diseña tu calendario',
 		language:   'Idioma',
+		layout:     'Layout',
 		desktopCal: 'Calendario de escritorio',
 		wallSingle: 'Calendario de pared',
 		digitalBg:  'Fondo de pantalla',
@@ -86,7 +91,7 @@ var msg = {
 		height:     'Height',
 		pixels:     'píxeles',
 		loadImage:  'Cargar Imagen',
-		holidays:   'Fiestas Nacionales',
+		holidays:   'Feriados',
 		year:       'Año',
 		imgNotice:  'Las imágenes NO se cargan en ningún lugar fuera de su computadora. Todo el procesamiento se lleva a cabo en su navegador.',
 		printIt:    '¡Imprímelo!',
@@ -107,6 +112,7 @@ var msg = {
 		weekDays:   [ 'Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam' ],
 		design:     'Concevez votre calendrier',
 		language:   'Langue',
+		layout:     'Layout',
 		desktopCal: 'Calendrier de bureau',
 		wallSingle: 'Calendrier mural',
 		digitalBg:  'Fond d\'écran',
@@ -150,6 +156,7 @@ var msg = {
 		weekDays:   [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb' ],
 		design:     'Crie seu calendário',
 		language:   'Idioma',
+		layout:     'Layout',
 		desktopCal: 'Calendário de mesa',
 		wallSingle: 'Calendário de parede',
 		digitalBg:  'Papel de parede digital',
@@ -172,7 +179,7 @@ var msg = {
 		height:     'Altura',
 		pixels:     'pixels',
 		loadImage:  'Carregar Imagem',
-		holidays:   'Feriados Nacionais',
+		holidays:   'Feriados',
 		year:       'Ano',
 		imgNotice:  'As imagens NÃO são enviadas para fora de seu computador. Todo o processamento ocorre no seu navegador.',
 		printIt:    'Imprimir',
@@ -218,6 +225,27 @@ function countryOptions() {
 		html += `<option value="${ keys[ i ] }" ${ keys[ i ] == country ? 'selected' : '' }>${ countries[ keys[ i ] ].name }</option>`;
 
 	return html;
+}
+
+function regionOptions() {
+
+	var html = '<option></option>',
+		regions;
+
+	if ( countries[ country ].hasOwnProperty('regions') ) {
+		regions = countries[ country ].regions;
+		for ( var i = 0; i < regions.length; i++ )
+			html += `<option value="${ regions[ i ] }">${ regions[ i ] }</option>`;
+	}
+
+	return html;
+}
+
+function changeCountry( newCountry ) {
+
+	country = newCountry;
+	document.getElementById('region').innerHTML = regionOptions();
+	updatePreview();
 }
 
 function changeLang( newLang ) {

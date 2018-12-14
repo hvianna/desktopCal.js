@@ -35,7 +35,7 @@ h2 {
 
 h3 {
 	font-size: 18px;
-	margin: 20px 0 10px;
+	margin-bottom: 10px;
 }
 
 button, input, select {
@@ -409,6 +409,7 @@ p {
 		top: 0;
 	}
 	.preview-content .note {
+		color: #999;
 		display: block;
 		margin-top: -4em;
 		padding: 0;
