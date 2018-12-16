@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-var _VERSION = '19.1-dev';
+var _VERSION = '19.1-dev.1';
 
 
 /**
@@ -131,7 +131,7 @@ function generateCalendar( month, year, canvas = null ) {
 
 	if ( canvas ) {
 		ctx = canvas.getContext('2d');
-		cellSize = Math.min( canvas.width, canvas.height ) * document.getElementById('cal-size').value * window.devicePixelRatio;
+		cellSize = Math.min( canvas.width, canvas.height ) * document.getElementById('cal-size').value;
 
 		switch ( document.getElementById('h-align').value ) {
 			case 'left':
@@ -211,7 +211,7 @@ function generateCalendar( month, year, canvas = null ) {
 		ctx.fillStyle = 'rgba( 128, 128, 128, .5 )';
 		ctx.textAlign = 'right';
 		ctx.setTransform( 1, 0, 0, 1, 0, 0 );
-		cellSize = Math.min( canvas.width, canvas.height ) * .05 * window.devicePixelRatio;
+		cellSize = Math.min( canvas.width, canvas.height ) * .05;
 		ctx.font = cellSize / 4 + 'px sans-serif';
 		ctx.fillText( 'created with desktopCal.js', canvas.width - cellSize / 2, canvas.height - cellSize / 2 );
 	}
