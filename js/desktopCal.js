@@ -211,6 +211,7 @@ function generateCalendar( month, year, canvas = null ) {
 		ctx.fillStyle = 'rgba( 128, 128, 128, .5 )';
 		ctx.textAlign = 'right';
 		ctx.setTransform( 1, 0, 0, 1, 0, 0 );
+		cellSize = Math.min( canvas.width, canvas.height ) * .05 * window.devicePixelRatio;
 		ctx.font = cellSize / 4 + 'px sans-serif';
 		ctx.fillText( 'created with desktopCal.js', canvas.width - cellSize / 2, canvas.height - cellSize / 2 );
 	}

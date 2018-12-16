@@ -60,7 +60,7 @@ p {
 	margin-bottom: 1em;
 }
 
-.bottom20 {
+.bottom {
 	margin-bottom: 20px;
 }
 
@@ -88,11 +88,13 @@ p {
 .config-blocks {
 	display: flex;
 	justify-content: space-between;
+	margin-bottom: 20px;
 }
 
 .flex-blocks {
 	display: flex;
 	justify-content: space-evenly;
+	margin-bottom: 40px;
 }
 
 .config-block {
@@ -107,6 +109,7 @@ p {
 }
 
 .label-layout {
+	border-radius: 5px;
 	cursor: pointer;
 	padding: 6px;
 }
@@ -116,6 +119,7 @@ p {
 .label-layout img {
 	display: block;
 	height: 150px;
+	margin: 0 auto;
 }
 
 #canvas-config input {

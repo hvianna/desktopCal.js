@@ -10,42 +10,26 @@ function pageTemplate() {
 
 			<h2>${msg[lang].design}</h2>
 
-			<div class="config-blocks bottom20">
-				<div>
-					<h3>${msg[lang].layout}:</h3>
-				</div>
-				<div>
-					<strong>${msg[lang].holidays}:</strong>
-					<select id="country" onchange="changeCountry( this.value );">
-						${countryOptions()}
-					</select>
-					<select id="region" onchange="updatePreview();">
-						${regionOptions()}
-					</select>
-				</div>
-			</div>
-
-			<div class="flex-blocks center bottom20">
+			<div class="flex-blocks center">
 				<label class="label-layout">
-					<input type="radio" name="layout" value="desktop" checked="checked" onclick="updatePreview();"><br>
 					<img src="img/layout-desktop.png">
+					<input type="radio" name="layout" value="desktop" checked="checked" onclick="updatePreview();">
 					${msg[lang].desktopCal}
 				</label>
 				<label class="label-layout">
-					<input type="radio" name="layout" value="wall-single" onclick="updatePreview();"><br>
 					<img src="img/layout-wall-single.png">
+					<input type="radio" name="layout" value="wall-single" onclick="updatePreview();">
 					${msg[lang].wallSingle}
 				</label>
 				<label class="label-layout">
-					<input type="radio" name="layout" value="digital" onclick="updatePreview();"><br>
 					<img src="img/layout-wallpaper.png">
+					<input type="radio" name="layout" value="digital" onclick="updatePreview();">
 					${msg[lang].digitalBg}
 				</label>
 			</div>
 
 			<div class="config-blocks">
 				<div id="front-config">
-					<h3>${msg[lang].front}:</h3>
 					<label class="custom-file-button">
 						<input type="file" accept="image/*" onchange="loadImage( this, 'bottom' );">
 						${msg[lang].loadImage}
@@ -55,48 +39,58 @@ function pageTemplate() {
 					<select id="bottom-month" onchange="updatePreview();">
 						${monthOptions()}
 					</select>
+					<div class="note">${msg[lang].imgNotice}</div>
 				</div>
 
-				<div id="back-config">
-					<h3>${msg[lang].back}:</h3>
-					<label class="custom-file-button">
-						<input type="file" accept="image/*" onchange="loadImage( this, 'top' );">
-						${msg[lang].loadImage}
-					</label>
-					<br>
-					<input type="text" id="top-year" placeholder="${msg[lang].year}" maxlength="4" onchange="updatePreview();">
-					<select id="top-month" onchange="updatePreview();">
-						${monthOptions()}
-					</select>
+				<div>
+					<div id="back-config">
+						<label class="custom-file-button">
+							<input type="file" accept="image/*" onchange="loadImage( this, 'top' );">
+							${msg[lang].loadImage}
+						</label>
+						<br>
+						<input type="text" id="top-year" placeholder="${msg[lang].year}" maxlength="4" onchange="updatePreview();">
+						<select id="top-month" onchange="updatePreview();">
+							${monthOptions()}
+						</select>
+					</div>
+
+					<div id="canvas-config">
+						<button type="button" class="rotate-button" onclick="rotateCanvas();"></button>
+						<input id="canvas-width" class="bottom" type="text" maxlength="4" placeholder="${msg[lang].width}" onchange="updatePreview();">
+						x
+						<input id="canvas-height" class="bottom" type="text" maxlength="4" placeholder="${msg[lang].height}" onchange="updatePreview();">
+						${msg[lang].pixels}
+						<br>
+						<select id="cal-size" onchange="updatePreview();" title="${msg[lang].calSize}">
+							<option value=".03">${msg[lang].small}</option>
+							<option value=".05" selected>${msg[lang].medium}</option>
+							<option value=".07">${msg[lang].large}</option>
+						</select>
+						<select id="h-align" onchange="updatePreview();" title="${msg[lang].horAlign}">
+							<option value="left">${msg[lang].left}</option>
+							<option value="center">${msg[lang].horCenter}</option>
+							<option value="right" selected>${msg[lang].right}</option>
+						</select>
+						<select id="v-align" onchange="updatePreview();" title="${msg[lang].verAlign}">
+							<option value="top">${msg[lang].top}</option>
+							<option value="center">${msg[lang].verCenter}</option>
+							<option value="bottom" selected>${msg[lang].bottom}</option>
+						</select>
+					</div>
+
+					<div style="margin-top: 20px;">
+						<strong>${msg[lang].holidays}:</strong>
+						<select id="country" onchange="changeCountry( this.value );">
+							${countryOptions()}
+						</select>
+						<select id="region" onchange="updatePreview();">
+							${regionOptions()}
+						</select>
+					</div>
 				</div>
 
-				<div id="canvas-config">
-					<h3>${msg[lang].sizeOrient}:</h3>
-					<button type="button" class="rotate-button" onclick="rotateCanvas();"></button>
-					<input id="canvas-width" class="bottom20" type="text" maxlength="4" placeholder="${msg[lang].width}" onchange="updatePreview();">
-					x
-					<input id="canvas-height" class="bottom20" type="text" maxlength="4" placeholder="${msg[lang].height}" onchange="updatePreview();">
-					${msg[lang].pixels}
-					<br>
-					<select id="cal-size" onchange="updatePreview();" title="${msg[lang].calSize}">
-						<option value=".03">${msg[lang].small}</option>
-						<option value=".05" selected>${msg[lang].medium}</option>
-						<option value=".07">${msg[lang].large}</option>
-					</select>
-					<select id="h-align" onchange="updatePreview();" title="${msg[lang].horAlign}">
-						<option value="left">${msg[lang].left}</option>
-						<option value="center">${msg[lang].horCenter}</option>
-						<option value="right" selected>${msg[lang].right}</option>
-					</select>
-					<select id="v-align" onchange="updatePreview();" title="${msg[lang].verAlign}">
-						<option value="top">${msg[lang].top}</option>
-						<option value="center">${msg[lang].verCenter}</option>
-						<option value="bottom" selected>${msg[lang].bottom}</option>
-					</select>
-				</div>
 			</div>
-
-			<div class="note">${msg[lang].imgNotice}</div>
 
 			<div id="print-config">
 				<h2>${msg[lang].printIt}</h2>
