@@ -56,27 +56,39 @@ function pageTemplate() {
 					</div>
 
 					<div id="canvas-config">
-						<button type="button" class="rotate-button" onclick="rotateCanvas();"></button>
-						<input id="canvas-width" class="bottom" type="text" maxlength="4" placeholder="${msg[lang].width}" onchange="updatePreview();">
-						x
-						<input id="canvas-height" class="bottom" type="text" maxlength="4" placeholder="${msg[lang].height}" onchange="updatePreview();">
-						${msg[lang].pixels}
+						<button type="button" class="rotate-button" onclick="rotateCanvas();" title="${msg[lang].chgOrient}"></button>
+						<label>
+							<span>${msg[lang].screenSize}</span>
+							<input id="canvas-width" class="bottom" type="text" maxlength="4" placeholder="${msg[lang].width}" onchange="updatePreview();">
+							x
+							<input id="canvas-height" class="bottom" type="text" maxlength="4" placeholder="${msg[lang].height}" onchange="updatePreview();">
+							${msg[lang].pixels}
+						</label>
 						<br>
-						<select id="cal-size" onchange="updatePreview();" title="${msg[lang].calSize}">
-							<option value=".03">${msg[lang].small}</option>
-							<option value=".05" selected>${msg[lang].medium}</option>
-							<option value=".07">${msg[lang].large}</option>
-						</select>
-						<select id="h-align" onchange="updatePreview();" title="${msg[lang].horAlign}">
-							<option value="left">${msg[lang].left}</option>
-							<option value="center">${msg[lang].horCenter}</option>
-							<option value="right" selected>${msg[lang].right}</option>
-						</select>
-						<select id="v-align" onchange="updatePreview();" title="${msg[lang].verAlign}">
-							<option value="top">${msg[lang].top}</option>
-							<option value="center">${msg[lang].verCenter}</option>
-							<option value="bottom" selected>${msg[lang].bottom}</option>
-						</select>
+						<label>
+							<span>${msg[lang].calSize}</span>
+							<select id="cal-size" onchange="updatePreview();">
+								<option value=".03">${msg[lang].small}</option>
+								<option value=".05" selected>${msg[lang].medium}</option>
+								<option value=".07">${msg[lang].large}</option>
+							</select>
+						</label>
+						<label>
+							<span>${msg[lang].horAlign}</span>
+							<select id="h-align" onchange="updatePreview();">
+								<option value="left">${msg[lang].left}</option>
+								<option value="center">${msg[lang].horCenter}</option>
+								<option value="right" selected>${msg[lang].right}</option>
+							</select>
+						</label>
+						<label>
+							<span>${msg[lang].verAlign}</span>
+							<select id="v-align" onchange="updatePreview();">
+								<option value="top">${msg[lang].top}</option>
+								<option value="center">${msg[lang].verCenter}</option>
+								<option value="bottom" selected>${msg[lang].bottom}</option>
+							</select>
+						</label>
 					</div>
 
 					<div style="margin-top: 20px;">

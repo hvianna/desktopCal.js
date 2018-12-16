@@ -125,6 +125,14 @@ p {
 #canvas-config input {
 	width: 80px;
 }
+#canvas-config label {
+	display: inline-block;
+}
+#canvas-config label span {
+	display: block;
+	font-size: 10px;
+	text-transform: uppercase;
+}
 
 .custom-file-button input,
 #config:not(.desktop) #back-config,
@@ -178,6 +186,7 @@ p {
 }
 
 .rotate-button {
+	margin-top: -2px;
 	width: 50px;
 }
 .rotate-button::before {
