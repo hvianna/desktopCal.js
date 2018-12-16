@@ -155,7 +155,7 @@ function generateCalendar( month, year, canvas = null ) {
 				initialY = canvas.height - 12 * cellSize;
 		}
 
-		ctx.fillStyle = 'rgba( 255, 255, 255, .75 )';
+		ctx.fillStyle = 'rgba( 255, 255, 255, .6 )';
 		ctx.roundRect( initialX, initialY, cellSize * 10, cellSize * 10, cellSize / 2 ).fill();
 		ctx.translate( initialX + cellSize, initialY + cellSize );
 
