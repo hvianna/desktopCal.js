@@ -85,8 +85,8 @@ function pageTemplate() {
 							<span>${msg[lang].verAlign}</span>
 							<select id="v-align" onchange="updatePreview();">
 								<option value="top">${msg[lang].top}</option>
-								<option value="center">${msg[lang].verCenter}</option>
-								<option value="bottom" selected>${msg[lang].bottom}</option>
+								<option value="center" selected>${msg[lang].verCenter}</option>
+								<option value="bottom">${msg[lang].bottom}</option>
 							</select>
 						</label>
 					</div>
@@ -119,7 +119,14 @@ function pageTemplate() {
 			<div id="download-config">
 				<h2>${msg[lang].downloadIt}</h2>
 
-					<a href="#" class="button download-button" download="desktopCal.png" onclick="downloadCalendar(this);">${msg[lang].download}</a>
+				<div class="config-blocks">
+					<div>
+						<strong>${msg[lang].fileFormat}:</strong>
+						<input type="radio" name="file-format" value="jpeg" checked> JPG &nbsp;
+						<input type="radio" name="file-format" value="png"> PNG
+					</div>
+					<a href="#" class="button download-button" onclick="downloadCalendar(this);">${msg[lang].download}</a>
+				</div>
 			</div>
 
 		</div> <!-- .config -->

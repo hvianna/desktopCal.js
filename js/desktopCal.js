@@ -312,7 +312,9 @@ function rotateCanvas() {
  */
 function downloadCalendar( obj ) {
 
-	obj.href = document.getElementById('canvas').toDataURL('image/png');
+	var format = document.querySelector('input[name="file-format"]:checked').value;
+	obj.download = 'desktopCal-' + document.getElementById('bottom-year').value + '-' + document.getElementById('bottom-month').value + '.' + format;
+	obj.href = document.getElementById('canvas').toDataURL(`image/${format}`);
 }
 
 /**

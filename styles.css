@@ -100,7 +100,7 @@ p {
 .config-block {
 	display: inline-block;
 }
-.config-blocks input {
+.config-blocks input[type="text"] {
 	width: 150px;
 }
 
