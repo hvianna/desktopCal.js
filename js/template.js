@@ -56,15 +56,16 @@ function pageTemplate() {
 					</div>
 
 					<div id="canvas-config">
-						<button type="button" class="rotate-button" onclick="rotateCanvas();" title="${msg[lang].chgOrient}"></button>
-						<label>
-							<span>${msg[lang].screenSize}</span>
-							<input id="canvas-width" class="bottom" type="text" maxlength="4" placeholder="${msg[lang].width}" onchange="updatePreview();">
-							x
-							<input id="canvas-height" class="bottom" type="text" maxlength="4" placeholder="${msg[lang].height}" onchange="updatePreview();">
-							${msg[lang].pixels}
-						</label>
-						<br>
+						<div class="config-blocks">
+							<label>
+								<span>${msg[lang].screenSize}</span>
+								<input id="canvas-width" type="text" maxlength="4" placeholder="${msg[lang].width}" onchange="updatePreview();">
+								x
+								<input id="canvas-height" type="text" maxlength="4" placeholder="${msg[lang].height}" onchange="updatePreview();">
+								${msg[lang].pixels}
+							</label>
+							<button type="button" class="rotate-button" onclick="rotateCanvas();" title="${msg[lang].chgOrient}"></button>
+						</div>
 						<label>
 							<span>${msg[lang].calSize}</span>
 							<select id="cal-size" onchange="updatePreview();">
