@@ -393,6 +393,18 @@ p {
 	text-align: center;
 }
 
+@media screen and ( max-width: 1400px ) {
+
+	.container {
+		display: block;
+	}
+
+	#config, #preview {
+		margin: 0 auto;
+		padding: 20px;
+	}
+}
+
 /**
  * Layout for printing
  */
