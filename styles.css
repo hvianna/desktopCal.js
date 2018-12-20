@@ -201,6 +201,13 @@ p {
 	width: 24px;
 }
 
+#holiday-config {
+	margin-top: 20px;
+}
+.wall-single #holiday-config {
+	margin-top: 58px;
+}
+
 #print-config ul {
 	background-image: url(img/icons8-training.png);
 	background-repeat: no-repeat;

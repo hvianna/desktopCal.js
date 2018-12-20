@@ -92,7 +92,7 @@ function pageTemplate() {
 						</label>
 					</div>
 
-					<div style="margin-top: 20px;">
+					<div id="holiday-config">
 						<strong>${msg[lang].holidays}:</strong>
 						<select id="country" onchange="changeCountry( this.value );">
 							${countryOptions()}
