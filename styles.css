@@ -187,8 +187,9 @@ p {
 
 .rotate-button {
 	border-radius: 50%;
-	margin-left: 10px;
-	width: 50px;
+	height: 40px;
+	margin: 10px 0 0 10px;
+	width: 40px;
 }
 .rotate-button::before {
 	background-image: url(img/icons8-exchange-filled.png);
@@ -293,24 +294,22 @@ p {
 .wall-single .preview-content {
 	font-size: 12pt;
 }
-.wall-single .top-half {
-	transform: none;
+.wall-single .top-half,
+.wall-single .fold-line {
+	display: none;
+}
+.wall-single .elements {
+	display: block;
 }
 .wall-single .bottom-half {
 	border-top: none;
-}
-.wall-single .fold-line,
-.wall-single .bottom-half .cal-image,
-.wall-single .top-half .cal-content {
-	display: none;
-}
-.wall-single .top-half .cal-image,
-.wall-single .bottom-half .cal-content {
 	height: 100%;
-	width: 100%;
 }
-.wall-single .top-half .cal-image {
+.wall-single .bottom-half .cal-image,
+.wall-single .bottom-half .cal-content {
 	background-size: 100%;
+	height: 50%;
+	width: 100%;
 }
 .wall-single .calendar table th,
 .wall-single .calendar table td {

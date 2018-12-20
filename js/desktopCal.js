@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-var _VERSION = '19.1-dev.1';
+var _VERSION = '19.1-dev.2';
 
 
 /**
@@ -32,9 +32,6 @@ function loadImage( obj, side ) {
 
 	var reader = new FileReader(),
 		layout = document.getElementById('preview').className;
-
-	if ( layout != 'desktop' )
-		side = 'top';
 
 	reader.onload = function() {
 		document.querySelector(`.${side}-half .cal-image`).style = `background-image: url(${ reader.result })`;
@@ -272,7 +269,7 @@ function updatePreview() {
 
 		img = new Image();
 		img.crossOrigin = 'anonymous';
-		img.src = document.getElementById('top-half').querySelector('.cal-image').style.backgroundImage.match(/url\("([^"]*)"\)/)[1];
+		img.src = document.getElementById('bottom-half').querySelector('.cal-image').style.backgroundImage.match(/url\("([^"]*)"\)/)[1];
 		img.onload = function() {
 			w = canvas.width;
 			h = canvas.height;
