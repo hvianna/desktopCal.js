@@ -93,10 +93,12 @@ function pageTemplate() {
 					</div>
 
 					<div id="holiday-config">
-						<strong>${msg[lang].holidays}:</strong>
-						<select id="country" onchange="changeCountry( this.value );">
-							${countryOptions()}
-						</select>
+						<label>
+							<span>${msg[lang].holidays}</span>
+							<select id="country" onchange="changeCountry( this.value );">
+								${countryOptions()}
+							</select>
+						</label>
 						<select id="region" onchange="updatePreview();">
 							${regionOptions()}
 						</select>

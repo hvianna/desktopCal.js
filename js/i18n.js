@@ -7,12 +7,21 @@ var lang, country;
 
 // countries for holiday selection list
 var countries = {
-	us: { name: 'United States' },
 	br: {
 		name: 'Brasil',
-		regions: [ 'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MG', 'MT', 'MS', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO' ],
+		regions: [ 'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MG', 'MT', 'MS', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO' ]
 	},
+	es: { name: 'España' },
 	fr: { name: 'France' },
+	pt: {
+		name: 'Portugal',
+		regions: [ 'Açores', 'Madeira' ]
+	},
+	uk: {
+		name: 'United Kingdom',
+		regions: [ 'N. Ireland' ]
+	},
+	us: { name: 'United States' }
 }
 
 // translations of messages
@@ -229,7 +238,7 @@ function countryOptions() {
 
 function regionOptions() {
 
-	var html = '<option></option>',
+	var html = `<option value=""></option>`,
 		regions;
 
 	if ( countries[ country ].hasOwnProperty('regions') ) {
@@ -243,6 +252,9 @@ function regionOptions() {
 
 function changeCountry( newCountry ) {
 
+	if ( ! Object.keys( countries ).includes( newCountry ) ) // invalid country?
+		return false;
+
 	country = newCountry;
 	document.getElementById('region').innerHTML = regionOptions();
 	updatePreview();
@@ -254,11 +266,10 @@ function changeLang( newLang ) {
 		return false;
 
 	lang = newLang;
-	country = msg[ lang ].defCountry;
 
 	// save values from input and select elements, so we can restore them after changing the language
 
-	var elems = document.querySelectorAll('input[type="text"], input[type="radio"], select:not(#country)');
+	var elems = document.querySelectorAll('input[type="text"], input[type="radio"], select');
 	var values = [];
 
 	for ( var i = 0; i < elems.length; i++ ) {
@@ -284,7 +295,7 @@ function changeLang( newLang ) {
 
 	// restore input and select values
 
-	elems = document.querySelectorAll('input[type="text"], input[type="radio"], select:not(#country)');
+	elems = document.querySelectorAll('input[type="text"], input[type="radio"], select');
 
 	for ( i = 0; i < elems.length; i++ ) {
 		if ( elems[ i ].localName == 'select' )
