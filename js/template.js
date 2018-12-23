@@ -99,9 +99,6 @@ function pageTemplate() {
 								${countryOptions()}
 							</select>
 						</label>
-						<select id="region" onchange="updatePreview();">
-							${regionOptions()}
-						</select>
 					</div>
 				</div>
 

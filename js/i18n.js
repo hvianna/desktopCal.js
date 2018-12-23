@@ -7,20 +7,11 @@ var lang, country;
 
 // countries for holiday selection list
 var countries = {
-	br: {
-		name: 'Brasil',
-		regions: [ 'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MG', 'MT', 'MS', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO' ]
-	},
+	br: { name: 'Brasil' },
 	es: { name: 'España' },
 	fr: { name: 'France' },
-	pt: {
-		name: 'Portugal',
-		regions: [ 'Açores', 'Madeira' ]
-	},
-	uk: {
-		name: 'United Kingdom',
-		regions: [ 'N. Ireland' ]
-	},
+	pt: { name: 'Portugal' },
+	uk: { name: 'United Kingdom' },
 	us: { name: 'United States' }
 }
 
@@ -236,27 +227,12 @@ function countryOptions() {
 	return html;
 }
 
-function regionOptions() {
-
-	var html = `<option value=""></option>`,
-		regions;
-
-	if ( countries[ country ].hasOwnProperty('regions') ) {
-		regions = countries[ country ].regions;
-		for ( var i = 0; i < regions.length; i++ )
-			html += `<option value="${ regions[ i ] }">${ regions[ i ] }</option>`;
-	}
-
-	return html;
-}
-
 function changeCountry( newCountry ) {
 
 	if ( ! Object.keys( countries ).includes( newCountry ) ) // invalid country?
 		return false;
 
 	country = newCountry;
-	document.getElementById('region').innerHTML = regionOptions();
 	updatePreview();
 }
 

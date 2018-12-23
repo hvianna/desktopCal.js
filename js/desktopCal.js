@@ -189,9 +189,6 @@ function updatePreview() {
 	document.getElementById('config').className = layout;
 	document.getElementById('preview').className = layout;
 
-	// show/hide region selection
-	document.getElementById('region').style.display = countries[ country ].hasOwnProperty('regions') ? 'inline' : 'none';
-
 	if ( layout != 'digital' ) {
 		for ( i = 0; i < 2; i++ ) {
 			if ( month[ i ] > 0 && year[ i ] > 0 ) {
