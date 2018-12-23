@@ -9,41 +9,28 @@
  */
 function checkHoliday( year, month, day ) {
 
-	var holidays, date, d,
-		easter = computus( year );
+	var holidays, date, d, easter,
+		easterHolidays = [];
 
 	switch ( country ) {
 		case 'br':
 			holidays = [ '1-1',	'4-21',	'5-1', '9-7', '10-12', '11-2', '11-15', '12-25' ];
-			// calculates floating holidays based on Easter Day
-			for ( d of [ -47, -2, 60 ] ) { // Carnival, Good Friday, Corpus Christi
-				date = new Date( easter.getTime() + d * 86400000);
-				holidays.push( `${ date.getMonth() + 1 }-${ date.getDate() }` );
-			}
+			easterHolidays = [ -47, -2, 60 ]; // Carnival, Good Friday, Corpus Christi
 			break;
 
 		case 'es':
 			holidays = [ '1-1', '1-6', '5-1', '8-15', '10-12', '11-1', '12-6', '12-8', '12-25' ];
-			for ( d of [ -3, -2 ] ) { // Maundy Thursday, Good Friday
-				date = new Date( easter.getTime() + d * 86400000 );
-				holidays.push( `${ date.getMonth() + 1 }-${ date.getDate() }` );
-			}
+			easterHolidays = [ -3, -2 ]; // Maundy Thursday, Good Friday
 			break;
 
 		case 'fr':
 			holidays = [ '1-1', '5-1', '5-8', '7-14', '8-15', '11-1', '11-11', '12-25', '12-26' ];
-			for ( d of [ -2, 1, 39, 50 ] ) { // Good Friday, Easter Monday, Ascension Day, Whit Monday
-				date = new Date( easter.getTime() + d * 86400000 );
-				holidays.push( `${ date.getMonth() + 1 }-${ date.getDate() }` );
-			}
+			easterHolidays = [ -2, 1, 39, 50 ]; // Good Friday, Easter Monday, Ascension Day, Whit Monday
 			break;
 
 		case 'pt':
 			holidays = [ '1-1', '4-25', '5-1', '6-10', '8-15', '10-5', '11-1', '12-1', '12-8', '12-25' ]
-			for ( d of [ -47, -2, 60 ] ) { // Carnival, Good Friday, Corpus Christi
-				date = new Date( easter.getTime() + d * 86400000);
-				holidays.push( `${ date.getMonth() + 1 }-${ date.getDate() }` );
-			}
+			easterHolidays = [ -47, -2, 60 ]; // Carnival, Good Friday, Corpus Christi
 			break;
 
 		case 'uk':
@@ -53,10 +40,7 @@ function checkHoliday( year, month, day ) {
 				floatingDoW( 1, year, 8, 25 ),
 				checkSatSun( year, 12, 25 ), checkSatSun( year, 12, 26 )
 			];
-			for ( d of [ -2, 1 ] ) { // Good Friday, Easter Monday, Ascension Day, Whit Monday
-				date = new Date( easter.getTime() + d * 86400000 );
-				holidays.push( `${ date.getMonth() + 1 }-${ date.getDate() }` );
-			}
+			easterHolidays = [ -2, 1 ]; // Good Friday, Easter Monday, Ascension Day, Whit Monday
 			break;
 
 		case 'us':
@@ -71,6 +55,15 @@ function checkHoliday( year, month, day ) {
 				'12-25'
 			];
 			break;
+	}
+
+	// calculates floating holidays based on Easter Day
+	if ( easterHolidays.length ) {
+		easter = computus( year );
+		for ( d of easterHolidays ) {
+			date = new Date( easter.getTime() + d * 86400000);
+			holidays.push( `${ date.getMonth() + 1 }-${ date.getDate() }` );
+		}
 	}
 
 	if ( holidays.includes( `${month}-${day}` ) )
