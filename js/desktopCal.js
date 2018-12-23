@@ -56,7 +56,7 @@ function generateCalendar( month, year, canvas = null ) {
 	var ndays = [ 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 
 	var html, dow, prevMon,	i, d,
-		ctx, cellSize, initialX, initialY, currLine; // auxiliary variables for canvas
+		ctx, calSize, cellSize, initialX, initialY, currLine; // auxiliary variables for canvas
 
 	if ( ( year & 3 ) == 0 && ( ( year % 25 ) != 0 || ( year & 15 ) == 0 ) )
 		ndays[2]++; // leap year
@@ -67,38 +67,90 @@ function generateCalendar( month, year, canvas = null ) {
 
 	if ( canvas ) {
 		ctx = canvas.getContext('2d');
-		cellSize = Math.min( canvas.width, canvas.height ) * document.getElementById('cal-size').value;
+		calSize = document.getElementById('cal-size').value;
+		if ( calSize == 'line' ) {
+			cellSize = canvas.width / 40;
+			initialX = 0;
+		}
+		else if ( calSize == 'col' ) {
+			cellSize = Math.max( canvas.width, canvas.height ) / 40;
+			initialY = 0;
+		}
+		else
+			cellSize = Math.min( canvas.width, canvas.height ) * calSize;
 
-		switch ( document.getElementById('h-align').value ) {
-			case 'left':
-				initialX = 2 * cellSize;
-				break;
-			case 'center':
-				initialX = ( canvas.width - 10 * cellSize ) / 2;
-				break;
-			default:
-				initialX = canvas.width - 12 * cellSize;
+		if ( calSize != 'line' ) {
+			switch ( document.getElementById('h-align').value ) {
+				case 'left':
+					if ( calSize == 'col' )
+						initialX = 0;
+					else
+						initialX = 2 * cellSize;
+					break;
+				case 'center':
+					if ( calSize == 'col' )
+						initialX = ( canvas.width - 3 * cellSize ) / 2;
+					else
+						initialX = ( canvas.width - 10 * cellSize ) / 2;
+					break;
+				default:
+					if ( calSize == 'col' )
+						initialX = canvas.width - 3 * cellSize;
+					else
+						initialX = canvas.width - 12 * cellSize;
+			}
 		}
 
-		switch ( document.getElementById('v-align').value ) {
-			case 'top':
-				initialY = 2 * cellSize;
-				break;
-			case 'center':
-				initialY = ( canvas.height - 10 * cellSize ) / 2;
-				break;
-			default:
-				initialY = canvas.height - 12 * cellSize;
+		if ( calSize != 'col' ) {
+			switch ( document.getElementById('v-align').value ) {
+				case 'top':
+					if ( calSize == 'line' )
+						initialY = 0;
+					else
+						initialY = 2 * cellSize;
+					break;
+				case 'center':
+					if ( calSize == 'line' )
+						initialY = ( canvas.height - 3 * cellSize ) / 2;
+					else
+						initialY = ( canvas.height - 10 * cellSize ) / 2;
+					break;
+				default:
+					if ( calSize == 'line' )
+						initialY = canvas.height - 3 * cellSize;
+					else
+						initialY = canvas.height - 12 * cellSize;
+			}
 		}
 
 		ctx.fillStyle = 'rgba( 255, 255, 255, .6 )';
-		ctx.roundRect( initialX, initialY, cellSize * 10, cellSize * 10, cellSize / 2 ).fill();
-		ctx.translate( initialX + cellSize, initialY + cellSize );
+		if ( calSize == 'col' )
+			ctx.fillRect( initialX, 0, initialX + cellSize * 3, canvas.height );
+		else if ( calSize == 'line' )
+			ctx.fillRect( 0, initialY, canvas.width, initialY + cellSize * 3 );
+		else {
+			ctx.roundRect( initialX, initialY, cellSize * 10, cellSize * 10, cellSize / 2 ).fill();
+			ctx.translate( initialX + cellSize, initialY + cellSize );
+		}
 
 		ctx.fillStyle = '#000';
 		ctx.font = 'bold ' + cellSize / 1.5 + 'px sans-serif';
+
+		if ( calSize == 'col' ) {
+			ctx.fillText( year, initialX + cellSize / 2, cellSize );
+			ctx.font = 'bold ' + cellSize + 'px sans-serif';
+			ctx.fillText( msg[ lang ].monthNames[ month ].substring(0,3).toUpperCase(), initialX + cellSize / 2, cellSize * 2 );
+		}
+		else if ( calSize == 'line' ) {
+			ctx.fillText( year, cellSize, initialY + cellSize * 1.2 );
+			ctx.fillText( msg[ lang ].monthNames[ month ], cellSize, initialY + cellSize * 2 );
+			ctx.translate( initialX + cellSize * 4.5, initialY );
+		}
+		else {
+			ctx.textAlign = 'center';
+			ctx.fillText( msg[ lang ].monthNames[ month ] + ' ' + year, cellSize * 4, cellSize / 2 ); // calendar center is 4*cellsize
+		}
 		ctx.textAlign = 'center';
-		ctx.fillText( msg[ lang ].monthNames[ month ] + ' ' + year, cellSize * 4, cellSize / 2 ); // calendar center is 4*cellsize
 		ctx.font = cellSize / 2 + 'px sans-serif';
 		currLine = cellSize * 2;
 	}
@@ -107,7 +159,7 @@ function generateCalendar( month, year, canvas = null ) {
 
 	// print week days initials
 	for ( i = 0; i < 7; i++ ) {
-		if ( canvas ) {
+		if ( canvas && ! isNaN( calSize ) ) {
 			ctx.fillStyle = i == 0 ? '#c00' : '#000';
 			ctx.fillText( msg[ lang ].weekDays[ i ].charAt(0), i * cellSize * 1.3, currLine );
 		}
@@ -127,8 +179,18 @@ function generateCalendar( month, year, canvas = null ) {
 	// loop for the current month
 	for ( i = 1; i <= ndays[ month ]; i++ ) {
 		if ( canvas ) {
-			ctx.fillStyle = ( dow == 0 || checkHoliday( year, month, i ) ) ? '#c00' : '#000';
-			ctx.fillText( i, dow * cellSize * 1.3, currLine );
+			if ( calSize == 'line' ) {
+				ctx.font = cellSize * .3 + 'px sans-serif';
+				ctx.fillStyle = ( dow == 0 ) ? '#c00' : '#000';
+				ctx.fillText( msg[ lang ].weekDays[ dow ].toUpperCase(), i * cellSize * 1.1, cellSize );
+				ctx.font = cellSize * .6 + 'px sans-serif';
+				ctx.fillStyle = ( dow == 0 || checkHoliday( year, month, i ) ) ? '#c00' : '#000';
+				ctx.fillText( i, i * cellSize * 1.1, cellSize * 2 );
+			}
+			else {
+				ctx.fillStyle = ( dow == 0 || checkHoliday( year, month, i ) ) ? '#c00' : '#000';
+				ctx.fillText( i, dow * cellSize * 1.3, currLine );
+			}
 		}
 		else
 			html += '<td class="' + checkHoliday( year, month, i ) + '">' + i;
