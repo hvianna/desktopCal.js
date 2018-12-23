@@ -69,8 +69,8 @@ function pageTemplate() {
 						<label>
 							<span>${msg[lang].calSize}</span>
 							<select id="cal-size" onchange="updatePreview();">
-								<option value="col">Column</option>
-								<option value="line">Line</option>
+								<option value="col">${msg[lang].column}</option>
+								<option value="row">${msg[lang].row}</option>
 								<option value=".03">${msg[lang].small}</option>
 								<option value=".05" selected>${msg[lang].medium}</option>
 								<option value=".07">${msg[lang].large}</option>

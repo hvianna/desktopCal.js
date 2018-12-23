@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-var _VERSION = '19.1-dev.2';
+var _VERSION = '19.1-dev.3';
 
 
 /**
@@ -68,7 +68,7 @@ function generateCalendar( month, year, canvas = null ) {
 	if ( canvas ) {
 		ctx = canvas.getContext('2d');
 		calSize = document.getElementById('cal-size').value;
-		if ( calSize == 'line' ) {
+		if ( calSize == 'row' ) {
 			cellSize = canvas.width / 40;
 			initialX = 0;
 		}
@@ -79,7 +79,7 @@ function generateCalendar( month, year, canvas = null ) {
 		else
 			cellSize = Math.min( canvas.width, canvas.height ) * calSize;
 
-		if ( calSize != 'line' ) {
+		if ( calSize != 'row' ) {
 			switch ( document.getElementById('h-align').value ) {
 				case 'left':
 					if ( calSize == 'col' )
@@ -104,19 +104,19 @@ function generateCalendar( month, year, canvas = null ) {
 		if ( calSize != 'col' ) {
 			switch ( document.getElementById('v-align').value ) {
 				case 'top':
-					if ( calSize == 'line' )
+					if ( calSize == 'row' )
 						initialY = 0;
 					else
 						initialY = 2 * cellSize;
 					break;
 				case 'center':
-					if ( calSize == 'line' )
+					if ( calSize == 'row' )
 						initialY = ( canvas.height - 3 * cellSize ) / 2;
 					else
 						initialY = ( canvas.height - 10 * cellSize ) / 2;
 					break;
 				default:
-					if ( calSize == 'line' )
+					if ( calSize == 'row' )
 						initialY = canvas.height - 3 * cellSize;
 					else
 						initialY = canvas.height - 12 * cellSize;
@@ -125,9 +125,9 @@ function generateCalendar( month, year, canvas = null ) {
 
 		ctx.fillStyle = 'rgba( 255, 255, 255, .6 )';
 		if ( calSize == 'col' )
-			ctx.fillRect( initialX, 0, initialX + cellSize * 3, canvas.height );
-		else if ( calSize == 'line' )
-			ctx.fillRect( 0, initialY, canvas.width, initialY + cellSize * 3 );
+			ctx.fillRect( initialX, 0, cellSize * 3, canvas.height );
+		else if ( calSize == 'row' )
+			ctx.fillRect( 0, initialY, canvas.width, cellSize * 3 );
 		else {
 			ctx.roundRect( initialX, initialY, cellSize * 10, cellSize * 10, cellSize / 2 ).fill();
 			ctx.translate( initialX + cellSize, initialY + cellSize );
@@ -141,7 +141,7 @@ function generateCalendar( month, year, canvas = null ) {
 			ctx.font = 'bold ' + cellSize + 'px sans-serif';
 			ctx.fillText( msg[ lang ].monthNames[ month ].substring(0,3).toUpperCase(), initialX + cellSize / 2, cellSize * 2 );
 		}
-		else if ( calSize == 'line' ) {
+		else if ( calSize == 'row' ) {
 			ctx.fillText( year, cellSize, initialY + cellSize * 1.2 );
 			ctx.fillText( msg[ lang ].monthNames[ month ], cellSize, initialY + cellSize * 2 );
 			ctx.translate( initialX + cellSize * 4.5, initialY );
@@ -179,7 +179,7 @@ function generateCalendar( month, year, canvas = null ) {
 	// loop for the current month
 	for ( i = 1; i <= ndays[ month ]; i++ ) {
 		if ( canvas ) {
-			if ( calSize == 'line' ) {
+			if ( calSize == 'row' ) {
 				ctx.font = cellSize * .3 + 'px sans-serif';
 				ctx.fillStyle = ( dow == 0 ) ? '#c00' : '#000';
 				ctx.fillText( msg[ lang ].weekDays[ dow ].toUpperCase(), i * cellSize * 1.1, cellSize );
