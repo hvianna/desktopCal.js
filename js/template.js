@@ -144,7 +144,7 @@ function pageTemplate() {
 						<input type="radio" name="file-format" value="jpeg" checked> JPG &nbsp;
 						<input type="radio" name="file-format" value="png"> PNG
 					</div>
-					<a href="#" class="button download-button" onclick="downloadCalendar(this);">${msg[lang].download}</a>
+					<a href="#" id="download-button" class="button download-button" onclick="downloadCalendar(this);">${msg[lang].download}</a>
 				</div>
 			</div>
 
@@ -154,7 +154,7 @@ function pageTemplate() {
 			<div class="preview-header">
 				${msg[lang].preview}:
 			</div>
-			<canvas id="canvas"></canvas>
+			<canvas id="canvas" onclick="document.getElementById('download-button').click();"></canvas>
 			<div class="preview-content">
 				<div id="top-half" class="top-half">
 					<div class="elements">
