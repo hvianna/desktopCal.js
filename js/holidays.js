@@ -9,7 +9,8 @@
  */
 function checkHoliday( year, month, day ) {
 
-	var holidays, date, d, easter,
+	var date, d, easter,
+		holidays = [],
 		easterHolidays = [],
 		customHolidays = getCustomHolidays();
 

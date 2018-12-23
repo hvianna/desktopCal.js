@@ -30,7 +30,7 @@ var msg = {
 		desktopCal: 'Desktop calendar',
 		wallSingle: 'Wall calendar',
 		digitalBg:  'Digital wallpaper',
-		screenSize: 'Screen dimensions',
+		screenRes:  'Screen resolution',
 		chgOrient:  'Change orientation',
 		calSize:    'Calendar size',
 		small:      'Small',
@@ -50,6 +50,7 @@ var msg = {
 		loadImage:  'Load Image',
 		holidays:   'National holidays',
 		customHolidays: 'Custom holidays',
+		none:       'None',
 		add:        'Add',
 		delete:     'Delete',
 		imgNotice:  'Images are NOT uploaded anywhere out your computer.<br>All processing takes place in your browser.',
@@ -78,7 +79,7 @@ var msg = {
 		desktopCal: 'Calendario de escritorio',
 		wallSingle: 'Calendario de pared',
 		digitalBg:  'Fondo de pantalla',
-		screenSize: 'Dimensiones de la pantalla',
+		screenRes:  'Resolución de la pantalla',
 		chgOrient:  'Cambiar orientación',
 		calSize:    'Tamaño',
 		small:      'Pequeño',
@@ -98,6 +99,7 @@ var msg = {
 		loadImage:  'Cargar Imagen',
 		holidays:   'Feriados nacionales',
 		customHolidays: 'Feriados personalizados',
+		none:       'Ninguno',
 		add:        'Añadir',
 		delete:     'Borrar',
 		imgNotice:  'Las imágenes NO se envían fuera de su computadora.<br>Todo el procesamiento se lleva a cabo en su navegador.',
@@ -126,7 +128,7 @@ var msg = {
 		desktopCal: 'Calendrier de bureau',
 		wallSingle: 'Calendrier mural',
 		digitalBg:  'Fond d\'écran',
-		screenSize: 'Dimensions de l\'écran',
+		screenRes:  'Résolution d\'écran',
 		chgOrient:  'Changer d\'orientation',
 		calSize:    'Taille',
 		small:      'Petit',
@@ -146,6 +148,7 @@ var msg = {
 		loadImage:  'Charger Image',
 		holidays:   'Fêtes nationales',
 		customHolidays: 'Jours fériés personnalisées',
+		none:       'Aucun',
 		add:        'Ajouter',
 		delete:     'Effacer',
 		imgNotice:  'Les images NE sont PAS envoyées sur votre ordinateur.<br>Tous les traitements ont lieu dans votre navigateur.',
@@ -174,7 +177,7 @@ var msg = {
 		desktopCal: 'Calendário de mesa',
 		wallSingle: 'Calendário de parede',
 		digitalBg:  'Papel de parede digital',
-		screenSize: 'Dimensões da tela',
+		screenRes:  'Resolução da tela',
 		chgOrient:  'Mudar orientação',
 		calSize:    'Tam. calendário',
 		small:      'Pequeno',
@@ -194,6 +197,7 @@ var msg = {
 		loadImage:  'Carregar Imagem',
 		holidays:   'Feriados nacionais',
 		customHolidays: 'Feriados personalizados',
+		none:       'Nenhum',
 		add:        'Adicionar',
 		delete:     'Excluir',
 		imgNotice:  'As imagens NÃO são enviadas para fora de seu computador.<br>Todo o processamento ocorre no seu navegador.',
@@ -234,7 +238,7 @@ function monthOptions() {
 
 function countryOptions() {
 
-	var html = '',
+	var html = `<option value="">${msg[lang].none}</option>`,
 		keys = Object.keys( countries );
 
 	for ( var i = 0; i < keys.length; i++ )
@@ -244,9 +248,6 @@ function countryOptions() {
 }
 
 function changeCountry( newCountry ) {
-
-	if ( ! Object.keys( countries ).includes( newCountry ) ) // invalid country?
-		return false;
 
 	country = newCountry;
 	updatePreview();

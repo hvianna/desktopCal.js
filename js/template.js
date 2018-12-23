@@ -58,7 +58,7 @@ function pageTemplate() {
 					<div id="canvas-config">
 						<div class="config-blocks">
 							<label>
-								<span>${msg[lang].screenSize}</span>
+								<span>${msg[lang].screenRes}</span>
 								<input id="canvas-width" type="text" maxlength="4" placeholder="${msg[lang].width}" onchange="updatePreview();">
 								x
 								<input id="canvas-height" type="text" maxlength="4" placeholder="${msg[lang].height}" onchange="updatePreview();">
