@@ -24,6 +24,7 @@ Calendars you can create with **desktopCal.js:**
 + Icons by [icons8](https://icons8.com) licensed under [Creative Commons Attribution-NoDerivs 3.0 Unported](https://creativecommons.org/licenses/by-nd/3.0/).
 + Random images provided by [Unsplash](https://source.unsplash.com) and [Lorem Picsum](https://picsum.photos/).
 + Device mockup template by [Pixeden](https://www.pixeden.com/psd-web-elements/flat-responsive-showcase-psd-vol2).
++ [cookies.js](https://github.com/madmurphy/cookies.js) licensed under [GPL 3.0](http://www.gnu.org/licenses/gpl-3.0-standalone.html).
 
 ## License
 

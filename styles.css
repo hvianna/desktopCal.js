@@ -202,11 +202,17 @@ p {
 	width: 24px;
 }
 
-#holiday-config {
-	margin-top: 20px;
+#custom-holidays {
+	font-size: 13px;
 }
-.wall-single #holiday-config {
-	margin-top: 44px;
+#custom-holidays-table tr td:nth-child(2) {
+	text-align: center;
+}
+#custom-holidays-table input {
+	width: 50px;
+}
+#custom-holidays-table button {
+	width: 100px;
 }
 
 #print-config ul {

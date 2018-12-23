@@ -90,19 +90,38 @@ function pageTemplate() {
 								<option value="bottom">${msg[lang].bottom}</option>
 							</select>
 						</label>
-					</div>
+					</div> <!-- #canvas-config -->
+				</div>
+			</div> <!-- .config-blocks -->
 
-					<div id="holiday-config">
-						<label>
-							<span>${msg[lang].holidays}</span>
-							<select id="country" onchange="changeCountry( this.value );">
-								${countryOptions()}
-							</select>
-						</label>
-					</div>
+			<div class="config-blocks">
+				<div>
+					<h3>${msg[lang].holidays}</h3>
+					<select id="country" onchange="changeCountry( this.value );">
+						${countryOptions()}
+					</select>
 				</div>
 
-			</div>
+				<div id="custom-holidays">
+					<h3>${msg[lang].customHolidays}</h3>
+					<table id="custom-holidays-table">
+						<tbody>
+							${listCustomHolidays()}
+						</tbody>
+						<tfoot>
+							<tr>
+								<td>
+									<select id="custom-holiday-month">
+										${monthOptions()}
+									</select>
+								</td>
+								<td><input type="text" id="custom-holiday-day" maxlength="2" placeholder="${msg[lang].day}"></td>
+								<td><button type="button" onclick="addCustomHoliday();">${msg[lang].add}</button></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div> <!-- #custom-holidays -->
+			</div> <!-- .config-blocks -->
 
 			<div id="print-config">
 				<h2>${msg[lang].printIt}</h2>

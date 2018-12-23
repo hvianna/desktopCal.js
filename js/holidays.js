@@ -10,7 +10,8 @@
 function checkHoliday( year, month, day ) {
 
 	var holidays, date, d, easter,
-		easterHolidays = [];
+		easterHolidays = [],
+		customHolidays = getCustomHolidays();
 
 	switch ( country ) {
 		case 'br':
@@ -66,7 +67,7 @@ function checkHoliday( year, month, day ) {
 		}
 	}
 
-	if ( holidays.includes( `${month}-${day}` ) )
+	if ( holidays.includes( `${month}-${day}` ) || customHolidays.includes( `${month}-${day}` ) )
 		return 'holiday';
 	else
 		return '';
@@ -154,4 +155,78 @@ function checkSatSun( year, month, day ) {
 		day += 2;
 
 	return `${month}-${day}`;
+}
+
+/**
+ * Reads custom holidays from cookie
+ *
+ * @returns {array} array of custom holidays
+ */
+function getCustomHolidays() {
+
+	var holidays;
+
+	try {
+		holidays = JSON.parse( docCookies.getItem( 'custom-holidays' ) ) || [];
+	}
+	catch( err ) {
+		holidays = [];
+	}
+
+	return holidays;
+}
+
+/**
+ * Generates a list of custom holidays
+ */
+function listCustomHolidays() {
+
+	var i, d,
+		html = '',
+		holidays = getCustomHolidays();
+
+	if ( holidays.length ) {
+		for ( i = 0; i < holidays.length; i++ ) {
+			d = holidays[ i ].split('-');
+			html += `<tr><td>${msg[lang].monthNames[ d[0] ]}</td><td>${d[1]}</td><td><button type="button" onclick="deleteCustomHoliday( ${i} );">${msg[lang].delete}</button></td></tr>`;
+		}
+	}
+
+	return html;
+}
+
+/**
+ * Adds a custom holiday and saves it to our cookie
+ */
+function addCustomHoliday() {
+
+	var m, d,
+		holidays = getCustomHolidays();
+
+	m = document.getElementById('custom-holiday-month').value;
+	d = document.getElementById('custom-holiday-day').value;
+
+	if ( m > 0 && d > 0 ) {
+		holidays.push( `${m}-${d}` );
+		docCookies.setItem( 'custom-holidays', JSON.stringify( holidays ), Infinity );
+		document.querySelector('#custom-holidays-table tbody').innerHTML = listCustomHolidays();
+		updatePreview();
+	}
+}
+
+/**
+ * Deletes a custom holidays and updates our cookie
+ *
+ * @param {number} i index of the item to remove from the holidays array
+ */
+function deleteCustomHoliday( i ) {
+
+	var holidays = getCustomHolidays();
+
+	if ( i < holidays.length )
+		holidays.splice( i, 1 );
+
+	docCookies.setItem( 'custom-holidays', JSON.stringify( holidays ), Infinity );
+	document.querySelector('#custom-holidays-table tbody').innerHTML = listCustomHolidays();
+	updatePreview();
 }
