@@ -211,6 +211,7 @@ function addCustomHoliday() {
 		holidays.push( `${m}-${d}` );
 		docCookies.setItem( 'custom-holidays', JSON.stringify( holidays ), Infinity );
 		document.querySelector('#custom-holidays-table tbody').innerHTML = listCustomHolidays();
+		document.getElementById('custom-holiday-day').value = '';
 		updatePreview();
 	}
 }
