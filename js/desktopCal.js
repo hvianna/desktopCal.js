@@ -68,17 +68,20 @@ function generateCalendar( month, year, canvas = null ) {
 	if ( canvas ) {
 		ctx = canvas.getContext('2d');
 		calSize = document.getElementById('cal-size').value;
+
+		// calculate cell size based on calendar style and canvas dimensions
 		if ( calSize == 'row' ) {
 			cellSize = canvas.width / 40;
 			initialX = 0;
 		}
 		else if ( calSize == 'col' ) {
-			cellSize = Math.max( canvas.width, canvas.height ) / 40;
+			cellSize = canvas.height / 36;
 			initialY = 0;
 		}
 		else
 			cellSize = Math.min( canvas.width, canvas.height ) * calSize;
 
+		// calculate horizontal position
 		if ( calSize != 'row' ) {
 			switch ( document.getElementById('h-align').value ) {
 				case 'left':
@@ -101,6 +104,7 @@ function generateCalendar( month, year, canvas = null ) {
 			}
 		}
 
+		// calculate vertical position
 		if ( calSize != 'col' ) {
 			switch ( document.getElementById('v-align').value ) {
 				case 'top':
@@ -123,6 +127,7 @@ function generateCalendar( month, year, canvas = null ) {
 			}
 		}
 
+		// create a semi-transparent background for the calendar
 		ctx.fillStyle = 'rgba( 255, 255, 255, .6 )';
 		if ( calSize == 'col' )
 			ctx.fillRect( initialX, 0, cellSize * 3, canvas.height );
@@ -133,31 +138,35 @@ function generateCalendar( month, year, canvas = null ) {
 			ctx.translate( initialX + cellSize, initialY + cellSize );
 		}
 
+		// display month name and year
 		ctx.fillStyle = '#000';
 		ctx.font = 'bold ' + cellSize / 1.5 + 'px sans-serif';
-
 		if ( calSize == 'col' ) {
-			ctx.fillText( year, initialX + cellSize / 2, cellSize );
+			ctx.textAlign = 'center';
+			ctx.fillText( year, initialX + cellSize * 1.5, cellSize );
 			ctx.font = 'bold ' + cellSize + 'px sans-serif';
-			ctx.fillText( msg[ lang ].monthNames[ month ].substring(0,3).toUpperCase(), initialX + cellSize / 2, cellSize * 2 );
+			ctx.fillText( msg[ lang ].monthNames[ month ].substring(0,3).toUpperCase(), initialX + cellSize * 1.5, cellSize * 2 );
+			ctx.textAlign = 'right';
+			ctx.translate( initialX, initialY + cellSize * 3 );
 		}
 		else if ( calSize == 'row' ) {
 			ctx.fillText( year, cellSize, initialY + cellSize * 1.2 );
 			ctx.fillText( msg[ lang ].monthNames[ month ], cellSize, initialY + cellSize * 2 );
+			ctx.textAlign = 'center';
 			ctx.translate( initialX + cellSize * 4.5, initialY );
 		}
 		else {
 			ctx.textAlign = 'center';
 			ctx.fillText( msg[ lang ].monthNames[ month ] + ' ' + year, cellSize * 4, cellSize / 2 ); // calendar center is 4*cellsize
 		}
-		ctx.textAlign = 'center';
+
 		ctx.font = cellSize / 2 + 'px sans-serif';
-		currLine = cellSize * 2;
+		currLine = cellSize * 2; // current line, for the block calendar
 	}
 	else
 		html = '<table><tr>';
 
-	// print week days initials
+	// display week days initials
 	for ( i = 0; i < 7; i++ ) {
 		if ( canvas && ! isNaN( calSize ) ) {
 			ctx.fillStyle = i == 0 ? '#c00' : '#000';
@@ -179,18 +188,21 @@ function generateCalendar( month, year, canvas = null ) {
 	// loop for the current month
 	for ( i = 1; i <= ndays[ month ]; i++ ) {
 		if ( canvas ) {
-			if ( calSize == 'row' ) {
+			ctx.fillStyle = ( dow == 0 || checkHoliday( year, month, i ) ) ? '#c00' : '#000';
+			if ( calSize == 'col' ) {
 				ctx.font = cellSize * .3 + 'px sans-serif';
-				ctx.fillStyle = ( dow == 0 ) ? '#c00' : '#000';
+				ctx.fillText( msg[ lang ].weekDays[ dow ].toUpperCase(), cellSize * 1.2, i * cellSize - cellSize * .1 );
+				ctx.font = cellSize * .6 + 'px sans-serif';
+				ctx.fillText( i, cellSize * 2.5, i * cellSize );
+			}
+			else if ( calSize == 'row' ) {
+				ctx.font = cellSize * .3 + 'px sans-serif';
 				ctx.fillText( msg[ lang ].weekDays[ dow ].toUpperCase(), i * cellSize * 1.1, cellSize );
 				ctx.font = cellSize * .6 + 'px sans-serif';
-				ctx.fillStyle = ( dow == 0 || checkHoliday( year, month, i ) ) ? '#c00' : '#000';
 				ctx.fillText( i, i * cellSize * 1.1, cellSize * 2 );
 			}
-			else {
-				ctx.fillStyle = ( dow == 0 || checkHoliday( year, month, i ) ) ? '#c00' : '#000';
+			else
 				ctx.fillText( i, dow * cellSize * 1.3, currLine );
-			}
 		}
 		else
 			html += '<td class="' + checkHoliday( year, month, i ) + '">' + i;
