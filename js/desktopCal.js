@@ -143,10 +143,9 @@ function generateCalendar( month, year, canvas = null ) {
 		ctx.font = 'bold ' + cellSize / 1.5 + 'px sans-serif';
 		if ( calSize == 'col' ) {
 			ctx.textAlign = 'center';
-			ctx.fillText( year, initialX + cellSize * 1.5, cellSize );
+			ctx.fillText( year, initialX + cellSize * 1.5, cellSize * 1.5 );
 			ctx.font = 'bold ' + cellSize + 'px sans-serif';
-			ctx.fillText( msg[ lang ].monthNames[ month ].substring(0,3).toUpperCase(), initialX + cellSize * 1.5, cellSize * 2 );
-			ctx.textAlign = 'right';
+			ctx.fillText( msg[ lang ].monthNames[ month ].substring(0,3).toUpperCase(), initialX + cellSize * 1.5, cellSize * 2.5 );
 			ctx.translate( initialX, initialY + cellSize * 3 );
 		}
 		else if ( calSize == 'row' ) {
@@ -157,7 +156,7 @@ function generateCalendar( month, year, canvas = null ) {
 		}
 		else {
 			ctx.textAlign = 'center';
-			ctx.fillText( msg[ lang ].monthNames[ month ] + ' ' + year, cellSize * 4, cellSize / 2 ); // calendar center is 4*cellsize
+			ctx.fillText( msg[ lang ].monthNames[ month ] + ' ' + year, cellSize * 4, cellSize / 2 );
 		}
 
 		ctx.font = cellSize / 2 + 'px sans-serif';
@@ -191,8 +190,10 @@ function generateCalendar( month, year, canvas = null ) {
 			ctx.fillStyle = ( dow == 0 || checkHoliday( year, month, i ) ) ? '#c00' : '#000';
 			if ( calSize == 'col' ) {
 				ctx.font = cellSize * .3 + 'px sans-serif';
-				ctx.fillText( msg[ lang ].weekDays[ dow ].toUpperCase(), cellSize * 1.2, i * cellSize - cellSize * .1 );
+				ctx.textAlign = 'left';
+				ctx.fillText( msg[ lang ].weekDays[ dow ].toUpperCase(), cellSize * .6, i * cellSize - cellSize * .1 );
 				ctx.font = cellSize * .6 + 'px sans-serif';
+				ctx.textAlign = 'right';
 				ctx.fillText( i, cellSize * 2.5, i * cellSize );
 			}
 			else if ( calSize == 'row' ) {
