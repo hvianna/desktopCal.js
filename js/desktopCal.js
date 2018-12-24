@@ -4,7 +4,7 @@
  *
  * https://github.com/hvianna/desktopCal.js
  *
- * Copyright (C) 2018 Henrique Vianna <hvianna@gmail.com>
+ * Copyright (C) 2018-2019 Henrique Vianna <hvianna@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-var _VERSION = '19.1-dev.3';
+var _VERSION = '19.1-RC';
 
 
 /**
@@ -251,6 +251,9 @@ function updatePreview() {
 		layout = document.querySelector('input[name="layout"]:checked').value;
 
 	var i, j, canvas, ctx, img, w, h, initialX, initialY;
+
+	// set lang attribute on html element
+	document.getElementsByTagName('html')[0].lang = `${lang}-${country.toUpperCase()}`;
 
 	// set layout
 	document.getElementById('config').className = layout;
