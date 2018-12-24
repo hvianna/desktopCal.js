@@ -15,9 +15,35 @@ function checkHoliday( year, month, day ) {
 		customHolidays = getCustomHolidays();
 
 	switch ( country ) {
+		case 'ar':
+			holidays = [
+				'1-1', '3-24', '4-2', '5-1', '5-25',
+				calcObservation( year, 6, 17, country ),
+				'6-20', '7-9',
+				calcObservation( year, 8, 17, country ),
+				calcObservation( year, 10, 12, country ),
+				calcObservation( year, 11, 20, country ),
+				'12-8', '12-25'
+			];
+			easterHolidays = [ -48, -47, -2 ];
+			break;
+
 		case 'br':
 			holidays = [ '1-1',	'4-21',	'5-1', '9-7', '10-12', '11-2', '11-15', '12-25' ];
 			easterHolidays = [ -47, -2, 60 ]; // Carnival, Good Friday, Corpus Christi
+			break;
+
+		case 'ca':
+			holidays = [
+				'1-1',
+				floatingDoW( 1, year, 5, 18 ), // Victoria Day
+				'7-1',
+				floatingDoW( 1, year, 8, 1 ),
+				floatingDoW( 1, year, 9, 1 ),
+				floatingDoW( 1, year, 10, 8 ),
+				'11-11', '12-25', '12-26'
+			];
+			easterHolidays = [ -2, 1 ];
 			break;
 
 		case 'es':
@@ -30,6 +56,18 @@ function checkHoliday( year, month, day ) {
 			easterHolidays = [ -2, 1, 39, 50 ]; // Good Friday, Easter Monday, Ascension Day, Whit Monday
 			break;
 
+		case 'mx':
+			holidays = [
+				calcObservation( year, 1, 1, country ),
+				floatingDoW( 1, year, 2, 1 ),
+				floatingDoW( 1, year, 3, 15 ),
+				calcObservation( year, 5, 1, country ),
+				calcObservation( year, 9, 16, country ),
+				floatingDoW( 1, year, 11, 15 ),
+				calcObservation( year, 12, 25, country )
+			];
+			break;
+
 		case 'pt':
 			holidays = [ '1-1', '4-25', '5-1', '6-10', '8-15', '10-5', '11-1', '12-1', '12-8', '12-25' ]
 			easterHolidays = [ -47, -2, 60 ]; // Carnival, Good Friday, Corpus Christi
@@ -37,10 +75,10 @@ function checkHoliday( year, month, day ) {
 
 		case 'uk':
 			holidays = [
-				checkSatSun( year, 1, 1 ),
+				calcObservation( year, 1, 1, country ),
 				floatingDoW( 1, year, 5, 1 ), floatingDoW( 1, year, 5, 25 ),
 				floatingDoW( 1, year, 8, 25 ),
-				checkSatSun( year, 12, 25 ), checkSatSun( year, 12, 26 )
+				calcObservation( year, 12, 25, country ), calcObservation( year, 12, 26, country )
 			];
 			easterHolidays = [ -2, 1 ]; // Good Friday, Easter Monday, Ascension Day, Whit Monday
 			break;
@@ -55,6 +93,18 @@ function checkHoliday( year, month, day ) {
 				floatingDoW( 1, year, 10, 8 ),
 				'11-11', floatingDoW( 4, year, 11, 22 ),
 				'12-25'
+			];
+			break;
+
+		case 'uy':
+			holidays = [
+				'1-1', '1-6',
+				calcObservation( year, 4, 19, country ),
+				'5-1',
+				calcObservation( year, 5, 18, country ),
+				'6-19',	'7-18', '8-25',
+				calcObservation( year, 10, 12, country ),
+				'11-2', '12-25'
 			];
 			break;
 	}
@@ -136,27 +186,54 @@ function floatingDoW( dow, year, month, day ) {
 }
 
 /**
- * Checks if a holiday falls on a saturday or sunday and adjusts the date for the following monday
- * (for UK holidays)
+ * Calculates the observation date for a given holiday according to a country's rules
  *
  * @param {number} year
  * @param {number} month
  * @param {number} day
+ * @param {string} country
  *
  * @returns {string} holiday date in 'month-day' format
  */
-function checkSatSun( year, month, day ) {
+function calcObservation( year, month, day, country ) {
 
-	var date;
+	var diff = 0,
+		date = new Date( year, month - 1, day ),
+		dow = date.getDay();
 
-	date = new Date( year, month - 1, day );
-	if ( date.getDay() == 0 )
-		day++;
-	else if ( date.getDay() == 6 )
-		day += 2;
+	switch ( country ) {
+		case 'mx' :
+			if ( dow == 0 )
+				diff = 1;
+			else if ( dow == 6 )
+				diff = -1;
+			break;
 
-	return `${month}-${day}`;
+		case 'uk' :
+			if ( dow == 0 )
+				diff = 1;
+			else if ( dow == 6 )
+				diff = 2;
+			break;
+
+		case 'ar' :
+		case 'uy' :
+			if ( dow == 2 )
+				diff = -1;
+			else if ( dow == 3 )
+				diff = -2;
+			else if ( dow == 4 )
+				diff = 4;
+			else if ( dow == 5 )
+				diff = 3;
+			break;
+	}
+
+	date = new Date( date.getTime() + diff * 86400000 );
+
+	return `${date.getMonth()+1}-${date.getDate()}`;
 }
+
 
 /**
  * Reads custom holidays from browser cookie

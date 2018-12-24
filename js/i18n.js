@@ -7,12 +7,16 @@ var lang, country;
 
 // countries for holiday selection list
 var countries = {
+	ar: { name: 'Argentina' },
 	br: { name: 'Brasil' },
+	ca: { name: 'Canada' },
 	es: { name: 'España' },
 	fr: { name: 'France' },
+	mx: { name: 'Mexico' },
 	pt: { name: 'Portugal' },
 	uk: { name: 'United Kingdom' },
-	us: { name: 'United States' }
+	us: { name: 'United States' },
+	uy: { name: 'Uruguay' }
 }
 
 // translations of messages
