@@ -217,15 +217,7 @@ function generateCalendar( month, year, canvas = null ) {
 		}
 	}
 
-	if ( canvas ) {
-		ctx.fillStyle = 'rgba( 128, 128, 128, .5 )';
-		ctx.textAlign = 'right';
-		ctx.setTransform( 1, 0, 0, 1, 0, 0 );
-		cellSize = Math.min( canvas.width, canvas.height ) * .05;
-		ctx.font = cellSize / 4 + 'px sans-serif';
-		ctx.fillText( 'created with desktopCal.js', canvas.width - cellSize / 2, canvas.height - cellSize / 2 );
-	}
-	else { // fill remaining cells with next month's days
+	if ( ! canvas ) { // fill remaining cells with next month's days
 		d = 1;
 		if ( month < 12 )
 			month++;
