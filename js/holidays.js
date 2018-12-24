@@ -1,5 +1,5 @@
 /**
- * Checks if date is a holiday in currently selected country
+ * Checks if a date is a holiday in the currently selected country
  *
  * @param {number} year
  * @param {number} month
@@ -159,7 +159,7 @@ function checkSatSun( year, month, day ) {
 }
 
 /**
- * Reads custom holidays from cookie
+ * Reads custom holidays from browser cookie
  *
  * @returns {array} array of custom holidays
  */
@@ -178,7 +178,7 @@ function getCustomHolidays() {
 }
 
 /**
- * Generates a list of custom holidays
+ * Populates the table of custom holidays
  */
 function listCustomHolidays() {
 
@@ -217,7 +217,7 @@ function addCustomHoliday() {
 }
 
 /**
- * Deletes a custom holidays and updates our cookie
+ * Deletes a custom holiday and updates our cookie
  *
  * @param {number} i index of the item to remove from the holidays array
  */
