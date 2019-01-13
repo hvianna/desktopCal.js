@@ -236,7 +236,7 @@ function calcObservation( year, month, day, country ) {
 
 
 /**
- * Reads custom holidays from browser cookie
+ * Reads custom holidays from local storage
  *
  * @returns {array} array of custom holidays
  */
@@ -245,7 +245,7 @@ function getCustomHolidays() {
 	var holidays;
 
 	try {
-		holidays = JSON.parse( docCookies.getItem( 'custom-holidays' ) ) || [];
+		holidays = JSON.parse( localStorage.getItem( 'custom-holidays' ) ) || [];
 	}
 	catch( err ) {
 		holidays = [];
@@ -274,7 +274,7 @@ function listCustomHolidays() {
 }
 
 /**
- * Adds a custom holiday and saves it to our cookie
+ * Adds a custom holiday and saves it to local storage
  */
 function addCustomHoliday() {
 
@@ -286,7 +286,7 @@ function addCustomHoliday() {
 
 	if ( m > 0 && d > 0 ) {
 		holidays.push( `${m}-${d}` );
-		docCookies.setItem( 'custom-holidays', JSON.stringify( holidays ), Infinity );
+		localStorage.setItem( 'custom-holidays', JSON.stringify( holidays ) );
 		document.querySelector('#custom-holidays-table tbody').innerHTML = listCustomHolidays();
 		document.getElementById('custom-holiday-day').value = '';
 		updatePreview();
@@ -294,7 +294,7 @@ function addCustomHoliday() {
 }
 
 /**
- * Deletes a custom holiday and updates our cookie
+ * Deletes a custom holiday
  *
  * @param {number} i index of the item to remove from the holidays array
  */
@@ -305,7 +305,7 @@ function deleteCustomHoliday( i ) {
 	if ( i < holidays.length )
 		holidays.splice( i, 1 );
 
-	docCookies.setItem( 'custom-holidays', JSON.stringify( holidays ), Infinity );
+	localStorage.setItem( 'custom-holidays', JSON.stringify( holidays ) );
 	document.querySelector('#custom-holidays-table tbody').innerHTML = listCustomHolidays();
 	updatePreview();
 }
