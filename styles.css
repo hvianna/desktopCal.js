@@ -73,11 +73,6 @@ p {
 	margin-bottom: 20px;
 }
 
-.container {
-	display: flex;
-	justify-content: space-evenly;
-}
-
 .lang-selection {
 	display: flex;
 	justify-content: space-evenly;
@@ -86,6 +81,11 @@ p {
 }
 .lang-selection li img {
 	width: 32px;
+}
+
+#config, #preview {
+	display: inline-block;
+	margin: 0 calc( ( 100vw - 1280px ) / 4 );
 }
 
 #config {
@@ -232,7 +232,9 @@ p {
 
 .credits {
 	border-top: 1px dotted #ccc;
+	line-height: 1.6;
 	margin-top: 50px;
+	text-align: center;
 }
 
 
@@ -241,7 +243,9 @@ p {
  */
 
 #preview {
-	margin: 40px 0;
+	position: sticky;
+	top: 10px;
+	vertical-align: top;
 	width: 550px;
 }
 
@@ -406,13 +410,10 @@ p {
 	text-align: center;
 }
 
-@media screen and ( max-width: 1400px ) {
-
-	.container {
-		display: block;
-	}
+@media screen and ( max-width: 1279px ) {
 
 	#config, #preview {
+		display: block;
 		margin: 0 auto;
 		padding: 20px;
 	}

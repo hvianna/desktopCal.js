@@ -189,12 +189,13 @@ function pageTemplate() {
 					<div class="note center">Created with <strong>desktopCal.js</strong></div>
 				</div>
 			</div>
-			<div class="credits">
-				<strong>desktopCal.js</strong> Copyright &copy; 2018-2019 Henrique Vianna<br>
-				Source code available on <a href="https://github.com/hvianna/desktopCal.js/">GitHub</a>. Licensed under the <a href="https://www.gnu.org/licenses/agpl.html">GNU AGPL-3.0 license</a>.<br>
-				Icons by <a href="https://icons8.com/">icons8</a>. Photos by <a href="https://source.unsplash.com/">Unsplash</a> and <a href="https://picsum.photos/">Lorem Picsum</a>.<br>
-				Devices mockup template by <a href="https://www.pixeden.com/psd-web-elements/flat-responsive-showcase-psd-vol2">Pixeden</a>.
-			</div>
 		</div> <!-- .preview -->
+
+		<div class="credits">
+			<strong>desktopCal.js</strong> Copyright &copy; 2018-2019 Henrique Avila Vianna.
+			Source code available on <a href="https://github.com/hvianna/desktopCal.js/">GitHub</a>. Licensed under the <a href="https://www.gnu.org/licenses/agpl.html">GNU AGPL-3.0 license</a>.<br>
+			Icons by <a href="https://icons8.com/">icons8</a>. Photos by <a href="https://source.unsplash.com/">Unsplash</a> and <a href="https://picsum.photos/">Lorem Picsum</a>.
+			Devices mockup template by <a href="https://www.pixeden.com/psd-web-elements/flat-responsive-showcase-psd-vol2">Pixeden</a>.
+		</div>
 	`;
 }
