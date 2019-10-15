@@ -21,6 +21,50 @@
  */
 var _VERSION = '19.1-RC';
 
+var cropper = [];
+
+
+function changeLayout() {
+
+	var imgSrc,	aspect,
+		layout = document.querySelector('input[name="layout"]:checked').value;
+
+	// set layout
+	document.getElementById('config').className = layout;
+	document.getElementById('preview').className = layout;
+
+	if ( layout == 'digital' ) {
+		cropper[0].setAspectRatio( document.getElementById('canvas-width').value / document.getElementById('canvas-height').value );
+		console.log( document.getElementById('canvas-width').value / document.getElementById('canvas-height').value );
+	}
+	else {
+		imgSrc = document.getElementById('image0').src;
+		cropper[0].destroy();
+		document.getElementById('image0').src = imgSrc;
+		document.getElementById('cal-image0').style = '';
+
+		if ( layout == 'wall-single' ) {
+			let el = document.querySelector('.preview-content');
+//			cropper[0].setAspectRatio( el.clientWidth / ( el.clientHeight / 2 ) );
+			aspect = el.clientWidth / ( el.clientHeight / 2 );
+		}
+		else {
+			aspect = .77;
+//			cropper[0].setAspectRatio( .77 );
+		}
+		cropper[0] = new Cropper( document.getElementById('image0'), {
+			aspectRatio: aspect,
+			viewMode: 1,
+			minContainerWidth: 660,
+			minContainerHeight: 500,
+			preview: document.getElementById('cal-image0')
+		});
+//		cropper[0].replace( imgSrc );
+	}
+
+	updatePreview();
+
+}
 
 /**
  * Loads an image from user's computer into a calendar panel
@@ -28,15 +72,17 @@ var _VERSION = '19.1-RC';
  * @param {HTMLInputElement object} obj    handler of the HTML file element
  * @param {string}                  side   'top' or 'bottom' side of the calendar
  */
-function loadImage( obj, side ) {
+function loadImage( obj, n ) {
 
 	var reader = new FileReader(),
 		layout = document.getElementById('preview').className;
 
 	reader.onload = function() {
-		document.querySelector(`.${side}-half .cal-image`).style = `background-image: url(${ reader.result })`;
-		if ( layout == 'digital' )
-			updatePreview();
+//		document.querySelector(`.${side}-half .cal-image`).style = `background-image: url(${ reader.result })`;
+		document.getElementById( `image${n}` ).src = reader.result;
+		cropper[ n ].replace( reader.result );
+//		if ( layout == 'digital' )
+//			updatePreview();
 	}
 
 	reader.readAsDataURL( obj.files[0] );
@@ -255,10 +301,6 @@ function updatePreview() {
 	// set lang attribute on html element
 	document.getElementsByTagName('html')[0].lang = `${lang}-${country.toUpperCase()}`;
 
-	// set layout
-	document.getElementById('config').className = layout;
-	document.getElementById('preview').className = layout;
-
 	if ( layout != 'digital' ) {
 		for ( i = 0; i < 2; i++ ) {
 			if ( month[ i ] > 0 && year[ i ] > 0 ) {
@@ -273,6 +315,9 @@ function updatePreview() {
 		canvas.height = document.getElementById('canvas-height').value;
 		ctx = canvas.getContext('2d');
 
+		img = cropper[0].getCroppedCanvas();
+
+/*
 		img = new Image();
 		img.crossOrigin = 'anonymous';
 		img.src = document.getElementById('bottom-half').querySelector('.cal-image').style.backgroundImage.match(/url\("([^"]*)"\)/)[1];
@@ -294,6 +339,9 @@ function updatePreview() {
 			ctx.drawImage( img, initialX, initialY, img.width, img.height, 0, 0, w, h );
 			generateCalendar( month[ 1 ], year[ 1 ], canvas );
 		}
+*/
+		ctx.drawImage( img, 0, 0, canvas.width, canvas.height );
+		generateCalendar( month[ 1 ], year[ 1 ], canvas );
 	}
 }
 
@@ -383,15 +431,43 @@ function initialize() {
 	document.getElementById('top-month').selectedIndex = month;
 
 	// pick two random images
-	document.getElementById('top-half').querySelector('.cal-image').style.backgroundImage = `url(https://picsum.photos/${w}/${w*.75}/?random)`;
-	document.getElementById('bottom-half').querySelector('.cal-image').style.backgroundImage = `url(https://source.unsplash.com/random/${w}x${w*.75})`;
+//	document.getElementById('image1').src = `https://picsum.photos/${w}/${w*.75}/?random`;
+//	document.getElementById('image0').src = `https://source.unsplash.com/random/${w}x${w*.75}`;
 
 	// init canvas width and height fields with the display's dimensions
 	document.getElementById('canvas-width').value = w;
 	document.getElementById('canvas-height').value = h;
 
+	// UI event listeners
+	document.querySelectorAll('input[name="layout"]').forEach( el => el.addEventListener('click', changeLayout) );
+	document.querySelectorAll('input[name="image-position"]').forEach( el => {
+		el.addEventListener('click', e => {
+			document.querySelectorAll('#front-config, #back-config').forEach( l => l.style.display = 'none' );
+			if ( e.target.value == '1' )
+				document.getElementById('back-config').style.display = 'block';
+			else
+				document.getElementById('front-config').style.display = 'block';
+		});
+	});
+
 	// update preview
 	updatePreview();
+
+	for ( let i of [0,1] ) {
+		cropper[ i ] = new Cropper( document.getElementById( `image${i}` ), {
+			aspectRatio: .77,
+			viewMode: 1,
+			minContainerWidth: 660,
+			minContainerHeight: 500,
+			preview: document.getElementById( `cal-image${i}` )
+		});
+	}
+
+	document.getElementById('image0').addEventListener('crop', e => {
+		if ( document.querySelector('input[name="layout"]:checked').value == 'digital' )
+			updatePreview();
+	});
+
 }
 
 document.addEventListener( 'DOMContentLoaded', initialize );
