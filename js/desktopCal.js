@@ -33,6 +33,15 @@ function changeLayout() {
 	document.getElementById('config').className = layout;
 	document.getElementById('preview').className = layout;
 
+	if ( layout != 'desktop' ) {
+		document.getElementById('pos0').checked = true;
+		document.querySelectorAll('#position-selector .tab').forEach( el => el.style.display = 'none' );
+	}
+	else {
+		document.querySelectorAll('#position-selector .tab').forEach( el => el.style.display = 'inline-block' );
+		document.getElementById('position-selector').style.display = 'block';
+	}
+
 	if ( layout == 'digital' ) {
 		cropper[0].setAspectRatio( document.getElementById('canvas-width').value / document.getElementById('canvas-height').value );
 		console.log( document.getElementById('canvas-width').value / document.getElementById('canvas-height').value );
@@ -440,15 +449,6 @@ function initialize() {
 
 	// UI event listeners
 	document.querySelectorAll('input[name="layout"]').forEach( el => el.addEventListener('click', changeLayout) );
-	document.querySelectorAll('input[name="image-position"]').forEach( el => {
-		el.addEventListener('click', e => {
-			document.querySelectorAll('#front-config, #back-config').forEach( l => l.style.display = 'none' );
-			if ( e.target.value == '1' )
-				document.getElementById('back-config').style.display = 'block';
-			else
-				document.getElementById('front-config').style.display = 'block';
-		});
-	});
 
 	// update preview
 	updatePreview();

@@ -10,63 +10,82 @@ function pageTemplate() {
 
 			<h2>${msg[lang].design}</h2>
 
-			<div class="flex-blocks center">
-				<label class="label-layout">
+			<div id="layout-selector" class="flex-blocks center">
+				<input id="layout0" type="radio" name="layout" value="desktop" checked="checked">
+				<label for="layout0" class="label-layout">
 					<img src="img/layout-desktop.png">
-					<input type="radio" name="layout" value="desktop" checked="checked">
 					${msg[lang].desktopCal}
 				</label>
-				<label class="label-layout">
+
+				<input id="layout1" type="radio" name="layout" value="wall-single">
+				<label for="layout1" class="label-layout">
 					<img src="img/layout-wall-single.png">
-					<input type="radio" name="layout" value="wall-single">
 					${msg[lang].wallSingle}
 				</label>
-				<label class="label-layout">
+
+				<input id="layout2" type="radio" name="layout" value="digital">
+				<label for="layout2" class="label-layout">
 					<img src="img/layout-wallpaper.png">
-					<input type="radio" name="layout" value="digital">
 					${msg[lang].digitalBg}
 				</label>
 			</div>
 
-			<h2>Select your image(s)</h2>
+			<h2>${msg[lang].edit}</h2>
 
-			<label>
-				<input type="radio" name="image-position" value="0" checked="checked"> Front
-			</label>
-			<label>
-				<input type="radio" name="image-position" value="1"> Back
-			</label>
+			<div id="position-selector" class="tab-container">
+				<input type="radio" id="pos0" name="image-position" value="0" checked="checked">
+				<label for="pos0" class="tab">${msg[lang].front}</label>
+				<input type="radio" id="pos1" name="image-position" value="1">
+				<label for="pos1" class="tab">${msg[lang].back}</label>
 
-			<div id="front-config">
-				<div class="image-selector">
-					<img id="image0" crossorigin="anonymous">
+				<div id="front-config">
+					<div class="config-row">
+						${msg[lang].year}:
+						<input type="text" id="bottom-year" placeholder="${msg[lang].year}" maxlength="4" onchange="updatePreview();">
+						${msg[lang].monthNames[0]}:
+						<select id="bottom-month" onchange="updatePreview();">
+							${monthOptions()}
+						</select>
+					</div>
+					<div class="config-row">
+						<div class="note">${msg[lang].imgNotice}</div>
+						<label class="custom-file-button">
+							<input type="file" accept="image/*" onchange="loadImage( this, 0 );">
+							${msg[lang].loadImage}
+						</label>
+					</div>
+					<div class="image-selector">
+						<img id="image0" crossorigin="anonymous">
+					</div>
+					<button data-action="rot" data-obj="0" class="cropper-action">Rotate</button>
+					<button data-action="flx" data-obj="0" class="cropper-action">Flip H</button>
+					<button data-action="fly" data-obj="0" class="cropper-action">Flip V</button>
 				</div>
-				<label class="custom-file-button">
-					<input type="file" accept="image/*" onchange="loadImage( this, 0 );">
-					${msg[lang].loadImage}
-				</label>
-				<br>
-				<input type="text" id="bottom-year" placeholder="${msg[lang].year}" maxlength="4" onchange="updatePreview();">
-				<select id="bottom-month" onchange="updatePreview();">
-					${monthOptions()}
-				</select>
-				<div class="note">${msg[lang].imgNotice}</div>
-			</div>
 
-			<div id="back-config">
-				<div class="image-selector">
-					<img id="image1" crossorigin="anonymous">
+				<div id="back-config">
+					<div class="config-row">
+						${msg[lang].year}:
+						<input type="text" id="top-year" placeholder="${msg[lang].year}" maxlength="4" onchange="updatePreview();">
+						${msg[lang].monthNames[0]}:
+						<select id="top-month" onchange="updatePreview();">
+							${monthOptions()}
+						</select>
+					</div>
+					<div class="config-row">
+						<div class="note">${msg[lang].imgNotice}</div>
+						<label class="custom-file-button">
+							<input type="file" accept="image/*" onchange="loadImage( this, 1 );">
+							${msg[lang].loadImage}
+						</label>
+					</div>
+					<div class="image-selector">
+						<img id="image1" crossorigin="anonymous">
+					</div>
+					<button data-action="rot" data-obj="1" class="cropper-action">Rotate</button>
+					<button data-action="flx" data-obj="1" class="cropper-action">Flip H</button>
+					<button data-action="fly" data-obj="1" class="cropper-action">Flip V</button>
 				</div>
-				<label class="custom-file-button">
-					<input type="file" accept="image/*" onchange="loadImage( this, 1 );">
-					${msg[lang].loadImage}
-				</label>
-				<br>
-				<input type="text" id="top-year" placeholder="${msg[lang].year}" maxlength="4" onchange="updatePreview();">
-				<select id="top-month" onchange="updatePreview();">
-					${monthOptions()}
-				</select>
-			</div>
+			</div> <!-- .tab-container -->
 
 			<div id="canvas-config">
 				<h2>Screen configuration</h2>
@@ -108,7 +127,7 @@ function pageTemplate() {
 				</label>
 			</div> <!-- #canvas-config -->
 
-			<h2>Holidays</h2>
+			<h2>Configure your Holidays</h2>
 
 			<div class="config-blocks">
 				<div>
