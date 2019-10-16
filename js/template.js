@@ -92,16 +92,16 @@ function pageTemplate() {
 				<div class="config-blocks">
 					<label>
 						<span>${msg[lang].screenRes}</span>
-						<input id="canvas-width" type="text" maxlength="4" placeholder="${msg[lang].width}" onchange="updatePreview();">
+						<input id="canvas-width" type="text" maxlength="4" placeholder="${msg[lang].width}">
 						x
-						<input id="canvas-height" type="text" maxlength="4" placeholder="${msg[lang].height}" onchange="updatePreview();">
+						<input id="canvas-height" type="text" maxlength="4" placeholder="${msg[lang].height}">
 						${msg[lang].pixels}
 					</label>
-					<button type="button" class="rotate-button" onclick="rotateCanvas();" title="${msg[lang].chgOrient}"></button>
+					<button id="rotate-canvas" class="rotate-button" title="${msg[lang].chgOrient}"></button>
 				</div>
 				<label>
 					<span>${msg[lang].calSize}</span>
-					<select id="cal-size" onchange="updatePreview();">
+					<select id="cal-size">
 						<option value="col">${msg[lang].column}</option>
 						<option value="row">${msg[lang].row}</option>
 						<option value=".03">${msg[lang].small}</option>
@@ -111,7 +111,7 @@ function pageTemplate() {
 				</label>
 				<label>
 					<span>${msg[lang].horAlign}</span>
-					<select id="h-align" onchange="updatePreview();">
+					<select id="h-align">
 						<option value="left">${msg[lang].left}</option>
 						<option value="center">${msg[lang].horCenter}</option>
 						<option value="right" selected>${msg[lang].right}</option>
@@ -119,7 +119,7 @@ function pageTemplate() {
 				</label>
 				<label>
 					<span>${msg[lang].verAlign}</span>
-					<select id="v-align" onchange="updatePreview();">
+					<select id="v-align">
 						<option value="top">${msg[lang].top}</option>
 						<option value="center" selected>${msg[lang].verCenter}</option>
 						<option value="bottom">${msg[lang].bottom}</option>

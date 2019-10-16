@@ -369,7 +369,7 @@ function rotateCanvas() {
 	document.getElementById('canvas-width').value = document.getElementById('canvas-height').value;
 	document.getElementById('canvas-height').value = tmp;
 
-	updatePreview();
+	changeLayout();
 }
 
 /**
@@ -499,6 +499,11 @@ function initialize() {
 
 	// UI event listeners
 	document.querySelectorAll('input[name="layout"]').forEach( el => el.addEventListener( 'click', changeLayout ) );
+
+	document.getElementById('rotate-canvas').addEventListener( 'click', rotateCanvas );
+	document.querySelectorAll('#canvas-width, #canvas-height').forEach( el => el.addEventListener( 'change', changeLayout ) );
+	document.querySelectorAll('#cal-size, #h-align, #v-align').forEach( el => el.addEventListener( 'change', updatePreview ) );
+
 	document.getElementById('print-button').addEventListener( 'click', () => prepareForPrinting() );
 	window.addEventListener( 'afterprint', () => restoreFromPrinting() );
 
