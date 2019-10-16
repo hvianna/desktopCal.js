@@ -26,8 +26,7 @@ var cropper = [];
 
 function changeLayout() {
 
-	var imgSrc,	aspect,
-		layout = document.querySelector('input[name="layout"]:checked').value;
+	var layout = document.querySelector('input[name="layout"]:checked').value;
 
 	// set layout
 	document.getElementById('config').className = layout;
@@ -44,32 +43,37 @@ function changeLayout() {
 
 	if ( layout == 'digital' ) {
 		cropper[0].setAspectRatio( document.getElementById('canvas-width').value / document.getElementById('canvas-height').value );
-		console.log( document.getElementById('canvas-width').value / document.getElementById('canvas-height').value );
 	}
 	else {
-		imgSrc = document.getElementById('image0').src;
-		cropper[0].destroy();
-		document.getElementById('image0').src = imgSrc;
-		document.getElementById('preview0').style = '';
+		// Each calendar layout uses a different image aspect ratio
+		// cropper.setAspectRatio() doesn't seem to update the preview aspect ratio accordingly
+		// so, we need to do this...
 
-		if ( layout == 'wall-single' ) {
-			let el = document.querySelector('.preview-content');
-//			cropper[0].setAspectRatio( el.clientWidth / ( el.clientHeight / 2 ) );
-			aspect = el.clientWidth / ( el.clientHeight / 2 );
-		}
-		else {
-			aspect = .77;
-//			cropper[0].setAspectRatio( .77 );
-		}
-		cropper[0] = new Cropper( document.getElementById('image0'), {
-			aspectRatio: aspect,
+		// save loaded image
+		let imgEl = document.getElementById('image0');
+		let imgSrc = imgEl.src;
+
+		// destroy cropper instance
+		cropper[0].destroy();
+
+		// restore loaded image
+		imgEl.src = imgSrc;
+
+		// clear preview element style
+		let pvwEl = document.getElementById('preview0');
+		pvwEl.style = '';
+
+		// create new cropper instance with the aspect ratio of the image container used for printing
+		let prnEl = document.getElementById('cal-image0');
+
+		cropper[0] = new Cropper( imgEl, {
+			aspectRatio: prnEl.clientWidth / prnEl.clientHeight,
 			viewMode: 1,
 			dragMode: 'move',
 			minContainerWidth: 660,
 			minContainerHeight: 500,
-			preview: document.getElementById('preview0')
+			preview: pvwEl
 		});
-//		cropper[0].replace( imgSrc );
 	}
 
 	updatePreview();
@@ -473,9 +477,13 @@ function initialize() {
 		.then( response => response.blob() )
 		.then( blob => {
 			let url = URL.createObjectURL( blob );
-			document.getElementById( `image${i}` ).src = url;
-			cropper[ i ] = new Cropper( document.getElementById( `image${i}` ), {
-				aspectRatio: .77,
+			let imgEl = document.getElementById( `image${i}` );
+			imgEl.src = url;
+
+			let prnEl = document.getElementById('cal-image0'); // image container for printing
+
+			cropper[ i ] = new Cropper( imgEl, {
+				aspectRatio: prnEl.clientWidth / prnEl.clientHeight,
 				viewMode: 1,
 				dragMode: 'move',
 				minContainerWidth: 660,
