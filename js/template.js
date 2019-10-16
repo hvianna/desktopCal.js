@@ -163,6 +163,7 @@ function pageTemplate() {
 
 				<ul>
 					<li>${msg[lang].tipBgImg}</li>
+					<li>${msg[lang].tipPortrait}</li>
 					<li>${msg[lang].tipMargins}</li>
 					<li>${msg[lang].tipHeaders}</li>
 				</ul>
