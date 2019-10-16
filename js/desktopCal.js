@@ -50,7 +50,7 @@ function changeLayout() {
 		imgSrc = document.getElementById('image0').src;
 		cropper[0].destroy();
 		document.getElementById('image0').src = imgSrc;
-		document.getElementById('cal-image0').style = '';
+		document.getElementById('preview0').style = '';
 
 		if ( layout == 'wall-single' ) {
 			let el = document.querySelector('.preview-content');
@@ -64,9 +64,10 @@ function changeLayout() {
 		cropper[0] = new Cropper( document.getElementById('image0'), {
 			aspectRatio: aspect,
 			viewMode: 1,
+			dragMode: 'move',
 			minContainerWidth: 660,
 			minContainerHeight: 500,
-			preview: document.getElementById('cal-image0')
+			preview: document.getElementById('preview0')
 		});
 //		cropper[0].replace( imgSrc );
 	}
@@ -398,6 +399,58 @@ CanvasRenderingContext2D.prototype.roundRect = function ( x, y, w, h, r ) {
 	return this;
 }
 
+async function prepareForPrinting() {
+
+//	var img;
+
+	console.log('before print');
+
+	for ( let i of [0,1] ) {
+		document.getElementById( `preview${i}` ).style.display = 'none';
+
+/*
+		let canvas = cropper[ i ].getCroppedCanvas();
+		if ( canvas ) {
+			const blob = await new Promise( resolve => canvas.toBlob( resolve ) );
+			let url = URL.createObjectURL( blob );
+			let img = await new Promise( resolve => {
+				let img2 = new Image();
+				img2.onload = () => resolve( url );
+				img2.src = url;
+			});
+			console.log( img );
+			document.getElementById( `cal-image${i}` ).style = `background-image: url(${url})`;
+*/
+		let img = cropper[ i ].getCroppedCanvas();
+		if ( img ) {
+			const blob = await new Promise( resolve => img.toBlob( resolve ) );
+			let url = URL.createObjectURL( blob );
+			document.getElementById( `cal-image${i}` ).style = `background-image: url(${url})`;
+
+/*
+			img.toBlob( blob => {
+				let url = URL.createObjectURL( blob );
+				document.getElementById( `cal-image${i}` ).style = `background-image: url(${url})`;
+//					document.getElementById( `cal-image${i}` ).style = `background-image: url(${url})`;
+//				URL.revokeObjectURL( url );
+			});
+*/
+		}
+	}
+
+	console.log('fim da before print');
+	window.print();
+}
+
+function restoreFromPrinting() {
+	console.log('after print');
+
+	for ( let i of [0,1] ) {
+		document.getElementById( `preview${i}` ).style.display = 'block';
+		document.getElementById( `cal-image${i}` ).style = '';
+	}
+}
+
 /**
  * Initialize user interface on page load
  */
@@ -439,9 +492,23 @@ function initialize() {
 	document.getElementById('top-year').value = year;
 	document.getElementById('top-month').selectedIndex = month;
 
-	// pick two random images
-//	document.getElementById('image1').src = `https://picsum.photos/${w}/${w*.75}/?random`;
-//	document.getElementById('image0').src = `https://source.unsplash.com/random/${w}x${w*.75}`;
+	// load two random images and initialize croppable objects
+	for ( let i of [0,1] ) {
+		fetch( `https://picsum.photos/${w}/${w*.75}/?random` )
+		.then( response => response.blob() )
+		.then( blob => {
+			let url = URL.createObjectURL( blob );
+			document.getElementById( `image${i}` ).src = url;
+			cropper[ i ] = new Cropper( document.getElementById( `image${i}` ), {
+				aspectRatio: .77,
+				viewMode: 1,
+				dragMode: 'move',
+				minContainerWidth: 660,
+				minContainerHeight: 500,
+				preview: document.getElementById( `preview${i}` )
+			});
+		});
+	}
 
 	// init canvas width and height fields with the display's dimensions
 	document.getElementById('canvas-width').value = w;
@@ -449,24 +516,34 @@ function initialize() {
 
 	// UI event listeners
 	document.querySelectorAll('input[name="layout"]').forEach( el => el.addEventListener('click', changeLayout) );
+//	document.getElementById('print-button').addEventListener( 'click', () => window.print() );
+	document.getElementById('print-button').addEventListener( 'click', () => prepareForPrinting() );
 
-	// update preview
-	updatePreview();
-
-	for ( let i of [0,1] ) {
-		cropper[ i ] = new Cropper( document.getElementById( `image${i}` ), {
-			aspectRatio: .77,
-			viewMode: 1,
-			minContainerWidth: 660,
-			minContainerHeight: 500,
-			preview: document.getElementById( `cal-image${i}` )
-		});
-	}
-
+	// update canvas for digital wallpaper on every Cropper.js event
 	document.getElementById('image0').addEventListener('crop', e => {
 		if ( document.querySelector('input[name="layout"]:checked').value == 'digital' )
 			updatePreview();
 	});
+
+	// Cropper.js image editing methods
+	document.querySelectorAll('.cropper-action').forEach( el => {
+		el.addEventListener('click', e => {
+			let n = e.target.dataset.obj;
+			let action = e.target.dataset.action;
+			if ( action == 'rot' )
+				cropper[ n ].rotate(90);
+			else if ( action == 'flx' )
+				cropper[ n ].scaleX( cropper[ n ].getImageData().scaleX * -1 );
+			else if ( action == 'fly' )
+				cropper[ n ].scaleY( cropper[ n ].getImageData().scaleY * -1 );
+		});
+	});
+
+	// update preview
+	updatePreview();
+
+//	window.addEventListener('beforeprint', () => prepareForPrinting() );
+//	window.addEventListener('afterprint', () => restoreFromPrinting() );
 
 }
 

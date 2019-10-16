@@ -167,7 +167,7 @@ function pageTemplate() {
 					<li>${msg[lang].tipHeaders}</li>
 				</ul>
 
-				<button type="button" class="print-button" onclick="window.print();">${msg[lang].print}</button>
+				<button id="print-button" class="print-button">${msg[lang].print}</button>
 			</div>
 
 			<div id="download-config">
@@ -193,7 +193,9 @@ function pageTemplate() {
 			<div class="preview-content">
 				<div id="top-half" class="top-half">
 					<div class="elements">
-						<div id="cal-image1" class="cal-image"></div>
+						<div id="cal-image1" class="cal-image">
+							<div id="preview1"></div>
+						</div>
 						<div class="cal-content">
 							<div class="cal-title"></div>
 							<div class="calendar"></div>
@@ -208,7 +210,9 @@ function pageTemplate() {
 				</div>
 				<div id="bottom-half" class="bottom-half">
 					<div class="elements">
-						<div id="cal-image0" class="cal-image"></div>
+						<div id="cal-image0" class="cal-image">
+							<div id="preview0"></div>
+						</div>
 						<div class="cal-content">
 							<div class="cal-title"></div>
 							<div class="calendar"></div>
