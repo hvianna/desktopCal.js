@@ -399,52 +399,28 @@ CanvasRenderingContext2D.prototype.roundRect = function ( x, y, w, h, r ) {
 	return this;
 }
 
+/**
+ * Load cropped images into printing areas, so they are responsive (dimensions not fixed in pixels)
+ */
 async function prepareForPrinting() {
 
-//	var img;
-
-	console.log('before print');
-
 	for ( let i of [0,1] ) {
-		document.getElementById( `preview${i}` ).style.display = 'none';
-
-/*
-		let canvas = cropper[ i ].getCroppedCanvas();
-		if ( canvas ) {
-			const blob = await new Promise( resolve => canvas.toBlob( resolve ) );
-			let url = URL.createObjectURL( blob );
-			let img = await new Promise( resolve => {
-				let img2 = new Image();
-				img2.onload = () => resolve( url );
-				img2.src = url;
-			});
-			console.log( img );
-			document.getElementById( `cal-image${i}` ).style = `background-image: url(${url})`;
-*/
+		document.getElementById( `preview${i}` ).style.display = 'none'; // hide cropper.js preview area
 		let img = cropper[ i ].getCroppedCanvas();
 		if ( img ) {
-			const blob = await new Promise( resolve => img.toBlob( resolve ) );
+			let blob = await new Promise( resolve => img.toBlob( resolve ) );
 			let url = URL.createObjectURL( blob );
 			document.getElementById( `cal-image${i}` ).style = `background-image: url(${url})`;
-
-/*
-			img.toBlob( blob => {
-				let url = URL.createObjectURL( blob );
-				document.getElementById( `cal-image${i}` ).style = `background-image: url(${url})`;
-//					document.getElementById( `cal-image${i}` ).style = `background-image: url(${url})`;
-//				URL.revokeObjectURL( url );
-			});
-*/
 		}
 	}
 
-	console.log('fim da before print');
 	window.print();
 }
 
+/**
+ * Restore preview areas and clear background images used for printing
+ */
 function restoreFromPrinting() {
-	console.log('after print');
-
 	for ( let i of [0,1] ) {
 		document.getElementById( `preview${i}` ).style.display = 'block';
 		document.getElementById( `cal-image${i}` ).style = '';
@@ -477,7 +453,7 @@ function initialize() {
 	// generate page HTML
 	document.getElementById('container').innerHTML = pageTemplate();
 
-	// suggest current month for calendar front...
+	// suggest current and next months for calendars
 	document.getElementById('bottom-year').value = year;
 	document.getElementById('bottom-month').selectedIndex = month;
 
@@ -488,7 +464,6 @@ function initialize() {
 	else
 		month++;
 
-	// ...and next month for calendar back
 	document.getElementById('top-year').value = year;
 	document.getElementById('top-month').selectedIndex = month;
 
@@ -515,9 +490,9 @@ function initialize() {
 	document.getElementById('canvas-height').value = h;
 
 	// UI event listeners
-	document.querySelectorAll('input[name="layout"]').forEach( el => el.addEventListener('click', changeLayout) );
-//	document.getElementById('print-button').addEventListener( 'click', () => window.print() );
+	document.querySelectorAll('input[name="layout"]').forEach( el => el.addEventListener( 'click', changeLayout ) );
 	document.getElementById('print-button').addEventListener( 'click', () => prepareForPrinting() );
+	window.addEventListener( 'afterprint', () => restoreFromPrinting() );
 
 	// update canvas for digital wallpaper on every Cropper.js event
 	document.getElementById('image0').addEventListener('crop', e => {
@@ -541,9 +516,6 @@ function initialize() {
 
 	// update preview
 	updatePreview();
-
-//	window.addEventListener('beforeprint', () => prepareForPrinting() );
-//	window.addEventListener('afterprint', () => restoreFromPrinting() );
 
 }
 
