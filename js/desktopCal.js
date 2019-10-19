@@ -128,7 +128,7 @@ function configUIElements() {
  * Loads an image from user's computer into a calendar panel
  *
  * @param {HTMLInputElement object} obj    handler of the HTML file element
- * @param {string}                  side   'top' or 'bottom' side of the calendar
+ * @param {number}                  n      image number (0 or 1)
  */
 function loadImage( obj, n ) {
 
@@ -136,11 +136,8 @@ function loadImage( obj, n ) {
 		layout = document.getElementById('preview').className;
 
 	reader.onload = function() {
-//		document.querySelector(`.${side}-half .cal-image`).style = `background-image: url(${ reader.result })`;
 		document.getElementById( `image${n}` ).src = reader.result;
 		cropper[ n ].replace( reader.result );
-//		if ( layout == 'digital' )
-//			updatePreview();
 	}
 
 	reader.readAsDataURL( obj.files[0] );
@@ -354,13 +351,11 @@ function updatePreview() {
 		country = document.getElementById('country').value,
 		layout = document.querySelector('input[name="layout"]:checked').value;
 
-	var i, j, canvas, ctx, img, w, h, initialX, initialY;
-
 	// set lang attribute on html element
 	document.getElementsByTagName('html')[0].lang = `${lang}-${country.toUpperCase()}`;
 
 	if ( layout != 'digital' ) {
-		for ( i = 0; i < 2; i++ ) {
+		for ( let i of [0,1] ) {
 			if ( month[ i ] > 0 && year[ i ] > 0 ) {
 				area[ i ].querySelector('.cal-title').innerText = msg[ lang ].monthNames[ month[ i ] ] + ' ' + year[ i ];
 				area[ i ].querySelector('.calendar').innerHTML = generateCalendar( month[ i ], year[ i ] );
@@ -368,12 +363,12 @@ function updatePreview() {
 		}
 	}
 	else {
-		canvas = document.getElementById('canvas');
+		let canvas = document.getElementById('canvas');
 		canvas.width = document.getElementById('canvas-width').value;
 		canvas.height = document.getElementById('canvas-height').value;
-		ctx = canvas.getContext('2d');
+		let ctx = canvas.getContext('2d');
 
-		img = cropper[0].getCroppedCanvas();
+		let img = cropper[0].getCroppedCanvas();
 		ctx.drawImage( img, 0, 0, canvas.width, canvas.height );
 		generateCalendar( month[ 1 ], year[ 1 ], canvas );
 	}
