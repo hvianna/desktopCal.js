@@ -44,45 +44,83 @@ function changeLayout() {
 		document.getElementById('position-selector').style.display = 'block';
 	}
 
-	if ( layout == 'digital' ) {
-		cropper[0].setAspectRatio( document.getElementById('canvas-width').value / document.getElementById('canvas-height').value );
+	// recreate Cropper.js areas
+
+	for ( let i of [0,1] ) {
+		// save loaded image
+		let imgEl = document.getElementById( `image${i}` );
+		let imgSrc = imgEl.src;
+
+		// destroy cropper instance
+		if ( cropper[ i ] )
+			cropper[ i ].destroy();
+
+		// restore loaded image
+		imgEl.src = imgSrc;
+
+		// clear preview element style
+		let pvwEl = document.getElementById( `preview${i}` );
+		pvwEl.style = '';
+
+		// create new cropper instance with proper aspect ratio
+		let aspect;
+		if ( layout == 'digital' )
+			aspect = document.getElementById('canvas-width').value / document.getElementById('canvas-height').value;
+		else
+			aspect = document.getElementById( `cal-image${i}` ).clientWidth / document.getElementById( `cal-image${i}` ).clientHeight;
+
+		cropper[ i ] = new Cropper( imgEl, {
+			aspectRatio: aspect,
+			viewMode: 1,
+			dragMode: 'move',
+			minContainerWidth: 660,
+			minContainerHeight: 500,
+			preview: pvwEl
+		});
+
+		imgEl.addEventListener( 'ready', updatePreview );
 	}
-	else {
-		// Each calendar layout and paper size needs a different image aspect ratio
-		// cropper.setAspectRatio() doesn't seem to update the preview element accordingly
-		// so, we need to do this...
 
-		for ( let i of [0,1] ) {
-			// save loaded image
-			let imgEl = document.getElementById( `image${i}` );
-			let imgSrc = imgEl.src;
+//	updatePreview();
 
-			// destroy cropper instance
-			if ( cropper[ i ] )
-				cropper[ i ].destroy();
+}
 
-			// restore loaded image
-			imgEl.src = imgSrc;
+/**
+ * Set event listeners for UI elements
+ */
+function configUIElements() {
 
-			// clear preview element style
-			let pvwEl = document.getElementById( `preview${i}` );
-			pvwEl.style = '';
+	// calendar layout selector
+	document.querySelectorAll('input[name="layout"]').forEach( el => el.addEventListener( 'click', changeLayout ) );
 
-			// create new cropper instance with the aspect ratio of the image container used for printing
-			let prnEl = document.getElementById( `cal-image${i}` );
+	// digitar calendar configuration
+	document.getElementById('rotate-canvas').addEventListener( 'click', rotateCanvas );
+	document.querySelectorAll('#canvas-width, #canvas-height').forEach( el => el.addEventListener( 'change', changeLayout ) );
+	document.querySelectorAll('#cal-size, #h-align, #v-align').forEach( el => el.addEventListener( 'change', updatePreview ) );
 
-			cropper[ i ] = new Cropper( imgEl, {
-				aspectRatio: prnEl.clientWidth / prnEl.clientHeight,
-				viewMode: 1,
-				dragMode: 'move',
-				minContainerWidth: 660,
-				minContainerHeight: 500,
-				preview: pvwEl
-			});
-		}
-	}
+	// update digital wallpaper canvas on Cropper.js events
+	document.getElementById('image0').addEventListener('crop', e => {
+		if ( document.querySelector('input[name="layout"]:checked').value == 'digital' )
+			updatePreview();
+	});
 
-	updatePreview();
+ 	// paper format and print button
+	document.querySelectorAll('input[name="paper"]').forEach( el => el.addEventListener( 'click', changeLayout ) );
+	document.getElementById('print-button').addEventListener( 'click', () => prepareForPrinting() );
+
+	// Cropper.js action buttons
+	document.querySelectorAll('.cropper-action').forEach( el => {
+		el.addEventListener('click', e => {
+			let n = e.target.dataset.obj;
+			let action = e.target.dataset.action;
+			if ( action == 'rot' )
+				cropper[ n ].rotate(90);
+			else if ( action == 'flx' )
+				cropper[ n ].scaleX( cropper[ n ].getImageData().scaleX * -1 );
+			else if ( action == 'fly' )
+				cropper[ n ].scaleY( cropper[ n ].getImageData().scaleY * -1 );
+		});
+	});
 
 }
 
@@ -336,30 +374,6 @@ function updatePreview() {
 		ctx = canvas.getContext('2d');
 
 		img = cropper[0].getCroppedCanvas();
-
-/*
-		img = new Image();
-		img.crossOrigin = 'anonymous';
-		img.src = document.getElementById('bottom-half').querySelector('.cal-image').style.backgroundImage.match(/url\("([^"]*)"\)/)[1];
-		img.onload = function() {
-			w = canvas.width;
-			h = canvas.height;
-			// scale and center original image as needed
-			if ( ( w > h && img.width / img.height <= w / h ) ||
-				 ( h > w && img.height / img.width > h / w ) ) {
-				h = w / img.width * img.height;
-				initialX = 0;
-				initialY = ( h - canvas.height ) * img.height / h / 2;
-			}
-			else {
-				w = h / img.height * img.width;
-				initialX = ( w - canvas.width ) * img.width / w / 2;
-				initialY = 0;
-			}
-			ctx.drawImage( img, initialX, initialY, img.width, img.height, 0, 0, w, h );
-			generateCalendar( month[ 1 ], year[ 1 ], canvas );
-		}
-*/
 		ctx.drawImage( img, 0, 0, canvas.width, canvas.height );
 		generateCalendar( month[ 1 ], year[ 1 ], canvas );
 	}
@@ -481,37 +495,6 @@ function initialize() {
 	document.getElementById('canvas-width').value = w;
 	document.getElementById('canvas-height').value = h;
 
-	// UI event listeners
-	document.querySelectorAll('input[name="layout"]').forEach( el => el.addEventListener( 'click', changeLayout ) );
-
-	document.getElementById('rotate-canvas').addEventListener( 'click', rotateCanvas );
-	document.querySelectorAll('#canvas-width, #canvas-height').forEach( el => el.addEventListener( 'change', changeLayout ) );
-	document.querySelectorAll('#cal-size, #h-align, #v-align').forEach( el => el.addEventListener( 'change', updatePreview ) );
-
-	document.querySelectorAll('input[name="paper"]').forEach( el => el.addEventListener( 'click', changeLayout ) );
-	document.getElementById('print-button').addEventListener( 'click', () => prepareForPrinting() );
-	window.addEventListener( 'afterprint', () => restoreFromPrinting() );
-
-	// update canvas for digital wallpaper on every Cropper.js event
-	document.getElementById('image0').addEventListener('crop', e => {
-		if ( document.querySelector('input[name="layout"]:checked').value == 'digital' )
-			updatePreview();
-	});
-
-	// Cropper.js action buttons
-	document.querySelectorAll('.cropper-action').forEach( el => {
-		el.addEventListener('click', e => {
-			let n = e.target.dataset.obj;
-			let action = e.target.dataset.action;
-			if ( action == 'rot' )
-				cropper[ n ].rotate(90);
-			else if ( action == 'flx' )
-				cropper[ n ].scaleX( cropper[ n ].getImageData().scaleX * -1 );
-			else if ( action == 'fly' )
-				cropper[ n ].scaleY( cropper[ n ].getImageData().scaleY * -1 );
-		});
-	});
-
 	// load two random images
 	for ( let i of [0,1] ) {
 		fetch( `https://picsum.photos/${w}/${w*.75}/?random` )
@@ -524,6 +507,11 @@ function initialize() {
 			imgEl.addEventListener( 'load', changeLayout, { once: true } );
 		});
 	}
+
+	// set up event listeners for UI elements
+	configUIElements();
+
+	window.addEventListener( 'afterprint', () => restoreFromPrinting() );
 }
 
 document.addEventListener( 'DOMContentLoaded', initialize );

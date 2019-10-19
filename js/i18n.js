@@ -324,15 +324,17 @@ function changeLang( newLang ) {
 
 	// save user selected pictures
 
-	var elems = document.querySelectorAll('.cal-image');
 	var pics = [];
 
-	for ( i = 0; i < elems.length; i++ )
-		pics[ i ] = elems[ i ].style.backgroundImage;
+	for ( let i of [0,1] ) {
+		pics[ i ] = document.getElementById( `image${i}` ).src;
+		cropper[ i ].destroy();
+	}
 
-	// upadte page HTML
+	// update page HTML
 
 	document.getElementById('container').innerHTML = pageTemplate();
+	configUIElements();
 
 	// restore input and select values
 
@@ -349,10 +351,10 @@ function changeLang( newLang ) {
 
 	// restore calendar pictures
 
-	elems = document.querySelectorAll('.cal-image');
-	for ( i = 0; i < elems.length; i++ )
-		elems[ i ].style.backgroundImage = pics[ i ];
+	for ( let i of [0,1] )
+		document.getElementById( `image${i}` ).src = pics[ i ];
 
-	// update preview
-	updatePreview();
+	// update layout
+
+	changeLayout();
 }
