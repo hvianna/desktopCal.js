@@ -59,10 +59,10 @@ button, .button {
 	color: #555;
 	cursor: pointer;
 	display: inline-block;
-	padding: 6px;
+	padding: 6px 20px;
 	text-align: center;
 	text-decoration: none;
-	width: 150px;
+	min-width: 100px;
 }
 
 p {
@@ -85,7 +85,7 @@ p {
 
 #config, #preview {
 	display: inline-block;
-	margin: 0 calc( ( 100vw - 1280px ) / 4 );
+	margin: 0 calc( ( 100vw - 1230px ) / 4 );
 }
 
 #config {
@@ -310,14 +310,25 @@ p {
 	margin-bottom: 20px;
 }
 
-.preview-content {
+#preview-content {
 	box-shadow: 1px 1px 6px rgba(0,0,0,.3);
 	font-size: 9pt;
-	height: 705px;
+}
+#preview-content.iso {
+	height: 707px;
+}
+#preview-content.letter {
+	height: 646px;
+}
+#preview-content.tabloid {
+	height: 774px;
+}
+#preview-content.legal {
+	height: 824px;
 }
 
 #preview:not(.digital) #canvas,
-.preview-content .note {
+#preview-content .note {
 	display: none;
 }
 
@@ -362,7 +373,7 @@ p {
 
 /* single month wall calendar */
 
-.wall-single .preview-content {
+.wall-single #preview-content {
 	font-size: 12pt;
 }
 .wall-single .top-half,
@@ -393,7 +404,7 @@ p {
 .digital #canvas {
 	display: block;
 }
-.digital .preview-content {
+.digital #preview-content {
 	display: none;
 }
 
@@ -486,8 +497,8 @@ p {
 	body,
 	.container,
 	#preview,
-	.preview-content {
-		height: 100%;
+	#preview-content {
+		height: 100% !important;
 		margin: 0;
 		width: 100%;
 	}
@@ -498,14 +509,14 @@ p {
 		display: none;
 	}
 
-	.preview-content {
+	#preview-content {
 		box-shadow: none;
 		font-size: 2.2vw;
 		left: 0;
 		position: absolute;
 		top: 0;
 	}
-	.preview-content .note {
+	#preview-content .note {
 		color: #999;
 		display: block;
 		font-size: 1.5vw;
@@ -513,7 +524,7 @@ p {
 		padding: 0;
 	}
 
-	.wall-single .preview-content {
+	.wall-single #preview-content {
 		font-size: 2.5vw;
 	}
 	.wall-single .calendar {

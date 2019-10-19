@@ -161,6 +161,14 @@ function pageTemplate() {
 			<div id="print-config">
 				<h2>${msg[lang].printIt}</h2>
 
+				<div class="config-blocks">
+					<h3>${msg[lang].paperSize}:</h3>
+					<label><input type="radio" name="paper" value="iso" checked> ${msg[lang].paperIso} </label>
+					<label><input type="radio" name="paper" value="letter"> ${msg[lang].paperLetter} </label>
+					<label><input type="radio" name="paper" value="legal"> ${msg[lang].paperLegal} </label>
+					<label><input type="radio" name="paper" value="tabloid"> ${msg[lang].paperTabloid} </label>
+				</div>
+
 				<ul>
 					<li>${msg[lang].tipBgImg}</li>
 					<li>${msg[lang].tipPortrait}</li>
@@ -191,7 +199,7 @@ function pageTemplate() {
 				${msg[lang].preview}:
 			</div>
 			<canvas id="canvas" onclick="document.getElementById('download-button').click();"></canvas>
-			<div class="preview-content">
+			<div id="preview-content">
 				<div id="top-half" class="top-half">
 					<div class="elements">
 						<div id="cal-image1" class="cal-image">

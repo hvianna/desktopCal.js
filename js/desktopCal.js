@@ -23,7 +23,9 @@ var _VERSION = '19.1-RC';
 
 var cropper = [];
 
-
+/**
+ * Update/create Cropper.js areas whenever the calendar layout or paper size change
+ */
 function changeLayout() {
 
 	var layout = document.querySelector('input[name="layout"]:checked').value;
@@ -31,6 +33,7 @@ function changeLayout() {
 	// set layout
 	document.getElementById('config').className = layout;
 	document.getElementById('preview').className = layout;
+	document.getElementById('preview-content').className = document.querySelector('input[name="paper"]:checked').value;
 
 	if ( layout != 'desktop' ) {
 		document.getElementById('pos0').checked = true;
@@ -45,35 +48,38 @@ function changeLayout() {
 		cropper[0].setAspectRatio( document.getElementById('canvas-width').value / document.getElementById('canvas-height').value );
 	}
 	else {
-		// Each calendar layout uses a different image aspect ratio
-		// cropper.setAspectRatio() doesn't seem to update the preview aspect ratio accordingly
+		// Each calendar layout and paper size needs a different image aspect ratio
+		// cropper.setAspectRatio() doesn't seem to update the preview element accordingly
 		// so, we need to do this...
 
-		// save loaded image
-		let imgEl = document.getElementById('image0');
-		let imgSrc = imgEl.src;
+		for ( let i of [0,1] ) {
+			// save loaded image
+			let imgEl = document.getElementById( `image${i}` );
+			let imgSrc = imgEl.src;
 
-		// destroy cropper instance
-		cropper[0].destroy();
+			// destroy cropper instance
+			if ( cropper[ i ] )
+				cropper[ i ].destroy();
 
-		// restore loaded image
-		imgEl.src = imgSrc;
+			// restore loaded image
+			imgEl.src = imgSrc;
 
-		// clear preview element style
-		let pvwEl = document.getElementById('preview0');
-		pvwEl.style = '';
+			// clear preview element style
+			let pvwEl = document.getElementById( `preview${i}` );
+			pvwEl.style = '';
 
-		// create new cropper instance with the aspect ratio of the image container used for printing
-		let prnEl = document.getElementById('cal-image0');
+			// create new cropper instance with the aspect ratio of the image container used for printing
+			let prnEl = document.getElementById( `cal-image${i}` );
 
-		cropper[0] = new Cropper( imgEl, {
-			aspectRatio: prnEl.clientWidth / prnEl.clientHeight,
-			viewMode: 1,
-			dragMode: 'move',
-			minContainerWidth: 660,
-			minContainerHeight: 500,
-			preview: pvwEl
-		});
+			cropper[ i ] = new Cropper( imgEl, {
+				aspectRatio: prnEl.clientWidth / prnEl.clientHeight,
+				viewMode: 1,
+				dragMode: 'move',
+				minContainerWidth: 660,
+				minContainerHeight: 500,
+				preview: pvwEl
+			});
+		}
 	}
 
 	updatePreview();
@@ -471,28 +477,6 @@ function initialize() {
 	document.getElementById('top-year').value = year;
 	document.getElementById('top-month').selectedIndex = month;
 
-	// load two random images and initialize croppable objects
-	for ( let i of [0,1] ) {
-		fetch( `https://picsum.photos/${w}/${w*.75}/?random` )
-		.then( response => response.blob() )
-		.then( blob => {
-			let url = URL.createObjectURL( blob );
-			let imgEl = document.getElementById( `image${i}` );
-			imgEl.src = url;
-
-			let prnEl = document.getElementById('cal-image0'); // image container for printing
-
-			cropper[ i ] = new Cropper( imgEl, {
-				aspectRatio: prnEl.clientWidth / prnEl.clientHeight,
-				viewMode: 1,
-				dragMode: 'move',
-				minContainerWidth: 660,
-				minContainerHeight: 500,
-				preview: document.getElementById( `preview${i}` )
-			});
-		});
-	}
-
 	// init canvas width and height fields with the display's dimensions
 	document.getElementById('canvas-width').value = w;
 	document.getElementById('canvas-height').value = h;
@@ -504,6 +488,7 @@ function initialize() {
 	document.querySelectorAll('#canvas-width, #canvas-height').forEach( el => el.addEventListener( 'change', changeLayout ) );
 	document.querySelectorAll('#cal-size, #h-align, #v-align').forEach( el => el.addEventListener( 'change', updatePreview ) );
 
+	document.querySelectorAll('input[name="paper"]').forEach( el => el.addEventListener( 'click', changeLayout ) );
 	document.getElementById('print-button').addEventListener( 'click', () => prepareForPrinting() );
 	window.addEventListener( 'afterprint', () => restoreFromPrinting() );
 
@@ -513,7 +498,7 @@ function initialize() {
 			updatePreview();
 	});
 
-	// Cropper.js image editing methods
+	// Cropper.js action buttons
 	document.querySelectorAll('.cropper-action').forEach( el => {
 		el.addEventListener('click', e => {
 			let n = e.target.dataset.obj;
@@ -527,9 +512,18 @@ function initialize() {
 		});
 	});
 
-	// update preview
-	updatePreview();
-
+	// load two random images
+	for ( let i of [0,1] ) {
+		fetch( `https://picsum.photos/${w}/${w*.75}/?random` )
+		.then( response => response.blob() )
+		.then( blob => {
+			let url = URL.createObjectURL( blob );
+			let imgEl = document.getElementById( `image${i}` );
+			imgEl.src = url;
+			// adjust paper layout and initialize croppable areas when images finish loading
+			imgEl.addEventListener( 'load', changeLayout, { once: true } );
+		});
+	}
 }
 
 document.addEventListener( 'DOMContentLoaded', initialize );
