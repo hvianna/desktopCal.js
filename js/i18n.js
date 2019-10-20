@@ -27,11 +27,12 @@ var msg = {
 		monthNames: [ 'Month', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
 		weekDays:   [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
 		year:       'Year',
+		month:      'Month',
 		day:        'Day',
 		front:      'Side 1',
 		back:       'Side 2',
 		design:     'Choose your layout',
-		edit:       'Select year, month and image',
+		edit:       'Select the image, month and year',
 		language:   'Language',
 		layout:     'Layout',
 		desktopCal: 'Desktop calendar',
@@ -66,14 +67,14 @@ var msg = {
 		holidayColor:'Holidays color',
 		loadImage:  'Load Image',
 		holidays:   'Holidays',
-		countryholidays: 'National holidays',
+		countryHolidays: 'National holidays',
 		customHolidays: 'Custom holidays',
 		none:       'None',
 		add:        'Add',
 		delete:     'Delete',
 		imgNotice:  'Images are NOT uploaded anywhere outside your computer. All processing takes place in your browser.',
 		printIt:    'Print It!',
-		paperSize:  'Paper size / aspect ratio',
+		paperSize:  'Paper size / aspect ratio:',
 		paperIso:   'A3 or A4',
 		paperLegal: 'Legal',
 		paperLetter:'Letter',
@@ -96,11 +97,12 @@ var msg = {
 		monthNames: [ 'Mes', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubure', 'Noviembre', 'Diciembre' ],
 		weekDays:   [ 'Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb' ],
 		year:       'Año',
+		month:      'Mes',
 		day:        'Día',
 		front:      'Lado 1',
 		back:       'Lado 2',
 		design:     'Elige tu diseño',
-		edit:       'Seleccione el año, mes e imagen',
+		edit:       'Seleccione la imagen, mes y año',
 		language:   'Idioma',
 		layout:     'Layout',
 		desktopCal: 'Calendario de escritorio',
@@ -142,7 +144,7 @@ var msg = {
 		delete:     'Borrar',
 		imgNotice:  'Las imágenes NO se envían fuera de su computadora. Todo el procesamiento se lleva a cabo en su navegador.',
 		printIt:    '¡Imprímelo!',
-		paperSize:  'Tamaño de papel',
+		paperSize:  'Tamaño de papel:',
 		paperIso:   'A3 o A4',
 		paperLegal: 'Legal',
 		paperLetter:'Carta',
@@ -165,11 +167,12 @@ var msg = {
 		monthNames: [ 'Mois', 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ],
 		weekDays:   [ 'Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam' ],
 		year:       'Année',
+		month:      'Mois',
 		day:        'Jour',
 		front:      'Côté 1',
 		back:       'Côté 2',
 		design:     'Choisissez votre design',
-		edit:       'Sélectionnez l\'année, le mois et l\'image',
+		edit:       'Sélectionnez l\'image, le mois et l\'année',
 		language:   'Langue',
 		layout:     'Layout',
 		desktopCal: 'Calendrier de bureau',
@@ -211,7 +214,7 @@ var msg = {
 		delete:     'Effacer',
 		imgNotice:  'Les images NE sont PAS envoyées sur votre ordinateur. Tous les traitements ont lieu dans votre navigateur.',
 		printIt:    'Imprime le!',
-		paperSize:  'Format de papier',
+		paperSize:  'Format de papier:',
 		paperIso:   'A3 ou A4',
 		paperLegal: 'Légal',
 		paperLetter:'Lettre',
@@ -234,11 +237,12 @@ var msg = {
 		monthNames: [ 'Mês', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro' ],
 		weekDays:   [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb' ],
 		year:       'Ano',
+		month:      'Mês',
 		day:        'Dia',
 		front:      'Lado 1',
 		back:       'Lado 2',
 		design:     'Escolha o layout',
-		edit:       'Selecione o ano, o mês e a imagem',
+		edit:       'Selecione a imagem, mês e ano',
 		language:   'Idioma',
 		layout:     'Layout',
 		desktopCal: 'Calendário de mesa',
@@ -280,7 +284,7 @@ var msg = {
 		delete:     'Excluir',
 		imgNotice:  'As imagens NÃO são enviadas para fora de seu computador. Todo o processamento ocorre no seu navegador.',
 		printIt:    'Imprima',
-		paperSize:  'Formato do papel',
+		paperSize:  'Formato do papel:',
 		paperIso:   'A3 ou A4',
 		paperLegal: 'Ofício',
 		paperLetter:'Carta',
@@ -346,53 +350,30 @@ function changeLang( newLang ) {
 	lang = newLang;
 	localStorage.setItem( 'lang', lang );
 
-	// save values from input and select elements, so we can restore them after changing the language
+	translatePage();
+	updatePreview();
+}
 
-	var elems = document.querySelectorAll('input[type="text"], input[type="radio"], input[type="color"], select');
+function translatePage() {
+
 	var values = [];
 
-	for ( var i = 0; i < elems.length; i++ ) {
-		if ( elems[ i ].localName == 'select' )
-			values[ i ] = elems[ i ].selectedIndex;
-		else if ( elems[ i ].attributes.type.nodeValue == 'radio' )
-			values[ i ] = elems[ i ].checked;
-		else
-			values[ i ] = elems[ i ].value;
-	}
+	// save values from select elements
+	document.querySelectorAll('select').forEach( ( el, i ) => values[ i ] = el.selectedIndex );
 
-	// save user selected pictures
+	// translate strings
+	document.querySelectorAll('[data-i18n]').forEach( el => el.innerHTML = msg[ lang ][ el.dataset.i18n ] );
 
-	var pics = [];
+	// call functions to populate specific elements
+	document.querySelectorAll('[data-func]').forEach( el => el.innerHTML = window[ el.dataset.func ]() );
 
-	for ( let i of [0,1] ) {
-		pics[ i ] = document.getElementById( `image${i}` ).src;
-		cropper[ i ].destroy();
-	}
+	// translate placeholders
+	document.querySelectorAll('[data-phold]').forEach( el => el.placeholder = msg[ lang ][ el.dataset.phold ] );
 
-	// update page HTML
+	// restore select elements
+	document.querySelectorAll('select').forEach( ( el, i ) => {
+		if ( values[ i ] >= 0 )
+			el.selectedIndex = values[ i ]
+	});
 
-	document.getElementById('container').innerHTML = pageTemplate();
-	configUIElements();
-
-	// restore input and select values
-
-	elems = document.querySelectorAll('input[type="text"], input[type="radio"], input[type="color"], select');
-
-	for ( i = 0; i < elems.length; i++ ) {
-		if ( elems[ i ].localName == 'select' )
-			elems[ i ].selectedIndex = values[ i ];
-		else if ( elems[ i ].attributes.type.nodeValue == 'radio' )
-			elems[ i ].checked = values[ i ];
-		else
-			elems[ i ].value = values[ i ];
-	}
-
-	// restore calendar pictures
-
-	for ( let i of [0,1] )
-		document.getElementById( `image${i}` ).src = pics[ i ];
-
-	// update layout
-
-	changeLayout();
 }

@@ -41,13 +41,273 @@
 	<link href="vendor/cropperjs/cropper.min.css" rel="stylesheet">
 	<link href="styles.css" rel="stylesheet">
 	<script src="vendor/cropperjs/cropper.min.js"></script>
-	<script src="js/template.js"></script>
 	<script src="js/i18n.js"></script>
 	<script src="js/holidays.js"></script>
 	<script src="js/desktopCal.js"></script>
 </head>
 
 <body>
-	<div id="container" class="container"></div>
+	<div id="container" class="container">
+		<div id="config">
+			<header>
+				<h1>desktopCal.js</h1>
+			</header>
+			<ul class="lang-selection" data-func="langOptions"></ul>
+
+			<h2 data-i18n="design"></h2>
+
+			<div id="layout-selector" class="flex-blocks center">
+				<input id="layout0" type="radio" name="layout" value="desktop" checked="checked">
+				<label for="layout0" class="label-layout">
+					<img src="img/layout-desktop.png">
+					<span data-i18n="desktopCal"></span>
+				</label>
+
+				<input id="layout1" type="radio" name="layout" value="wall-single">
+				<label for="layout1" class="label-layout">
+					<img src="img/layout-wall-single.png">
+					<span data-i18n="wallSingle"></span>
+				</label>
+
+				<input id="layout2" type="radio" name="layout" value="digital">
+				<label for="layout2" class="label-layout">
+					<img src="img/layout-wallpaper.png">
+					<span data-i18n="digitalBg"></span>
+				</label>
+			</div>
+
+			<h2 data-i18n="edit"></h2>
+			<div class="note" data-i18n="imgNotice"></div>
+
+			<div id="position-selector" class="tab-container">
+				<input type="radio" id="pos0" name="image-position" value="0" checked="checked">
+				<label for="pos0" class="tab" data-i18n="front"></label>
+				<input type="radio" id="pos1" name="image-position" value="1">
+				<label for="pos1" class="tab" data-i18n="back"></label>
+
+				<div id="front-config">
+					<div class="config-blocks">
+						<label class="custom-file-button">
+							<input type="file" accept="image/*" onchange="loadImage( this, 0 );">
+							<span data-i18n="loadImage"></span>
+						</label>
+						<div>
+							<span data-i18n="month"></span>:
+							<select id="bottom-month" data-func="monthOptions" onchange="updatePreview();"></select>
+						</div>
+						<div>
+							<span data-i18n="year"></span>:
+							<input type="number" id="bottom-year" data-phold="year" maxlength="4" onchange="updatePreview();">
+						</div>
+					</div>
+					<div class="image-selector">
+						<img id="image0" crossorigin="anonymous">
+					</div>
+					<button data-action="rot" data-obj="0" class="cropper-action" data-i18n="rotate"></button>
+					<button data-action="flx" data-obj="0" class="cropper-action" data-i18n="flipH"></button>
+					<button data-action="fly" data-obj="0" class="cropper-action" data-i18n="flipV"></button>
+				</div>
+
+				<div id="back-config">
+					<div class="config-blocks">
+						<label class="custom-file-button">
+							<input type="file" accept="image/*" onchange="loadImage( this, 1 );">
+							<span data-i18n="loadImage"></span>
+						</label>
+						<div>
+							<span data-i18n="month"></span>:
+							<select id="top-month" data-func="monthOptions" onchange="updatePreview();"></select>
+						</div>
+						<div>
+							<span data-i18n="year"></span>:
+							<input type="number" id="top-year" data-phold="year" maxlength="4" onchange="updatePreview();">
+						</div>
+					</div>
+					<div class="image-selector">
+						<img id="image1" crossorigin="anonymous">
+					</div>
+					<button data-action="rot" data-obj="1" class="cropper-action" data-i18n="rotate"></button>
+					<button data-action="flx" data-obj="1" class="cropper-action" data-i18n="flipH"></button>
+					<button data-action="fly" data-obj="1" class="cropper-action" data-i18n="flipV"></button>
+				</div>
+			</div> <!-- .tab-container -->
+
+			<div id="canvas-config">
+				<h2 data-i18n="screenConf"></h2>
+				<div class="config-blocks">
+					<label>
+						<span data-i18n="width" class="tag"></span>
+						<input id="canvas-width" type="number" maxlength="4" data-phold="width">
+						<span data-i18n="pixels"></span>
+					</label>
+					<label>
+						<span data-i18n="height" class="tag"></span>
+						<input id="canvas-height" type="number" maxlength="4" data-phold="height">
+						<span data-i18n="pixels"></span>
+					</label>
+					<button id="rotate-canvas" class="rotate-button" data-i18n="chgOrient"></button>
+				</div>
+				<div class="config-blocks">
+					<label>
+						<span data-i18n="calSize" class="tag"></span>
+						<select id="cal-size">
+							<option value="col" data-i18n="column"></option>
+							<option value="row" data-i18n="row"></option>
+							<option value=".03" data-i18n="small"></option>
+							<option value=".05" data-i18n="medium" selected></option>
+							<option value=".07" data-i18n="large"></option>
+						</select>
+					</label>
+					<label>
+						<span data-i18n="horAlign" class="tag"></span>
+						<select id="h-align">
+							<option value="left" data-i18n="left"></option>
+							<option value="center" data-i18n="horCenter"></option>
+							<option value="right" data-i18n="right" selected></option>
+						</select>
+					</label>
+					<label>
+						<span data-i18n="verAlign" class="tag"></span>
+						<select id="v-align">
+							<option value="top" data-i18n="top"></option>
+							<option value="center" data-i18n="verCenter" selected></option>
+							<option value="bottom" data-i18n="bottom"></option>
+						</select>
+					</label>
+				</div>
+				<div class="config-blocks">
+					<label>
+						<span data-i18n="bgColor" class="tag"></span>
+						<input id="bg-color" type="color" value="#ffffff">
+					</label>
+					<label>
+						<span data-i18n="bgOpacity" class="tag"></span>
+						<input id="bg-opacity" type="range" min="0" max="1" step=".1" value=".6">
+					</label>
+					<label>
+						<span data-i18n="textColor" class="tag"></span>
+						<input id="text-color" type="color" value="#000000">
+					</label>
+					<label>
+						<span data-i18n="holidayColor" class="tag"></span>
+						<input id="holiday-color" type="color" value="#cc0000">
+					</label>
+				</div>
+			</div> <!-- #canvas-config -->
+
+			<h2 data-i18n="holidays"></h2>
+
+			<div class="config-blocks">
+				<div>
+					<h3 data-i18n="countryHolidays"></h3>
+					<select id="country" data-func="countryOptions" onchange="changeCountry( this.value );">
+					</select>
+				</div>
+
+				<div id="custom-holidays">
+					<h3 data-i18n="customHolidays"></h3>
+					<table id="custom-holidays-table">
+						<tbody data-func="listCustomHolidays">
+						</tbody>
+						<tfoot>
+							<tr>
+								<td>
+									<select id="custom-holiday-month" data-func="monthOptions">
+									</select>
+								</td>
+								<td><input type="text" id="custom-holiday-day" maxlength="2" data-phold="day"></td>
+								<td><button type="button" data-i18n="add" onclick="addCustomHoliday();"></button></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div> <!-- #custom-holidays -->
+			</div> <!-- .config-blocks -->
+
+			<div id="print-config">
+				<h2 data-i18n="printIt"></h2>
+
+				<div class="config-blocks">
+					<h3 data-i18n="paperSize"></h3>
+					<label><input type="radio" name="paper" value="iso" checked> <span data-i18n="paperIso"></span> </label>
+					<label><input type="radio" name="paper" value="letter"> <span data-i18n="paperLetter"></span> </label>
+					<label><input type="radio" name="paper" value="legal"> <span data-i18n="paperLegal"></span> </label>
+					<label><input type="radio" name="paper" value="tabloid"> <span data-i18n="paperTabloid"></span> </label>
+				</div>
+
+				<ul>
+					<li data-i18n="tipBgImg"></li>
+					<li data-i18n="tipPortrait"></li>
+					<li data-i18n="tipMargins"></li>
+					<li data-i18n="tipHeaders"></li>
+				</ul>
+
+				<button id="print-button" class="print-button" data-i18n="print"></button>
+			</div>
+
+			<div id="download-config">
+				<h2 data-i18n="downloadIt"></h2>
+
+				<div class="config-blocks">
+					<div>
+						<strong><span data-i18n="fileFormat"></span>:</strong>
+						<input type="radio" name="file-format" value="jpeg" checked> JPG &nbsp;
+						<input type="radio" name="file-format" value="png"> PNG
+					</div>
+					<a href="#" id="download-button" class="button download-button" data-i18n="download" onclick="downloadCalendar(this);"></a>
+				</div>
+			</div>
+
+		</div> <!-- .config -->
+
+		<div id="preview">
+			<div class="preview-header">
+				<span data-i18n="preview"></span>:
+			</div>
+			<canvas id="canvas" onclick="document.getElementById('download-button').click();"></canvas>
+			<div id="preview-content">
+				<div id="top-half" class="top-half">
+					<div class="elements">
+						<div id="cal-image1" class="cal-image">
+							<div id="preview1"></div>
+						</div>
+						<div class="cal-content">
+							<div class="cal-title"></div>
+							<div class="calendar"></div>
+						</div>
+					</div>
+					<div class="fold-line">
+						<img src="img/icons8-fold.png">
+						<span data-i18n="fold"></span>
+						<img src="img/icons8-c-fold-leaflet.png">
+					</div>
+					<div class="note center">Created with <strong>desktopCal.js</strong></div>
+				</div>
+				<div id="bottom-half" class="bottom-half">
+					<div class="elements">
+						<div id="cal-image0" class="cal-image">
+							<div id="preview0"></div>
+						</div>
+						<div class="cal-content">
+							<div class="cal-title"></div>
+							<div class="calendar"></div>
+						</div>
+					</div>
+					<div class="fold-line">
+						<img src="img/icons8-fold.png">
+						<span data-i18n="fold"></span>
+						<img src="img/icons8-c-fold-leaflet.png">
+					</div>
+					<div class="note center">Created with <strong>desktopCal.js</strong></div>
+				</div>
+			</div>
+		</div> <!-- .preview -->
+
+		<div class="credits">
+			<strong>desktopCal.js</strong> Copyright &copy; 2018-2019 Henrique Avila Vianna.
+			Licensed under the <a href="https://www.gnu.org/licenses/agpl.html">GNU AGPL-3.0 license</a>. Source code available on <a href="https://github.com/hvianna/desktopCal.js/">GitHub</a>.<br>
+			Icons by <a href="https://icons8.com/">icons8</a>. Random photos by <a href="https://picsum.photos/">Lorem Picsum</a>.
+			Devices mockup template by <a href="https://www.pixeden.com/psd-web-elements/flat-responsive-showcase-psd-vol2">Pixeden</a>.
+		</div>
+	</div> <!-- #container -->
 </body>
 </html>

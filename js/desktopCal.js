@@ -44,7 +44,7 @@ function changeLayout() {
 		document.getElementById('position-selector').style.display = 'block';
 	}
 
-	// recreate Cropper.js areas
+	// Cropper.js won't change the aspect ratio of preview elements, so we need to recreate them..
 
 	for ( let i of [0,1] ) {
 		// save loaded image
@@ -71,6 +71,7 @@ function changeLayout() {
 
 		cropper[ i ] = new Cropper( imgEl, {
 			aspectRatio: aspect,
+			autoCropArea: 1,
 			viewMode: 1,
 			dragMode: 'move',
 			minContainerWidth: 660,
@@ -78,10 +79,8 @@ function changeLayout() {
 			preview: pvwEl
 		});
 
-		imgEl.addEventListener( 'ready', updatePreview );
+		imgEl.addEventListener( 'ready', updatePreview ); // update preview when done loading image
 	}
-
-//	updatePreview();
 
 }
 
@@ -379,7 +378,8 @@ function updatePreview() {
 		let ctx = canvas.getContext('2d');
 
 		let img = cropper[0].getCroppedCanvas();
-		ctx.drawImage( img, 0, 0, canvas.width, canvas.height );
+		if ( img )
+			ctx.drawImage( img, 0, 0, canvas.width, canvas.height );
 		generateCalendar( month[ 1 ], year[ 1 ], canvas );
 	}
 }
@@ -482,8 +482,8 @@ function initialize() {
 	else
 		country = msg[ lang ].defCountry;
 
-	// generate page HTML
-	document.getElementById('container').innerHTML = pageTemplate();
+	// populate HTML with selected language translations
+	translatePage();
 
 	// try to get last used paper size
 	let paper = document.querySelector( `input[name="paper"][value="${localStorage.getItem('paper')}"]` );

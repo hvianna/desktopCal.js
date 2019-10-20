@@ -41,15 +41,13 @@ h3 {
 label {
 	display: inline-block;
 }
-label span {
-	display: block;
-	font-size: 10px;
-	text-transform: uppercase;
-}
 
 button, input, select {
 	font: inherit;
 	padding: 6px;
+}
+input[type="number"] {
+	width: 90px;
 }
 input[type="color"] {
 	padding: 0;
@@ -146,6 +144,11 @@ p {
 	margin: 0 auto;
 }
 
+.tag {
+	display: block;
+	font-size: 10px;
+	text-transform: uppercase;
+}
 
 .image-selector {
 	height: 500px;
@@ -153,10 +156,6 @@ p {
 }
 .image-selector img {
 	max-width: 100%;
-}
-
-#canvas-config input {
-	width: 80px;
 }
 
 #back-config {
@@ -247,6 +246,10 @@ p {
 	line-height: 1.6;
 	margin-bottom: 30px;
 	padding: 0 0 10px 110px;
+}
+
+h2 ~ .note {
+	margin: -20px 0 20px;
 }
 
 .note,
