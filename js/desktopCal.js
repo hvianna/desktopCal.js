@@ -104,7 +104,7 @@ function configUIElements() {
 	// digitar calendar configuration
 	document.getElementById('rotate-canvas').addEventListener( 'click', rotateCanvas );
 	document.querySelectorAll('#canvas-width, #canvas-height').forEach( el => el.addEventListener( 'change', changeLayout ) );
-	document.querySelectorAll('#cal-size, #h-align, #v-align').forEach( el => el.addEventListener( 'change', updatePreview ) );
+	document.querySelectorAll('#cal-size, #h-align, #v-align, #bg-color, #bg-opacity, #text-color, #holiday-color').forEach( el => el.addEventListener( 'change', updatePreview ) );
 
 	// update digital wallpaper canvas on Cropper.js events
 	document.getElementById('image0').addEventListener('crop', e => {
@@ -237,7 +237,9 @@ function generateCalendar( month, year, canvas = null ) {
 		}
 
 		// create a semi-transparent background for the calendar
-		ctx.fillStyle = 'rgba( 255, 255, 255, .6 )';
+		let bgColor = '0x' + document.getElementById('bg-color').value.substring(1);
+		ctx.fillStyle = 'rgba(' + [ ( bgColor >> 16 ) & 255, ( bgColor >> 8 ) & 255, bgColor & 255 ].join(',') + ',' + document.getElementById('bg-opacity').value + ')';
+
 		if ( calSize == 'col' )
 			ctx.fillRect( initialX, 0, cellSize * 3, canvas.height );
 		else if ( calSize == 'row' )
@@ -248,7 +250,7 @@ function generateCalendar( month, year, canvas = null ) {
 		}
 
 		// display month name and year
-		ctx.fillStyle = '#000';
+		ctx.fillStyle = document.getElementById('text-color').value;
 		ctx.font = 'bold ' + cellSize / 1.5 + 'px sans-serif';
 		if ( calSize == 'col' ) {
 			ctx.textAlign = 'center';
@@ -277,7 +279,7 @@ function generateCalendar( month, year, canvas = null ) {
 	// display week days initials
 	for ( i = 0; i < 7; i++ ) {
 		if ( canvas && ! isNaN( calSize ) ) {
-			ctx.fillStyle = i == 0 ? '#c00' : '#000';
+			ctx.fillStyle = i == 0 ? document.getElementById('holiday-color').value : document.getElementById('text-color').value;
 			ctx.fillText( msg[ lang ].weekDays[ i ].charAt(0), i * cellSize * 1.3, currLine );
 		}
 		else
@@ -296,7 +298,7 @@ function generateCalendar( month, year, canvas = null ) {
 	// loop for the current month
 	for ( i = 1; i <= ndays[ month ]; i++ ) {
 		if ( canvas ) {
-			ctx.fillStyle = ( dow == 0 || checkHoliday( year, month, i ) ) ? '#c00' : '#000';
+			ctx.fillStyle = ( dow == 0 || checkHoliday( year, month, i ) ) ? document.getElementById('holiday-color').value : document.getElementById('text-color').value;
 			if ( calSize == 'col' ) {
 				ctx.font = cellSize * .3 + 'px sans-serif';
 				ctx.textAlign = 'left';

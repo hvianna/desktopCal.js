@@ -40,13 +40,13 @@ var msg = {
 		screenRes:  'Screen resolution',
 		chgOrient:  'Change orientation',
 		calSize:    'Style / Size',
-		small:      'Small',
-		medium:     'Medium',
-		large:      'Large',
+		small:      'Small block',
+		medium:     'Medium block',
+		large:      'Large block',
 		column:     'Column',
 		row:        'Row',
-		horAlign:   'Horizontal pos',
-		verAlign:   'Vertical pos',
+		horAlign:   'Horizontal alignment',
+		verAlign:   'Vertical alignment',
 		left:       'Left',
 		horCenter:  'Center',
 		right:      'Right',
@@ -56,6 +56,10 @@ var msg = {
 		width:      'Width',
 		height:     'Height',
 		pixels:     'pixels',
+		bgColor:    'Background color',
+		bgOpacity:  'Background opacity',
+		textColor:  'Text color',
+		holidayColor:'Holidays color',
 		loadImage:  'Load Image',
 		holidays:   'National holidays',
 		customHolidays: 'Custom holidays',
@@ -116,6 +120,10 @@ var msg = {
 		width:      'Anchura',
 		height:     'Altura',
 		pixels:     'píxeles',
+		bgColor:    'Color de fondo',
+		bgOpacity:  'Opacidad del fondo',
+		textColor:  'Color de texto',
+		holidayColor:'Color de feriados',
 		loadImage:  'Cargar Imagen',
 		holidays:   'Feriados nacionales',
 		customHolidays: 'Feriados personalizados',
@@ -176,6 +184,10 @@ var msg = {
 		width:      'Largeur',
 		height:     'Hauteur',
 		pixels:     'pixels',
+		bgColor:    'Couleur du fond',
+		bgOpacity:  'Opacité du fond',
+		textColor:  'Couleur du texte',
+		holidayColor:'Couleur de jours fériés',
 		loadImage:  'Charger Image',
 		holidays:   'Fêtes nationales',
 		customHolidays: 'Jours fériés personnalisées',
@@ -218,15 +230,15 @@ var msg = {
 		wallSingle: 'Calendário de parede',
 		digitalBg:  'Papel de parede digital',
 		screenRes:  'Resolução da tela',
-		chgOrient:  'Mudar orientação',
+		chgOrient:  'Alterar orientação',
 		calSize:    'Estilo / Tamanho',
-		small:      'Pequeno',
-		medium:     'Médio',
-		large:      'Grande',
+		small:      'Quadro pequeno',
+		medium:     'Quadro médio',
+		large:      'Quadro grande',
 		column:     'Coluna',
 		row:        'Linha',
-		horAlign:   'Pos. horizontal',
-		verAlign:   'Pos. vertical',
+		horAlign:   'Alinhamento horizontal',
+		verAlign:   'Alinhamento vertical',
 		left:       'Esquerda',
 		horCenter:  'Centro',
 		right:      'Direita',
@@ -235,6 +247,10 @@ var msg = {
 		bottom:     'Inferior',
 		width:      'Largura',
 		height:     'Altura',
+		bgColor:    'Cor de fundo',
+		bgOpacity:  'Opacidade do fundo',
+		textColor:  'Cor do texto',
+		holidayColor:'Cor dos feriados',
 		pixels:     'pixels',
 		loadImage:  'Carregar Imagem',
 		holidays:   'Feriados nacionais',
@@ -312,7 +328,7 @@ function changeLang( newLang ) {
 
 	// save values from input and select elements, so we can restore them after changing the language
 
-	var elems = document.querySelectorAll('input[type="text"], input[type="radio"], select');
+	var elems = document.querySelectorAll('input[type="text"], input[type="radio"], input[type="color"], select');
 	var values = [];
 
 	for ( var i = 0; i < elems.length; i++ ) {
@@ -340,7 +356,7 @@ function changeLang( newLang ) {
 
 	// restore input and select values
 
-	elems = document.querySelectorAll('input[type="text"], input[type="radio"], select');
+	elems = document.querySelectorAll('input[type="text"], input[type="radio"], input[type="color"], select');
 
 	for ( i = 0; i < elems.length; i++ ) {
 		if ( elems[ i ].localName == 'select' )

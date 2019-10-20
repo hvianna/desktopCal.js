@@ -91,40 +91,63 @@ function pageTemplate() {
 				<h2>Screen configuration</h2>
 				<div class="config-blocks">
 					<label>
-						<span>${msg[lang].screenRes}</span>
+						<span>${msg[lang].width}</span>
 						<input id="canvas-width" type="text" maxlength="4" placeholder="${msg[lang].width}">
-						x
+						${msg[lang].pixels}
+					</label>
+					<label>
+						<span>${msg[lang].height}</span>
 						<input id="canvas-height" type="text" maxlength="4" placeholder="${msg[lang].height}">
 						${msg[lang].pixels}
 					</label>
-					<button id="rotate-canvas" class="rotate-button" title="${msg[lang].chgOrient}"></button>
+					<button id="rotate-canvas" class="rotate-button">${msg[lang].chgOrient}</button>
 				</div>
-				<label>
-					<span>${msg[lang].calSize}</span>
-					<select id="cal-size">
-						<option value="col">${msg[lang].column}</option>
-						<option value="row">${msg[lang].row}</option>
-						<option value=".03">${msg[lang].small}</option>
-						<option value=".05" selected>${msg[lang].medium}</option>
-						<option value=".07">${msg[lang].large}</option>
-					</select>
-				</label>
-				<label>
-					<span>${msg[lang].horAlign}</span>
-					<select id="h-align">
-						<option value="left">${msg[lang].left}</option>
-						<option value="center">${msg[lang].horCenter}</option>
-						<option value="right" selected>${msg[lang].right}</option>
-					</select>
-				</label>
-				<label>
-					<span>${msg[lang].verAlign}</span>
-					<select id="v-align">
-						<option value="top">${msg[lang].top}</option>
-						<option value="center" selected>${msg[lang].verCenter}</option>
-						<option value="bottom">${msg[lang].bottom}</option>
-					</select>
-				</label>
+				<div class="config-blocks">
+					<label>
+						<span>${msg[lang].calSize}</span>
+						<select id="cal-size">
+							<option value="col">${msg[lang].column}</option>
+							<option value="row">${msg[lang].row}</option>
+							<option value=".03">${msg[lang].small}</option>
+							<option value=".05" selected>${msg[lang].medium}</option>
+							<option value=".07">${msg[lang].large}</option>
+						</select>
+					</label>
+					<label>
+						<span>${msg[lang].horAlign}</span>
+						<select id="h-align">
+							<option value="left">${msg[lang].left}</option>
+							<option value="center">${msg[lang].horCenter}</option>
+							<option value="right" selected>${msg[lang].right}</option>
+						</select>
+					</label>
+					<label>
+						<span>${msg[lang].verAlign}</span>
+						<select id="v-align">
+							<option value="top">${msg[lang].top}</option>
+							<option value="center" selected>${msg[lang].verCenter}</option>
+							<option value="bottom">${msg[lang].bottom}</option>
+						</select>
+					</label>
+				</div>
+				<div class="config-blocks">
+					<label>
+						<span>${msg[lang].bgColor}</span>
+						<input id="bg-color" type="color" value="#ffffff">
+					</label>
+					<label>
+						<span>${msg[lang].bgOpacity}</span>
+						<input id="bg-opacity" type="range" min="0" max="1" step=".1" value=".6">
+					</label>
+					<label>
+						<span>${msg[lang].textColor}</span>
+						<input id="text-color" type="color" value="#000000">
+					</label>
+					<label>
+						<span>${msg[lang].holidayColor}</span>
+						<input id="holiday-color" type="color" value="#cc0000">
+					</label>
+				</div>
 			</div> <!-- #canvas-config -->
 
 			<h2>Configure your Holidays</h2>

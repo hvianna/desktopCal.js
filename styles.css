@@ -51,6 +51,9 @@ button, input, select {
 	font: inherit;
 	padding: 6px;
 }
+input[type="color"] {
+	padding: 0;
+}
 
 button, .button {
 	background-color: #f0f0f0;
@@ -211,10 +214,7 @@ p {
 }
 
 .rotate-button {
-	border-radius: 50%;
 	height: 40px;
-	margin: 10px 0 0 10px;
-	width: 40px;
 }
 .rotate-button::before {
 	background-image: url(img/icons8-exchange-filled.png);
@@ -222,6 +222,7 @@ p {
 	content: '';
 	display: inline-block;
 	height: 24px;
+	margin-right: 10px;
 	vertical-align: text-top;
 	width: 24px;
 }
