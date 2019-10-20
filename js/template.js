@@ -57,9 +57,9 @@ function pageTemplate() {
 					<div class="image-selector">
 						<img id="image0" crossorigin="anonymous">
 					</div>
-					<button data-action="rot" data-obj="0" class="cropper-action">Rotate</button>
-					<button data-action="flx" data-obj="0" class="cropper-action">Flip H</button>
-					<button data-action="fly" data-obj="0" class="cropper-action">Flip V</button>
+					<button data-action="rot" data-obj="0" class="cropper-action">${msg[lang].rotate}</button>
+					<button data-action="flx" data-obj="0" class="cropper-action">${msg[lang].flipH}</button>
+					<button data-action="fly" data-obj="0" class="cropper-action">${msg[lang].flipV}</button>
 				</div>
 
 				<div id="back-config">
@@ -81,14 +81,14 @@ function pageTemplate() {
 					<div class="image-selector">
 						<img id="image1" crossorigin="anonymous">
 					</div>
-					<button data-action="rot" data-obj="1" class="cropper-action">Rotate</button>
-					<button data-action="flx" data-obj="1" class="cropper-action">Flip H</button>
-					<button data-action="fly" data-obj="1" class="cropper-action">Flip V</button>
+					<button data-action="rot" data-obj="1" class="cropper-action">${msg[lang].rotate}</button>
+					<button data-action="flx" data-obj="1" class="cropper-action">${msg[lang].flipH}</button>
+					<button data-action="fly" data-obj="1" class="cropper-action">${msg[lang].flipV}</button>
 				</div>
 			</div> <!-- .tab-container -->
 
 			<div id="canvas-config">
-				<h2>Screen configuration</h2>
+				<h2>${msg[lang].screenConf}</h2>
 				<div class="config-blocks">
 					<label>
 						<span>${msg[lang].width}</span>
@@ -150,11 +150,11 @@ function pageTemplate() {
 				</div>
 			</div> <!-- #canvas-config -->
 
-			<h2>Configure your Holidays</h2>
+			<h2>${msg[lang].holidays}</h2>
 
 			<div class="config-blocks">
 				<div>
-					<h3>${msg[lang].holidays}</h3>
+					<h3>${msg[lang].countryHolidays}</h3>
 					<select id="country" onchange="changeCountry( this.value );">
 						${countryOptions()}
 					</select>
