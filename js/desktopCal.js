@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-var _VERSION = '19.1-RC';
+var _VERSION = '19.10-dev';
 
 var cropper = [];
 
@@ -86,6 +86,14 @@ function changeLayout() {
 }
 
 /**
+ * Save selected paper size and updates layout
+ */
+function changePaper() {
+	localStorage.setItem( 'paper', document.querySelector('input[name="paper"]:checked').value );
+	changeLayout();
+}
+
+/**
  * Set event listeners for UI elements
  */
 function configUIElements() {
@@ -105,7 +113,7 @@ function configUIElements() {
 	});
 
  	// paper format and print button
-	document.querySelectorAll('input[name="paper"]').forEach( el => el.addEventListener( 'click', changeLayout ) );
+	document.querySelectorAll('input[name="paper"]').forEach( el => el.addEventListener( 'click', changePaper ) );
 	document.getElementById('print-button').addEventListener( 'click', () => prepareForPrinting() );
 
 	// Cropper.js action buttons
@@ -458,19 +466,27 @@ function initialize() {
 		w = window.screen.width * window.devicePixelRatio,
 		h = window.screen.height * window.devicePixelRatio;
 
-	// try to use browser preferred language and country
-	if ( Object.keys( msg ).includes( browserLang[0] ) )
-		lang = browserLang[0];
+	// try to get preferred language and country
+	let prefLang = localStorage.getItem('lang') || browserLang[0];
+	let prefCountry = localStorage.getItem('country') || browserLang[1].toLowerCase();
+
+	if ( Object.keys( msg ).includes( prefLang ) )
+		lang = prefLang;
 	else
 		lang = 'en'; // if language not available, defaults to English
 
-	if ( Object.keys( countries ).includes( browserLang[1].toLowerCase() ) )
-		country = browserLang[1].toLowerCase();
+	if ( Object.keys( countries ).includes( prefCountry ) )
+		country = prefCountry;
 	else
 		country = msg[ lang ].defCountry;
 
 	// generate page HTML
 	document.getElementById('container').innerHTML = pageTemplate();
+
+	// try to get last used paper size
+	let paper = document.querySelector( `input[name="paper"][value="${localStorage.getItem('paper')}"]` );
+	if ( paper )
+		paper.checked = true;
 
 	// suggest current and next months for calendars
 	document.getElementById('bottom-year').value = year;

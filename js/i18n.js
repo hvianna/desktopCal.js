@@ -298,6 +298,7 @@ function countryOptions() {
 function changeCountry( newCountry ) {
 
 	country = newCountry;
+	localStorage.setItem( 'country', country );
 	updatePreview();
 }
 
@@ -307,6 +308,7 @@ function changeLang( newLang ) {
 		return false;
 
 	lang = newLang;
+	localStorage.setItem( 'lang', lang );
 
 	// save values from input and select elements, so we can restore them after changing the language
 
