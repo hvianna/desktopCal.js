@@ -51,6 +51,9 @@ button, input, select {
 	font: inherit;
 	padding: 6px;
 }
+input[type="color"] {
+	padding: 0;
+}
 
 button, .button {
 	background-color: #f0f0f0;
@@ -59,10 +62,10 @@ button, .button {
 	color: #555;
 	cursor: pointer;
 	display: inline-block;
-	padding: 6px;
+	padding: 6px 20px;
 	text-align: center;
 	text-decoration: none;
-	width: 150px;
+	min-width: 100px;
 }
 
 p {
@@ -71,11 +74,6 @@ p {
 
 .bottom {
 	margin-bottom: 20px;
-}
-
-.container {
-	display: flex;
-	justify-content: space-evenly;
 }
 
 .lang-selection {
@@ -88,10 +86,19 @@ p {
 	width: 32px;
 }
 
+#config, #preview {
+	display: inline-block;
+	margin: 0 calc( ( 100vw - 1230px ) / 4 );
+}
+
 #config {
 	color: #555;
 	padding: 20px;
 	width: 700px;
+}
+
+.config-row {
+	margin-bottom: 20px;
 }
 
 .config-blocks {
@@ -117,10 +124,18 @@ p {
 	float: right;
 }
 
+#layout-selector input[type="radio"] {
+	display: none;
+}
+#layout-selector input[type="radio"]:checked + .label-layout {
+	background: #ea0;
+	color: #543;
+	font-weight: bold;
+}
 .label-layout {
 	border-radius: 5px;
 	cursor: pointer;
-	padding: 6px;
+	padding: 10px;
 }
 .label-layout:hover {
 	background-color: #f0f0f0;
@@ -131,8 +146,21 @@ p {
 	margin: 0 auto;
 }
 
+
+.image-selector {
+	height: 500px;
+	margin-bottom: 20px;
+}
+.image-selector img {
+	max-width: 100%;
+}
+
 #canvas-config input {
 	width: 80px;
+}
+
+#back-config {
+	display: none;
 }
 
 .custom-file-button input,
@@ -149,7 +177,6 @@ p {
 	border-radius: 5px;
 	cursor: pointer;
 	display: inline-block;
-	margin-bottom: 20px;
 	padding: 6px 12px;
 	text-align: center;
 	min-width: 150px;
@@ -187,10 +214,7 @@ p {
 }
 
 .rotate-button {
-	border-radius: 50%;
 	height: 40px;
-	margin: 10px 0 0 10px;
-	width: 40px;
 }
 .rotate-button::before {
 	background-image: url(img/icons8-exchange-filled.png);
@@ -198,6 +222,7 @@ p {
 	content: '';
 	display: inline-block;
 	height: 24px;
+	margin-right: 10px;
 	vertical-align: text-top;
 	width: 24px;
 }
@@ -232,17 +257,51 @@ p {
 
 .credits {
 	border-top: 1px dotted #ccc;
+	line-height: 1.6;
 	margin-top: 50px;
+	text-align: center;
 }
 
+/* Tabs */
+
+.tab-container {
+	background: #f0f0f0;
+}
+.tab-container input[type="radio"] {
+	display: none;
+}
+.tab-container .tab {
+	cursor: pointer;
+	margin-right: 10px;
+	padding: 10px;
+	text-align: center;
+	width: 20%;
+}
+.tab-container input[type="radio"]:checked + label {
+	background: #fff;
+	box-shadow: inset 0 4px #ea0;
+}
+
+#front-config,
+#back-config {
+	background: #fff;
+	display: none;
+	padding-top: 20px;
+}
+#pos0:checked ~ #front-config,
+#pos1:checked ~ #back-config {
+	display: block;
+}
 
 /**
  * Preview area
  */
 
 #preview {
-	margin: 40px 0;
-	width: 550px;
+	position: sticky;
+	top: 10px;
+	vertical-align: top;
+	width: 500px;
 }
 
 .preview-header {
@@ -252,21 +311,31 @@ p {
 	margin-bottom: 20px;
 }
 
-.preview-content {
+#preview-content {
 	box-shadow: 1px 1px 6px rgba(0,0,0,.3);
 	font-size: 9pt;
-	height: 715px;
-	width: 550px;
+}
+#preview-content.iso {
+	height: 707px;
+}
+#preview-content.letter {
+	height: 646px;
+}
+#preview-content.tabloid {
+	height: 774px;
+}
+#preview-content.legal {
+	height: 824px;
 }
 
 #preview:not(.digital) #canvas,
-.preview-content .note {
+#preview-content .note {
 	display: none;
 }
 
 #canvas {
-	max-height: 715px;
-	max-width: 550px;
+	max-height: 705px;
+	max-width: 100%;
 }
 
 .top-half {
@@ -305,7 +374,7 @@ p {
 
 /* single month wall calendar */
 
-.wall-single .preview-content {
+.wall-single #preview-content {
 	font-size: 12pt;
 }
 .wall-single .top-half,
@@ -336,7 +405,7 @@ p {
 .digital #canvas {
 	display: block;
 }
-.digital .preview-content {
+.digital #preview-content {
 	display: none;
 }
 
@@ -394,6 +463,10 @@ p {
 	overflow: hidden;
 	width: 40%;
 }
+#preview0, #preview1 {
+	height: 100%;
+	width: 100%;
+}
 
 .cal-content {
 	width: 60%;
@@ -406,13 +479,10 @@ p {
 	text-align: center;
 }
 
-@media screen and ( max-width: 1400px ) {
-
-	.container {
-		display: block;
-	}
+@media screen and ( max-width: 1279px ) {
 
 	#config, #preview {
+		display: block;
 		margin: 0 auto;
 		padding: 20px;
 	}
@@ -428,8 +498,8 @@ p {
 	body,
 	.container,
 	#preview,
-	.preview-content {
-		height: 100%;
+	#preview-content {
+		height: 100% !important;
 		margin: 0;
 		width: 100%;
 	}
@@ -440,22 +510,23 @@ p {
 		display: none;
 	}
 
-	.preview-content {
+	#preview-content {
 		box-shadow: none;
-		font-size: 12pt;
+		font-size: 2.2vw;
 		left: 0;
 		position: absolute;
 		top: 0;
 	}
-	.preview-content .note {
+	#preview-content .note {
 		color: #999;
 		display: block;
+		font-size: 1.5vw;
 		margin-top: -4em;
 		padding: 0;
 	}
 
-	.wall-single .preview-content {
-		font-size: 15pt;
+	.wall-single #preview-content {
+		font-size: 2.5vw;
 	}
 	.wall-single .calendar {
 		height: calc( 100% - 8em );

@@ -19,24 +19,133 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-var _VERSION = '19.1-RC';
+var _VERSION = '19.10-dev';
 
+var cropper = [];
+
+/**
+ * Update/create Cropper.js areas whenever the calendar layout or paper size change
+ */
+function changeLayout() {
+
+	var layout = document.querySelector('input[name="layout"]:checked').value;
+
+	// set layout
+	document.getElementById('config').className = layout;
+	document.getElementById('preview').className = layout;
+	document.getElementById('preview-content').className = document.querySelector('input[name="paper"]:checked').value;
+
+	if ( layout != 'desktop' ) {
+		document.getElementById('pos0').checked = true;
+		document.querySelectorAll('#position-selector .tab').forEach( el => el.style.display = 'none' );
+	}
+	else {
+		document.querySelectorAll('#position-selector .tab').forEach( el => el.style.display = 'inline-block' );
+		document.getElementById('position-selector').style.display = 'block';
+	}
+
+	// recreate Cropper.js areas
+
+	for ( let i of [0,1] ) {
+		// save loaded image
+		let imgEl = document.getElementById( `image${i}` );
+		let imgSrc = imgEl.src;
+
+		// destroy cropper instance
+		if ( cropper[ i ] )
+			cropper[ i ].destroy();
+
+		// restore loaded image
+		imgEl.src = imgSrc;
+
+		// clear preview element style
+		let pvwEl = document.getElementById( `preview${i}` );
+		pvwEl.style = '';
+
+		// create new cropper instance with proper aspect ratio
+		let aspect;
+		if ( layout == 'digital' )
+			aspect = document.getElementById('canvas-width').value / document.getElementById('canvas-height').value;
+		else
+			aspect = document.getElementById( `cal-image${i}` ).clientWidth / document.getElementById( `cal-image${i}` ).clientHeight;
+
+		cropper[ i ] = new Cropper( imgEl, {
+			aspectRatio: aspect,
+			viewMode: 1,
+			dragMode: 'move',
+			minContainerWidth: 660,
+			minContainerHeight: 500,
+			preview: pvwEl
+		});
+
+		imgEl.addEventListener( 'ready', updatePreview );
+	}
+
+//	updatePreview();
+
+}
+
+/**
+ * Save selected paper size and updates layout
+ */
+function changePaper() {
+	localStorage.setItem( 'paper', document.querySelector('input[name="paper"]:checked').value );
+	changeLayout();
+}
+
+/**
+ * Set event listeners for UI elements
+ */
+function configUIElements() {
+
+	// calendar layout selector
+	document.querySelectorAll('input[name="layout"]').forEach( el => el.addEventListener( 'click', changeLayout ) );
+
+	// digitar calendar configuration
+	document.getElementById('rotate-canvas').addEventListener( 'click', rotateCanvas );
+	document.querySelectorAll('#canvas-width, #canvas-height').forEach( el => el.addEventListener( 'change', changeLayout ) );
+	document.querySelectorAll('#cal-size, #h-align, #v-align, #bg-color, #bg-opacity, #text-color, #holiday-color').forEach( el => el.addEventListener( 'change', updatePreview ) );
+
+	// update digital wallpaper canvas on Cropper.js events
+	document.getElementById('image0').addEventListener('crop', e => {
+		if ( document.querySelector('input[name="layout"]:checked').value == 'digital' )
+			updatePreview();
+	});
+
+ 	// paper format and print button
+	document.querySelectorAll('input[name="paper"]').forEach( el => el.addEventListener( 'click', changePaper ) );
+	document.getElementById('print-button').addEventListener( 'click', () => prepareForPrinting() );
+
+	// Cropper.js action buttons
+	document.querySelectorAll('.cropper-action').forEach( el => {
+		el.addEventListener('click', e => {
+			let n = e.target.dataset.obj;
+			let action = e.target.dataset.action;
+			if ( action == 'rot' )
+				cropper[ n ].rotate(90);
+			else if ( action == 'flx' )
+				cropper[ n ].scaleX( cropper[ n ].getImageData().scaleX * -1 );
+			else if ( action == 'fly' )
+				cropper[ n ].scaleY( cropper[ n ].getImageData().scaleY * -1 );
+		});
+	});
+
+}
 
 /**
  * Loads an image from user's computer into a calendar panel
  *
  * @param {HTMLInputElement object} obj    handler of the HTML file element
- * @param {string}                  side   'top' or 'bottom' side of the calendar
+ * @param {number}                  n      image number (0 or 1)
  */
-function loadImage( obj, side ) {
+function loadImage( obj, n ) {
 
 	var reader = new FileReader(),
 		layout = document.getElementById('preview').className;
 
 	reader.onload = function() {
-		document.querySelector(`.${side}-half .cal-image`).style = `background-image: url(${ reader.result })`;
-		if ( layout == 'digital' )
-			updatePreview();
+		document.getElementById( `image${n}` ).src = reader.result;
+		cropper[ n ].replace( reader.result );
 	}
 
 	reader.readAsDataURL( obj.files[0] );
@@ -128,7 +237,9 @@ function generateCalendar( month, year, canvas = null ) {
 		}
 
 		// create a semi-transparent background for the calendar
-		ctx.fillStyle = 'rgba( 255, 255, 255, .6 )';
+		let bgColor = '0x' + document.getElementById('bg-color').value.substring(1);
+		ctx.fillStyle = 'rgba(' + [ ( bgColor >> 16 ) & 255, ( bgColor >> 8 ) & 255, bgColor & 255 ].join(',') + ',' + document.getElementById('bg-opacity').value + ')';
+
 		if ( calSize == 'col' )
 			ctx.fillRect( initialX, 0, cellSize * 3, canvas.height );
 		else if ( calSize == 'row' )
@@ -139,7 +250,7 @@ function generateCalendar( month, year, canvas = null ) {
 		}
 
 		// display month name and year
-		ctx.fillStyle = '#000';
+		ctx.fillStyle = document.getElementById('text-color').value;
 		ctx.font = 'bold ' + cellSize / 1.5 + 'px sans-serif';
 		if ( calSize == 'col' ) {
 			ctx.textAlign = 'center';
@@ -168,7 +279,7 @@ function generateCalendar( month, year, canvas = null ) {
 	// display week days initials
 	for ( i = 0; i < 7; i++ ) {
 		if ( canvas && ! isNaN( calSize ) ) {
-			ctx.fillStyle = i == 0 ? '#c00' : '#000';
+			ctx.fillStyle = i == 0 ? document.getElementById('holiday-color').value : document.getElementById('text-color').value;
 			ctx.fillText( msg[ lang ].weekDays[ i ].charAt(0), i * cellSize * 1.3, currLine );
 		}
 		else
@@ -187,7 +298,7 @@ function generateCalendar( month, year, canvas = null ) {
 	// loop for the current month
 	for ( i = 1; i <= ndays[ month ]; i++ ) {
 		if ( canvas ) {
-			ctx.fillStyle = ( dow == 0 || checkHoliday( year, month, i ) ) ? '#c00' : '#000';
+			ctx.fillStyle = ( dow == 0 || checkHoliday( year, month, i ) ) ? document.getElementById('holiday-color').value : document.getElementById('text-color').value;
 			if ( calSize == 'col' ) {
 				ctx.font = cellSize * .3 + 'px sans-serif';
 				ctx.textAlign = 'left';
@@ -250,17 +361,11 @@ function updatePreview() {
 		country = document.getElementById('country').value,
 		layout = document.querySelector('input[name="layout"]:checked').value;
 
-	var i, j, canvas, ctx, img, w, h, initialX, initialY;
-
 	// set lang attribute on html element
 	document.getElementsByTagName('html')[0].lang = `${lang}-${country.toUpperCase()}`;
 
-	// set layout
-	document.getElementById('config').className = layout;
-	document.getElementById('preview').className = layout;
-
 	if ( layout != 'digital' ) {
-		for ( i = 0; i < 2; i++ ) {
+		for ( let i of [0,1] ) {
 			if ( month[ i ] > 0 && year[ i ] > 0 ) {
 				area[ i ].querySelector('.cal-title').innerText = msg[ lang ].monthNames[ month[ i ] ] + ' ' + year[ i ];
 				area[ i ].querySelector('.calendar').innerHTML = generateCalendar( month[ i ], year[ i ] );
@@ -268,32 +373,14 @@ function updatePreview() {
 		}
 	}
 	else {
-		canvas = document.getElementById('canvas');
+		let canvas = document.getElementById('canvas');
 		canvas.width = document.getElementById('canvas-width').value;
 		canvas.height = document.getElementById('canvas-height').value;
-		ctx = canvas.getContext('2d');
+		let ctx = canvas.getContext('2d');
 
-		img = new Image();
-		img.crossOrigin = 'anonymous';
-		img.src = document.getElementById('bottom-half').querySelector('.cal-image').style.backgroundImage.match(/url\("([^"]*)"\)/)[1];
-		img.onload = function() {
-			w = canvas.width;
-			h = canvas.height;
-			// scale and center original image as needed
-			if ( ( w > h && img.width / img.height <= w / h ) ||
-				 ( h > w && img.height / img.width > h / w ) ) {
-				h = w / img.width * img.height;
-				initialX = 0;
-				initialY = ( h - canvas.height ) * img.height / h / 2;
-			}
-			else {
-				w = h / img.height * img.width;
-				initialX = ( w - canvas.width ) * img.width / w / 2;
-				initialY = 0;
-			}
-			ctx.drawImage( img, initialX, initialY, img.width, img.height, 0, 0, w, h );
-			generateCalendar( month[ 1 ], year[ 1 ], canvas );
-		}
+		let img = cropper[0].getCroppedCanvas();
+		ctx.drawImage( img, 0, 0, canvas.width, canvas.height );
+		generateCalendar( month[ 1 ], year[ 1 ], canvas );
 	}
 }
 
@@ -307,7 +394,7 @@ function rotateCanvas() {
 	document.getElementById('canvas-width').value = document.getElementById('canvas-height').value;
 	document.getElementById('canvas-height').value = tmp;
 
-	updatePreview();
+	changeLayout();
 }
 
 /**
@@ -342,6 +429,34 @@ CanvasRenderingContext2D.prototype.roundRect = function ( x, y, w, h, r ) {
 }
 
 /**
+ * Load cropped images into printing areas, so they are responsive (dimensions not fixed in pixels)
+ */
+async function prepareForPrinting() {
+
+	for ( let i of [0,1] ) {
+		document.getElementById( `preview${i}` ).style.display = 'none'; // hide cropper.js preview area
+		let img = cropper[ i ].getCroppedCanvas();
+		if ( img ) {
+			let blob = await new Promise( resolve => img.toBlob( resolve ) );
+			let url = URL.createObjectURL( blob );
+			document.getElementById( `cal-image${i}` ).style = `background-image: url(${url})`;
+		}
+	}
+
+	window.print();
+}
+
+/**
+ * Restore preview areas and clear background images used for printing
+ */
+function restoreFromPrinting() {
+	for ( let i of [0,1] ) {
+		document.getElementById( `preview${i}` ).style.display = 'block';
+		document.getElementById( `cal-image${i}` ).style = '';
+	}
+}
+
+/**
  * Initialize user interface on page load
  */
 function initialize() {
@@ -353,21 +468,29 @@ function initialize() {
 		w = window.screen.width * window.devicePixelRatio,
 		h = window.screen.height * window.devicePixelRatio;
 
-	// try to use browser preferred language and country
-	if ( Object.keys( msg ).includes( browserLang[0] ) )
-		lang = browserLang[0];
+	// try to get preferred language and country
+	let prefLang = localStorage.getItem('lang') || browserLang[0];
+	let prefCountry = localStorage.getItem('country') || browserLang[1].toLowerCase();
+
+	if ( Object.keys( msg ).includes( prefLang ) )
+		lang = prefLang;
 	else
 		lang = 'en'; // if language not available, defaults to English
 
-	if ( Object.keys( countries ).includes( browserLang[1].toLowerCase() ) )
-		country = browserLang[1].toLowerCase();
+	if ( Object.keys( countries ).includes( prefCountry ) )
+		country = prefCountry;
 	else
 		country = msg[ lang ].defCountry;
 
 	// generate page HTML
 	document.getElementById('container').innerHTML = pageTemplate();
 
-	// suggest current month for calendar front...
+	// try to get last used paper size
+	let paper = document.querySelector( `input[name="paper"][value="${localStorage.getItem('paper')}"]` );
+	if ( paper )
+		paper.checked = true;
+
+	// suggest current and next months for calendars
 	document.getElementById('bottom-year').value = year;
 	document.getElementById('bottom-month').selectedIndex = month;
 
@@ -378,20 +501,30 @@ function initialize() {
 	else
 		month++;
 
-	// ...and next month for calendar back
 	document.getElementById('top-year').value = year;
 	document.getElementById('top-month').selectedIndex = month;
-
-	// pick two random images
-	document.getElementById('top-half').querySelector('.cal-image').style.backgroundImage = `url(https://picsum.photos/${w}/${w*.75}/?random)`;
-	document.getElementById('bottom-half').querySelector('.cal-image').style.backgroundImage = `url(https://source.unsplash.com/random/${w}x${w*.75})`;
 
 	// init canvas width and height fields with the display's dimensions
 	document.getElementById('canvas-width').value = w;
 	document.getElementById('canvas-height').value = h;
 
-	// update preview
-	updatePreview();
+	// load two random images
+	for ( let i of [0,1] ) {
+		fetch( `https://picsum.photos/${w}/${w*.75}/?random` )
+		.then( response => response.blob() )
+		.then( blob => {
+			let url = URL.createObjectURL( blob );
+			let imgEl = document.getElementById( `image${i}` );
+			imgEl.src = url;
+			// adjust paper layout and initialize croppable areas when images finish loading
+			imgEl.addEventListener( 'load', changeLayout, { once: true } );
+		});
+	}
+
+	// set up event listeners for UI elements
+	configUIElements();
+
+	window.addEventListener( 'afterprint', () => restoreFromPrinting() );
 }
 
 document.addEventListener( 'DOMContentLoaded', initialize );

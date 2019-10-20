@@ -10,95 +10,151 @@ function pageTemplate() {
 
 			<h2>${msg[lang].design}</h2>
 
-			<div class="flex-blocks center">
-				<label class="label-layout">
+			<div id="layout-selector" class="flex-blocks center">
+				<input id="layout0" type="radio" name="layout" value="desktop" checked="checked">
+				<label for="layout0" class="label-layout">
 					<img src="img/layout-desktop.png">
-					<input type="radio" name="layout" value="desktop" checked="checked" onclick="updatePreview();">
 					${msg[lang].desktopCal}
 				</label>
-				<label class="label-layout">
+
+				<input id="layout1" type="radio" name="layout" value="wall-single">
+				<label for="layout1" class="label-layout">
 					<img src="img/layout-wall-single.png">
-					<input type="radio" name="layout" value="wall-single" onclick="updatePreview();">
 					${msg[lang].wallSingle}
 				</label>
-				<label class="label-layout">
+
+				<input id="layout2" type="radio" name="layout" value="digital">
+				<label for="layout2" class="label-layout">
 					<img src="img/layout-wallpaper.png">
-					<input type="radio" name="layout" value="digital" onclick="updatePreview();">
 					${msg[lang].digitalBg}
 				</label>
 			</div>
 
-			<div class="config-blocks">
-				<div id="front-config">
-					<label class="custom-file-button">
-						<input type="file" accept="image/*" onchange="loadImage( this, 'bottom' );">
-						${msg[lang].loadImage}
-					</label>
-					<br>
-					<input type="text" id="bottom-year" placeholder="${msg[lang].year}" maxlength="4" onchange="updatePreview();">
-					<select id="bottom-month" onchange="updatePreview();">
-						${monthOptions()}
-					</select>
-					<div class="note">${msg[lang].imgNotice}</div>
-				</div>
+			<h2>${msg[lang].edit}</h2>
 
-				<div>
-					<div id="back-config">
+			<div id="position-selector" class="tab-container">
+				<input type="radio" id="pos0" name="image-position" value="0" checked="checked">
+				<label for="pos0" class="tab">${msg[lang].front}</label>
+				<input type="radio" id="pos1" name="image-position" value="1">
+				<label for="pos1" class="tab">${msg[lang].back}</label>
+
+				<div id="front-config">
+					<div class="config-row">
+						${msg[lang].year}:
+						<input type="text" id="bottom-year" placeholder="${msg[lang].year}" maxlength="4" onchange="updatePreview();">
+						${msg[lang].monthNames[0]}:
+						<select id="bottom-month" onchange="updatePreview();">
+							${monthOptions()}
+						</select>
+					</div>
+					<div class="config-row">
+						<div class="note">${msg[lang].imgNotice}</div>
 						<label class="custom-file-button">
-							<input type="file" accept="image/*" onchange="loadImage( this, 'top' );">
+							<input type="file" accept="image/*" onchange="loadImage( this, 0 );">
 							${msg[lang].loadImage}
 						</label>
-						<br>
+					</div>
+					<div class="image-selector">
+						<img id="image0" crossorigin="anonymous">
+					</div>
+					<button data-action="rot" data-obj="0" class="cropper-action">${msg[lang].rotate}</button>
+					<button data-action="flx" data-obj="0" class="cropper-action">${msg[lang].flipH}</button>
+					<button data-action="fly" data-obj="0" class="cropper-action">${msg[lang].flipV}</button>
+				</div>
+
+				<div id="back-config">
+					<div class="config-row">
+						${msg[lang].year}:
 						<input type="text" id="top-year" placeholder="${msg[lang].year}" maxlength="4" onchange="updatePreview();">
+						${msg[lang].monthNames[0]}:
 						<select id="top-month" onchange="updatePreview();">
 							${monthOptions()}
 						</select>
 					</div>
-
-					<div id="canvas-config">
-						<div class="config-blocks">
-							<label>
-								<span>${msg[lang].screenRes}</span>
-								<input id="canvas-width" type="text" maxlength="4" placeholder="${msg[lang].width}" onchange="updatePreview();">
-								x
-								<input id="canvas-height" type="text" maxlength="4" placeholder="${msg[lang].height}" onchange="updatePreview();">
-								${msg[lang].pixels}
-							</label>
-							<button type="button" class="rotate-button" onclick="rotateCanvas();" title="${msg[lang].chgOrient}"></button>
-						</div>
-						<label>
-							<span>${msg[lang].calSize}</span>
-							<select id="cal-size" onchange="updatePreview();">
-								<option value="col">${msg[lang].column}</option>
-								<option value="row">${msg[lang].row}</option>
-								<option value=".03">${msg[lang].small}</option>
-								<option value=".05" selected>${msg[lang].medium}</option>
-								<option value=".07">${msg[lang].large}</option>
-							</select>
+					<div class="config-row">
+						<div class="note">${msg[lang].imgNotice}</div>
+						<label class="custom-file-button">
+							<input type="file" accept="image/*" onchange="loadImage( this, 1 );">
+							${msg[lang].loadImage}
 						</label>
-						<label>
-							<span>${msg[lang].horAlign}</span>
-							<select id="h-align" onchange="updatePreview();">
-								<option value="left">${msg[lang].left}</option>
-								<option value="center">${msg[lang].horCenter}</option>
-								<option value="right" selected>${msg[lang].right}</option>
-							</select>
-						</label>
-						<label>
-							<span>${msg[lang].verAlign}</span>
-							<select id="v-align" onchange="updatePreview();">
-								<option value="top">${msg[lang].top}</option>
-								<option value="center" selected>${msg[lang].verCenter}</option>
-								<option value="bottom">${msg[lang].bottom}</option>
-							</select>
-						</label>
-					</div> <!-- #canvas-config -->
+					</div>
+					<div class="image-selector">
+						<img id="image1" crossorigin="anonymous">
+					</div>
+					<button data-action="rot" data-obj="1" class="cropper-action">${msg[lang].rotate}</button>
+					<button data-action="flx" data-obj="1" class="cropper-action">${msg[lang].flipH}</button>
+					<button data-action="fly" data-obj="1" class="cropper-action">${msg[lang].flipV}</button>
 				</div>
-			</div> <!-- .config-blocks -->
+			</div> <!-- .tab-container -->
+
+			<div id="canvas-config">
+				<h2>${msg[lang].screenConf}</h2>
+				<div class="config-blocks">
+					<label>
+						<span>${msg[lang].width}</span>
+						<input id="canvas-width" type="text" maxlength="4" placeholder="${msg[lang].width}">
+						${msg[lang].pixels}
+					</label>
+					<label>
+						<span>${msg[lang].height}</span>
+						<input id="canvas-height" type="text" maxlength="4" placeholder="${msg[lang].height}">
+						${msg[lang].pixels}
+					</label>
+					<button id="rotate-canvas" class="rotate-button">${msg[lang].chgOrient}</button>
+				</div>
+				<div class="config-blocks">
+					<label>
+						<span>${msg[lang].calSize}</span>
+						<select id="cal-size">
+							<option value="col">${msg[lang].column}</option>
+							<option value="row">${msg[lang].row}</option>
+							<option value=".03">${msg[lang].small}</option>
+							<option value=".05" selected>${msg[lang].medium}</option>
+							<option value=".07">${msg[lang].large}</option>
+						</select>
+					</label>
+					<label>
+						<span>${msg[lang].horAlign}</span>
+						<select id="h-align">
+							<option value="left">${msg[lang].left}</option>
+							<option value="center">${msg[lang].horCenter}</option>
+							<option value="right" selected>${msg[lang].right}</option>
+						</select>
+					</label>
+					<label>
+						<span>${msg[lang].verAlign}</span>
+						<select id="v-align">
+							<option value="top">${msg[lang].top}</option>
+							<option value="center" selected>${msg[lang].verCenter}</option>
+							<option value="bottom">${msg[lang].bottom}</option>
+						</select>
+					</label>
+				</div>
+				<div class="config-blocks">
+					<label>
+						<span>${msg[lang].bgColor}</span>
+						<input id="bg-color" type="color" value="#ffffff">
+					</label>
+					<label>
+						<span>${msg[lang].bgOpacity}</span>
+						<input id="bg-opacity" type="range" min="0" max="1" step=".1" value=".6">
+					</label>
+					<label>
+						<span>${msg[lang].textColor}</span>
+						<input id="text-color" type="color" value="#000000">
+					</label>
+					<label>
+						<span>${msg[lang].holidayColor}</span>
+						<input id="holiday-color" type="color" value="#cc0000">
+					</label>
+				</div>
+			</div> <!-- #canvas-config -->
+
+			<h2>${msg[lang].holidays}</h2>
 
 			<div class="config-blocks">
 				<div>
-					<h3>${msg[lang].holidays}</h3>
+					<h3>${msg[lang].countryHolidays}</h3>
 					<select id="country" onchange="changeCountry( this.value );">
 						${countryOptions()}
 					</select>
@@ -128,13 +184,22 @@ function pageTemplate() {
 			<div id="print-config">
 				<h2>${msg[lang].printIt}</h2>
 
+				<div class="config-blocks">
+					<h3>${msg[lang].paperSize}:</h3>
+					<label><input type="radio" name="paper" value="iso" checked> ${msg[lang].paperIso} </label>
+					<label><input type="radio" name="paper" value="letter"> ${msg[lang].paperLetter} </label>
+					<label><input type="radio" name="paper" value="legal"> ${msg[lang].paperLegal} </label>
+					<label><input type="radio" name="paper" value="tabloid"> ${msg[lang].paperTabloid} </label>
+				</div>
+
 				<ul>
 					<li>${msg[lang].tipBgImg}</li>
+					<li>${msg[lang].tipPortrait}</li>
 					<li>${msg[lang].tipMargins}</li>
 					<li>${msg[lang].tipHeaders}</li>
 				</ul>
 
-				<button type="button" class="print-button" onclick="window.print();">${msg[lang].print}</button>
+				<button id="print-button" class="print-button">${msg[lang].print}</button>
 			</div>
 
 			<div id="download-config">
@@ -157,10 +222,12 @@ function pageTemplate() {
 				${msg[lang].preview}:
 			</div>
 			<canvas id="canvas" onclick="document.getElementById('download-button').click();"></canvas>
-			<div class="preview-content">
+			<div id="preview-content">
 				<div id="top-half" class="top-half">
 					<div class="elements">
-						<div class="cal-image"></div>
+						<div id="cal-image1" class="cal-image">
+							<div id="preview1"></div>
+						</div>
 						<div class="cal-content">
 							<div class="cal-title"></div>
 							<div class="calendar"></div>
@@ -175,7 +242,9 @@ function pageTemplate() {
 				</div>
 				<div id="bottom-half" class="bottom-half">
 					<div class="elements">
-						<div class="cal-image"></div>
+						<div id="cal-image0" class="cal-image">
+							<div id="preview0"></div>
+						</div>
 						<div class="cal-content">
 							<div class="cal-title"></div>
 							<div class="calendar"></div>
@@ -189,12 +258,13 @@ function pageTemplate() {
 					<div class="note center">Created with <strong>desktopCal.js</strong></div>
 				</div>
 			</div>
-			<div class="credits">
-				<strong>desktopCal.js</strong> Copyright &copy; 2018-2019 Henrique Vianna<br>
-				Source code available on <a href="https://github.com/hvianna/desktopCal.js/">GitHub</a>. Licensed under the <a href="https://www.gnu.org/licenses/agpl.html">GNU AGPL-3.0 license</a>.<br>
-				Icons by <a href="https://icons8.com/">icons8</a>. Photos by <a href="https://source.unsplash.com/">Unsplash</a> and <a href="https://picsum.photos/">Lorem Picsum</a>.<br>
-				Devices mockup template by <a href="https://www.pixeden.com/psd-web-elements/flat-responsive-showcase-psd-vol2">Pixeden</a>.
-			</div>
 		</div> <!-- .preview -->
+
+		<div class="credits">
+			<strong>desktopCal.js</strong> Copyright &copy; 2018-2019 Henrique Avila Vianna.
+			Licensed under the <a href="https://www.gnu.org/licenses/agpl.html">GNU AGPL-3.0 license</a>. Source code available on <a href="https://github.com/hvianna/desktopCal.js/">GitHub</a>.<br>
+			Icons by <a href="https://icons8.com/">icons8</a>. Random photos by <a href="https://picsum.photos/">Lorem Picsum</a>.
+			Devices mockup template by <a href="https://www.pixeden.com/psd-web-elements/flat-responsive-showcase-psd-vol2">Pixeden</a>.
+		</div>
 	`;
 }
