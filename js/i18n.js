@@ -58,9 +58,10 @@ var msg = {
 		width:      'Width',
 		height:     'Height',
 		pixels:     'pixels',
-		rotate:     'Rotate',
-		flipH:      'Flip H',
-		flipV:      'Flip V',
+		rotateR:    'Rotate clockwise',
+		rotateL:    'Rotate counterclockwise',
+		flipH:      'Flip horizontal',
+		flipV:      'Flip vertical',
 		bgColor:    'Background color',
 		bgOpacity:  'Background opacity',
 		textColor:  'Text color',
@@ -128,9 +129,10 @@ var msg = {
 		width:      'Anchura',
 		height:     'Altura',
 		pixels:     'píxeles',
-		rotate:     'Girar',
-		flipH:      'Invertir H',
-		flipV:      'Invertir V',
+		rotateR:    'Girar derecha',
+		rotateL:    'Girar izquierda',
+		flipH:      'Invertir horizontalmente',
+		flipV:      'Invertir verticalmente',
 		bgColor:    'Color de fondo',
 		bgOpacity:  'Opacidad del fondo',
 		textColor:  'Color de texto',
@@ -198,9 +200,10 @@ var msg = {
 		width:      'Largeur',
 		height:     'Hauteur',
 		pixels:     'pixels',
-		rotate:     'Tourner',
-		flipH:      'Retourner H',
-		flipV:      'Retourner V',
+		rotateR:    'Tourner à droite',
+		rotateL:    'Tourner à gauche',
+		flipH:      'Retourner horizontalement',
+		flipV:      'Retourner verticalement',
 		bgColor:    'Couleur du fond',
 		bgOpacity:  'Opacité du fond',
 		textColor:  'Couleur du texte',
@@ -272,9 +275,10 @@ var msg = {
 		textColor:  'Cor do texto',
 		holidayColor:'Cor dos feriados',
 		pixels:     'pixels',
-		rotate:     'Girar',
-		flipH:      'Inverter H',
-		flipV:      'Inverter V',
+		rotateR:    'Girar para direita',
+		rotateL:    'Girar para esquerda',
+		flipH:      'Inverter horizontalmente',
+		flipV:      'Inverter verticalmente',
 		loadImage:  'Carregar Imagem',
 		holidays:   'Feriados',
 		countryHolidays: 'Feriados nacionais',
@@ -362,13 +366,17 @@ function translatePage() {
 	document.querySelectorAll('select').forEach( ( el, i ) => values[ i ] = el.selectedIndex );
 
 	// translate strings
-	document.querySelectorAll('[data-i18n]').forEach( el => el.innerHTML = msg[ lang ][ el.dataset.i18n ] );
+	document.querySelectorAll('[data-i18n]').forEach( el => {
+		let prop = 'innerHTML';
+		if ( el.tagName == 'INPUT' )
+			prop = 'placeholder';
+		else if ( el.classList.contains('cropper-action') )
+			prop = 'title';
+		el[ prop ] = msg[ lang ][ el.dataset.i18n ];
+	});
 
 	// call functions to populate specific elements
 	document.querySelectorAll('[data-func]').forEach( el => el.innerHTML = window[ el.dataset.func ]() );
-
-	// translate placeholders
-	document.querySelectorAll('[data-phold]').forEach( el => el.placeholder = msg[ lang ][ el.dataset.phold ] );
 
 	// restore select elements
 	document.querySelectorAll('select').forEach( ( el, i ) => {

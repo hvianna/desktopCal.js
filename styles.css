@@ -66,6 +66,31 @@ button, .button {
 	min-width: 100px;
 }
 
+button[data-action="rotR"]::before,
+button[data-action="rotL"]::before,
+button[data-action="flipX"]::before,
+button[data-action="flipY"]::before {
+	background-size: 24px;
+	content: '';
+	display: inline-block;
+	height: 24px;
+	vertical-align: text-top;
+	width: 24px;
+}
+
+button[data-action="rotR"]::before {
+	background-image: url(img/icons8-reset-100.png);
+}
+button[data-action="rotL"]::before {
+	background-image: url(img/icons8-rotate-100.png);
+}
+button[data-action="flipX"]::before {
+	background-image: url(img/icons8-flip-vertical-100.png);
+}
+button[data-action="flipY"]::before {
+	background-image: url(img/icons8-flip-horizontal-100.png);
+}
+
 p {
 	margin-bottom: 1em;
 }

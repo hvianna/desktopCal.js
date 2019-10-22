@@ -120,11 +120,13 @@ function configUIElements() {
 		el.addEventListener('click', e => {
 			let n = e.target.dataset.obj;
 			let action = e.target.dataset.action;
-			if ( action == 'rot' )
+			if ( action == 'rotR' )
 				cropper[ n ].rotate(90);
-			else if ( action == 'flx' )
+			else if ( action == 'rotL' )
+				cropper[ n ].rotate(-90);
+			else if ( action == 'flipX' )
 				cropper[ n ].scaleX( cropper[ n ].getImageData().scaleX * -1 );
-			else if ( action == 'fly' )
+			else if ( action == 'flipY' )
 				cropper[ n ].scaleY( cropper[ n ].getImageData().scaleY * -1 );
 		});
 	});

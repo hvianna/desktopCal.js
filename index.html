@@ -97,15 +97,16 @@
 						</div>
 						<div>
 							<span data-i18n="year"></span>:
-							<input type="number" id="bottom-year" data-phold="year" maxlength="4" onchange="updatePreview();">
+							<input type="number" id="bottom-year" data-i18n="year" maxlength="4" onchange="updatePreview();">
 						</div>
 					</div>
 					<div class="image-selector">
 						<img id="image0" crossorigin="anonymous">
 					</div>
-					<button data-action="rot" data-obj="0" class="cropper-action" data-i18n="rotate"></button>
-					<button data-action="flx" data-obj="0" class="cropper-action" data-i18n="flipH"></button>
-					<button data-action="fly" data-obj="0" class="cropper-action" data-i18n="flipV"></button>
+					<button data-action="rotL" data-obj="0" class="cropper-action" data-i18n="rotateL"></button>
+					<button data-action="rotR" data-obj="0" class="cropper-action" data-i18n="rotateR"></button>
+					<button data-action="flipX" data-obj="0" class="cropper-action" data-i18n="flipH"></button>
+					<button data-action="flipY" data-obj="0" class="cropper-action" data-i18n="flipV"></button>
 				</div>
 
 				<div id="back-config">
@@ -120,15 +121,16 @@
 						</div>
 						<div>
 							<span data-i18n="year"></span>:
-							<input type="number" id="top-year" data-phold="year" maxlength="4" onchange="updatePreview();">
+							<input type="number" id="top-year" data-i18n="year" maxlength="4" onchange="updatePreview();">
 						</div>
 					</div>
 					<div class="image-selector">
 						<img id="image1" crossorigin="anonymous">
 					</div>
-					<button data-action="rot" data-obj="1" class="cropper-action" data-i18n="rotate"></button>
-					<button data-action="flx" data-obj="1" class="cropper-action" data-i18n="flipH"></button>
-					<button data-action="fly" data-obj="1" class="cropper-action" data-i18n="flipV"></button>
+					<button data-action="rotL" data-obj="1" class="cropper-action" data-i18n="rotateL"></button>
+					<button data-action="rotR" data-obj="1" class="cropper-action" data-i18n="rotateR"></button>
+					<button data-action="flipX" data-obj="1" class="cropper-action" data-i18n="flipH"></button>
+					<button data-action="flipY" data-obj="1" class="cropper-action" data-i18n="flipV"></button>
 				</div>
 			</div> <!-- .tab-container -->
 
@@ -137,12 +139,12 @@
 				<div class="config-blocks">
 					<label>
 						<span data-i18n="width" class="tag"></span>
-						<input id="canvas-width" type="number" maxlength="4" data-phold="width">
+						<input id="canvas-width" type="number" maxlength="4" data-i18n="width">
 						<span data-i18n="pixels"></span>
 					</label>
 					<label>
 						<span data-i18n="height" class="tag"></span>
-						<input id="canvas-height" type="number" maxlength="4" data-phold="height">
+						<input id="canvas-height" type="number" maxlength="4" data-i18n="height">
 						<span data-i18n="pixels"></span>
 					</label>
 					<button id="rotate-canvas" class="rotate-button" data-i18n="chgOrient"></button>
@@ -215,7 +217,7 @@
 									<select id="custom-holiday-month" data-func="monthOptions">
 									</select>
 								</td>
-								<td><input type="text" id="custom-holiday-day" maxlength="2" data-phold="day"></td>
+								<td><input type="text" id="custom-holiday-day" maxlength="2" data-i18n="day"></td>
 								<td><button type="button" data-i18n="add" onclick="addCustomHoliday();"></button></td>
 							</tr>
 						</tfoot>
