@@ -66,10 +66,8 @@ button, .button {
 	min-width: 100px;
 }
 
-button[data-action="rotR"]::before,
-button[data-action="rotL"]::before,
-button[data-action="flipX"]::before,
-button[data-action="flipY"]::before {
+.action-button::before,
+.icon-button::before {
 	background-size: 24px;
 	content: '';
 	display: inline-block;
@@ -78,17 +76,24 @@ button[data-action="flipY"]::before {
 	width: 24px;
 }
 
+.icon-button::before {
+	margin-right: 10px;
+}
+
 button[data-action="rotR"]::before {
-	background-image: url(img/icons8-reset-100.png);
+	background-image: url(img/icons8-rotate-right-100.png);
 }
 button[data-action="rotL"]::before {
-	background-image: url(img/icons8-rotate-100.png);
+	background-image: url(img/icons8-rotate-left-100.png);
 }
 button[data-action="flipX"]::before {
 	background-image: url(img/icons8-flip-vertical-100.png);
 }
 button[data-action="flipY"]::before {
 	background-image: url(img/icons8-flip-horizontal-100.png);
+}
+button[data-action="reset"]::before {
+	background-image: url(img/icons8-exchange-100.png);
 }
 
 p {
@@ -97,6 +102,10 @@ p {
 
 .bottom {
 	margin-bottom: 20px;
+}
+
+.fullwidth {
+	width: 100%;
 }
 
 .lang-selection {
@@ -195,60 +204,20 @@ p {
 	display: none;
 }
 
-.custom-file-button {
-	background-color: #f0f0f0;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	cursor: pointer;
-	display: inline-block;
-	padding: 6px 12px;
-	text-align: center;
-	min-width: 150px;
-}
 .custom-file-button::before {
 	background-image: url(img/icons8-image-file.png);
-	background-size: 24px;
-	content: '';
-	display: inline-block;
-	height: 24px;
-	vertical-align: text-top;
-	width: 24px;
 }
 
 .print-button::before {
 	background-image: url(img/icons8-print.png);
-	background-size: 24px;
-	content: '';
-	display: inline-block;
-	height: 24px;
-	margin-right: 10px;
-	vertical-align: text-top;
-	width: 24px;
 }
 
 .download-button::before {
 	background-image: url(img/icons8-download.png);
-	background-size: 24px;
-	content: '';
-	display: inline-block;
-	height: 24px;
-	margin-right: 10px;
-	vertical-align: text-top;
-	width: 24px;
 }
 
-.rotate-button {
-	height: 40px;
-}
 .rotate-button::before {
-	background-image: url(img/icons8-exchange-filled.png);
-	background-size: 24px;
-	content: '';
-	display: inline-block;
-	height: 24px;
-	margin-right: 10px;
-	vertical-align: text-top;
-	width: 24px;
+	background-image: url(img/icons8-rotate-screen-100.png);
 }
 
 #custom-holidays {
@@ -274,7 +243,7 @@ p {
 }
 
 h2 ~ .note {
-	margin: -20px 0 20px;
+	margin-top: -20px;
 }
 
 .note,

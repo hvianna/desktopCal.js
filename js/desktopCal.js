@@ -115,6 +115,10 @@ function configUIElements() {
 	document.querySelectorAll('input[name="paper"]').forEach( el => el.addEventListener( 'click', changePaper ) );
 	document.getElementById('print-button').addEventListener( 'click', () => prepareForPrinting() );
 
+	document.getElementById('credits').addEventListener( 'change', () => {
+		document.querySelectorAll('[data-func="renderCredits"]').forEach( el => el.innerHTML = renderCredits() );
+	});
+
 	// Cropper.js action buttons
 	document.querySelectorAll('.cropper-action').forEach( el => {
 		el.addEventListener('click', e => {
@@ -392,6 +396,14 @@ function updatePreview() {
 			ctx.drawImage( img, 0, 0, canvas.width, canvas.height );
 		generateCalendar( month[ 1 ], year[ 1 ], canvas );
 	}
+}
+
+/**
+ * Update credits for printing
+ */
+function renderCredits() {
+	const customCredits = document.getElementById('credits').value.trim();
+	return ( customCredits ? customCredits + ' &bull; ' : '' ) + msg[ lang ]['credits'];
 }
 
 /**

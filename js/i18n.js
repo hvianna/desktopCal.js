@@ -29,7 +29,9 @@ var msg = {
 		year:       'Year',
 		month:      'Month',
 		day:        'Day',
-		credit:     'Created with <strong>desktopCal.js</strong>',
+		credits:    'Created with <strong>desktopCal.js</strong>',
+		creditTitle:'Credits',
+		creditDescr:'This line will be printed at the bottom of the page. You can use it to add information about the images.',
 		front:      'Side 1',
 		back:       'Side 2',
 		design:     'Choose your layout',
@@ -102,7 +104,9 @@ var msg = {
 		year:       'Año',
 		month:      'Mes',
 		day:        'Día',
-		credit:     'Creado con <strong>desktopCal.js</strong>',
+		credits:    'Creado con <strong>desktopCal.js</strong>',
+		creditTitle:'Créditos',
+		creditDescr:'Esta línea se imprimirá en la parte inferior de la página. Puede usarla para agregar información sobre las imágenes.',
 		front:      'Lado 1',
 		back:       'Lado 2',
 		design:     'Elige tu diseño',
@@ -175,7 +179,9 @@ var msg = {
 		year:       'Année',
 		month:      'Mois',
 		day:        'Jour',
-		credit:     'Créé avec <strong>desktopCal.js</strong>',
+		credits:    'Créé avec <strong>desktopCal.js</strong>',
+		creditTitle:'Crédits',
+		creditDescr:'Cette ligne sera imprimée au bas de la page. Vous pouvez l\'utiliser pour ajouter des informations sur les images.',
 		front:      'Côté 1',
 		back:       'Côté 2',
 		design:     'Choisissez votre design',
@@ -248,7 +254,9 @@ var msg = {
 		year:       'Ano',
 		month:      'Mês',
 		day:        'Dia',
-		credit:     'Criado com <strong>desktopCal.js</strong>',
+		credits:    'Criado com <strong>desktopCal.js</strong>',
+		creditTitle:'Créditos',
+		creditDescr:'Esta linha será impressa na parte inferior da página. Você pode usá-la para adicionar informações sobre as imagens.',
 		front:      'Lado 1',
 		back:       'Lado 2',
 		design:     'Escolha o layout',
@@ -376,11 +384,15 @@ function translatePage() {
 	// translate strings
 	document.querySelectorAll('[data-i18n]').forEach( el => {
 		let prop = 'innerHTML';
-		if ( el.tagName == 'INPUT' )
+		let text = msg[ lang ][ el.dataset.i18n ];
+
+		if ( el.tagName == 'INPUT' ) {
 			prop = 'placeholder';
-		else if ( el.classList.contains('cropper-action') )
+			text = text.replace( /<[^>]*>/g, '' );
+		}
+		else if ( el.classList.contains('action-button') )
 			prop = 'title';
-		el[ prop ] = msg[ lang ][ el.dataset.i18n ];
+		el[ prop ] = text;
 	});
 
 	// call functions to populate specific elements

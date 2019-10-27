@@ -87,7 +87,7 @@
 
 				<div id="front-config">
 					<div class="config-blocks">
-						<label class="custom-file-button">
+						<label class="button custom-file-button icon-button">
 							<input type="file" accept="image/*" onchange="loadImage( this, 0 );">
 							<span data-i18n="loadImage"></span>
 						</label>
@@ -103,16 +103,16 @@
 					<div class="image-selector">
 						<img id="image0" crossorigin="anonymous">
 					</div>
-					<button data-action="rotL" data-obj="0" class="cropper-action" data-i18n="rotateL"></button>
-					<button data-action="rotR" data-obj="0" class="cropper-action" data-i18n="rotateR"></button>
-					<button data-action="flipX" data-obj="0" class="cropper-action" data-i18n="flipH"></button>
-					<button data-action="flipY" data-obj="0" class="cropper-action" data-i18n="flipV"></button>
-					<button data-action="reset" data-obj="0" class="cropper-action" data-i18n="reset">Reset</button>
+					<button data-action="rotL" data-obj="0" class="cropper-action action-button" data-i18n="rotateL"></button>
+					<button data-action="rotR" data-obj="0" class="cropper-action action-button" data-i18n="rotateR"></button>
+					<button data-action="flipX" data-obj="0" class="cropper-action action-button" data-i18n="flipH"></button>
+					<button data-action="flipY" data-obj="0" class="cropper-action action-button" data-i18n="flipV"></button>
+					<button data-action="reset" data-obj="0" class="cropper-action action-button" data-i18n="reset"></button>
 				</div>
 
 				<div id="back-config">
 					<div class="config-blocks">
-						<label class="custom-file-button">
+						<label class="custom-file-button icon-button">
 							<input type="file" accept="image/*" onchange="loadImage( this, 1 );">
 							<span data-i18n="loadImage"></span>
 						</label>
@@ -128,11 +128,11 @@
 					<div class="image-selector">
 						<img id="image1" crossorigin="anonymous">
 					</div>
-					<button data-action="rotL" data-obj="1" class="cropper-action" data-i18n="rotateL"></button>
-					<button data-action="rotR" data-obj="1" class="cropper-action" data-i18n="rotateR"></button>
-					<button data-action="flipX" data-obj="1" class="cropper-action" data-i18n="flipH"></button>
-					<button data-action="flipY" data-obj="1" class="cropper-action" data-i18n="flipV"></button>
-					<button data-action="reset" data-obj="1" class="cropper-action" data-i18n="reset">Reset</button>
+					<button data-action="rotL" data-obj="1" class="cropper-action action-button" data-i18n="rotateL"></button>
+					<button data-action="rotR" data-obj="1" class="cropper-action action-button" data-i18n="rotateR"></button>
+					<button data-action="flipX" data-obj="1" class="cropper-action action-button" data-i18n="flipH"></button>
+					<button data-action="flipY" data-obj="1" class="cropper-action action-button" data-i18n="flipV"></button>
+					<button data-action="reset" data-obj="1" class="cropper-action action-button" data-i18n="reset"></button>
 				</div>
 			</div> <!-- .tab-container -->
 
@@ -149,7 +149,7 @@
 						<input id="canvas-height" type="number" maxlength="4" data-i18n="height">
 						<span data-i18n="pixels"></span>
 					</label>
-					<button id="rotate-canvas" class="rotate-button" data-i18n="chgOrient"></button>
+					<button id="rotate-canvas" class="rotate-button icon-button" data-i18n="chgOrient"></button>
 				</div>
 				<div class="config-blocks">
 					<label>
@@ -199,6 +199,11 @@
 				</div>
 			</div> <!-- #canvas-config -->
 
+			<h2 data-i18n="creditTitle"></h2>
+
+			<p class="note" data-i18n="creditDescr"></p>
+			<input id="credits" type="text" class="fullwidth" data-i18n="credits">
+
 			<h2 data-i18n="holidays"></h2>
 
 			<div class="config-blocks">
@@ -245,7 +250,7 @@
 					<li data-i18n="tipHeaders"></li>
 				</ul>
 
-				<button id="print-button" class="print-button" data-i18n="print"></button>
+				<button id="print-button" class="print-button icon-button" data-i18n="print"></button>
 			</div>
 
 			<div id="download-config">
@@ -257,7 +262,7 @@
 						<input type="radio" name="file-format" value="jpeg" checked> JPG &nbsp;
 						<input type="radio" name="file-format" value="png"> PNG
 					</div>
-					<a href="#" id="download-button" class="button download-button" data-i18n="download" onclick="downloadCalendar(this);"></a>
+					<a href="#" id="download-button" class="button download-button icon-button" data-i18n="download" onclick="downloadCalendar(this);"></a>
 				</div>
 			</div>
 
@@ -284,7 +289,7 @@
 						<span data-i18n="fold"></span>
 						<img src="img/icons8-c-fold-leaflet.png">
 					</div>
-					<div class="note center" data-i18n="credit"></div>
+					<div class="note center" data-func="renderCredits"></div>
 				</div>
 				<div id="bottom-half" class="bottom-half">
 					<div class="elements">
@@ -301,7 +306,7 @@
 						<span data-i18n="fold"></span>
 						<img src="img/icons8-c-fold-leaflet.png">
 					</div>
-					<div class="note center" data-i18n="credit"></div>
+					<div class="note center" data-func="renderCredits"></div>
 				</div>
 			</div>
 		</div> <!-- .preview -->
