@@ -333,7 +333,7 @@ function generateCalendar( month, year, canvas = null ) {
 			html += '<td class="' + checkHoliday( year, month, i ) + '">' + i;
 
 		dow++;
-		if ( dow == 7 ) {
+		if ( dow == 7 && i < ndays[ month ] ) {
 			dow = 0;
 			if ( canvas )
 				currLine += cellSize;
