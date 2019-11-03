@@ -129,6 +129,21 @@ p {
 	width: 700px;
 }
 
+#color-presets-table {
+	font-size: 13px;
+}
+#color-presets-table button {
+	margin-right: 5px;
+}
+
+.color-block {
+	border: 1px solid #888;
+	display: inline-block;
+	height: 20px;
+	margin-right: 10px;
+	width: 20px;
+}
+
 .config-row {
 	margin-bottom: 20px;
 }

@@ -179,6 +179,7 @@
 						</select>
 					</label>
 				</div>
+				<h2 data-i18n="colors"></h2>
 				<div class="config-blocks">
 					<label>
 						<span data-i18n="bgColor" class="tag"></span>
@@ -197,6 +198,15 @@
 						<input id="holiday-color" type="color" value="#cc0000">
 					</label>
 				</div>
+				<div class="config-blocks">
+					<button data-i18n="saveColors" onclick="addColorPreset();"></button>
+				</div>
+				<h3 data-i18n="colorPresets"></h3>
+				<table id="color-presets-table">
+					<tbody data-func="listColorPresets">
+					</tbody>
+				</table>
+
 			</div> <!-- #canvas-config -->
 
 			<h2 data-i18n="creditTitle"></h2>

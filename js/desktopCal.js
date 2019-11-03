@@ -21,7 +21,8 @@
  */
 var _VERSION = '19.10-dev';
 
-var cropper = [];
+var cropper = [],
+	colorPresets;
 
 /**
  * Update/create Cropper.js areas whenever the calendar layout or paper size change
@@ -145,6 +146,53 @@ function configUIElements() {
 		});
 	});
 
+}
+
+/**
+ * Manage color presets
+ */
+function addColorPreset( index ) {
+	colorPresets[ colorPresets.length ] = {
+		bg: document.getElementById( 'bg-color' ).value,
+		opacity: document.getElementById( 'bg-opacity' ).value,
+		text: document.getElementById( 'text-color' ).value,
+		holiday: document.getElementById( 'holiday-color' ).value
+	}
+	localStorage.setItem( 'color-presets', JSON.stringify( colorPresets ) );
+	document.querySelector('#color-presets-table tbody').innerHTML = listColorPresets();
+}
+
+function deleteColorPreset( index ) {
+	if ( index > 0 ) {
+		colorPresets.splice( index, 1 );
+		localStorage.setItem( 'color-presets', JSON.stringify( colorPresets ) );
+		document.querySelector('#color-presets-table tbody').innerHTML = listColorPresets();
+	}
+}
+
+function listColorPresets() {
+	var html = '';
+
+	colorPresets.forEach( ( preset, index ) => {
+		html += '<tr><td>' +
+				`<span class="color-block" style="background: ${preset.bg}; opacity: ${preset.opacity};"></span>` +
+				`<span class="color-block" style="background: ${preset.text};"></span>` +
+				`<span class="color-block" style="background: ${preset.holiday};"></span>` +
+				'</td><td>' +
+				`<button onclick="loadColorPreset( ${index} );">${msg[ lang ].load}</button>` +
+				( index > 0 ? `<button onclick="deleteColorPreset( ${index} );">${msg[ lang ].delete}</button>` : '' ) +
+				'</td></tr>';
+	});
+
+	return html;
+}
+
+function loadColorPreset( index ) {
+	document.getElementById( 'bg-color' ).value = colorPresets[ index ].bg;
+	document.getElementById( 'bg-opacity' ).value = colorPresets[ index ].opacity;
+	document.getElementById( 'text-color' ).value = colorPresets[ index ].text;
+	document.getElementById( 'holiday-color' ).value = colorPresets[ index ].holiday;
+	updatePreview();
 }
 
 /**
@@ -533,6 +581,15 @@ function initialize() {
 		country = prefCountry;
 	else
 		country = msg[ lang ].defCountry;
+
+	// load color presets
+	colorPresets = JSON.parse( localStorage.getItem( 'color-presets' ) ) || [];
+
+	if ( colorPresets.length == 0 ) {
+		colorPresets = [
+			{ bg: '#ffffff', opacity: .6, text: '#000000', holiday: '#cc0000' }
+		];
+	}
 
 	// populate HTML with selected language translations
 	translatePage();
