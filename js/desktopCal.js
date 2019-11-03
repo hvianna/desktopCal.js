@@ -117,6 +117,8 @@ function configUIElements() {
 
 	document.getElementById('credits').addEventListener( 'change', () => {
 		document.querySelectorAll('[data-func="renderCredits"]').forEach( el => el.innerHTML = renderCredits() );
+		if ( document.querySelector('input[name="layout"]:checked').value == 'digital' )
+			updatePreview();
 	});
 
 	// Cropper.js action buttons
@@ -178,7 +180,7 @@ function generateCalendar( month, year, canvas = null ) {
 	var ndays = [ 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 
 	var html, dow, prevMon,	i, d,
-		ctx, calSize, cellSize, initialX, initialY, currLine; // auxiliary variables for canvas
+		ctx, calSize, cellSize, initialX, initialY, currLine, vAlign, hAlign; // auxiliary variables for canvas
 
 	if ( ( year & 3 ) == 0 && ( ( year % 25 ) != 0 || ( year & 15 ) == 0 ) )
 		ndays[2]++; // leap year
@@ -190,6 +192,8 @@ function generateCalendar( month, year, canvas = null ) {
 	if ( canvas ) {
 		ctx = canvas.getContext('2d');
 		calSize = document.getElementById('cal-size').value;
+		vAlign = document.getElementById('v-align').value;
+		hAlign = document.getElementById('h-align').value;
 
 		// calculate cell size based on calendar style and canvas dimensions
 		if ( calSize == 'row' ) {
@@ -205,7 +209,7 @@ function generateCalendar( month, year, canvas = null ) {
 
 		// calculate horizontal position
 		if ( calSize != 'row' ) {
-			switch ( document.getElementById('h-align').value ) {
+			switch ( hAlign ) {
 				case 'left':
 					if ( calSize == 'col' )
 						initialX = 0;
@@ -228,7 +232,7 @@ function generateCalendar( month, year, canvas = null ) {
 
 		// calculate vertical position
 		if ( calSize != 'col' ) {
-			switch ( document.getElementById('v-align').value ) {
+			switch ( vAlign ) {
 				case 'top':
 					if ( calSize == 'row' )
 						initialY = 0;
@@ -342,7 +346,33 @@ function generateCalendar( month, year, canvas = null ) {
 		}
 	}
 
-	if ( ! canvas ) { // fill remaining cells with next month's days
+	if ( canvas ) { // add credits to the canvas
+		let baseSize = Math.min( canvas.width, canvas.height ) * .025,
+			posX = canvas.width - baseSize,
+			posY = canvas.height - baseSize,
+			maxW = canvas.width - baseSize * 2;
+
+		if ( calSize == 'row' && vAlign == 'bottom' ) {
+			if ( canvas.width > canvas.height )
+				posY += baseSize / 2;
+			else
+				posY -= cellSize * 3;
+		}
+		if ( calSize == 'col' && hAlign == 'right' ) {
+			posX -= cellSize * 3;
+			maxW -= cellSize * 3;
+		}
+
+		ctx.setTransform( 1, 0, 0, 1, 0, 0 ); // undo previous canvas translate
+		ctx.fillStyle = '#fff9';
+		ctx.shadowColor = '#0009';
+		ctx.shadowOffsetX = ctx.shadowOffsetY = 1;
+		ctx.textAlign = 'right';
+		ctx.font = baseSize / 2 + 'px sans-serif';
+		ctx.fillText( document.querySelector('[data-func="renderCredits"]').innerText, posX, posY, maxW );
+		ctx.shadowOffsetX = ctx.shadowOffsetY = 0;
+	}
+	else { // fill remaining cells with next month's days
 		d = 1;
 		if ( month < 12 )
 			month++;
