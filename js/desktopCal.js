@@ -163,7 +163,7 @@ function addColorPreset( index ) {
 }
 
 function deleteColorPreset( index ) {
-	if ( index > 0 ) {
+	if ( index > 0 && confirm( msg[ lang ].deletePreset ) ) {
 		colorPresets.splice( index, 1 );
 		localStorage.setItem( 'color-presets', JSON.stringify( colorPresets ) );
 		document.querySelector('#color-presets-table tbody').innerHTML = listColorPresets();
