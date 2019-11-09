@@ -97,7 +97,8 @@ var msg = {
 		downloadIt: 'Download your wallpaper',
 		download:   'Download',
 		fileFormat: 'File format',
-		preview:    'Preview',
+		loading:    'Loading, please wait...',
+		preview:    'Preview:',
 		fold:       'fold on the dashed lines',
 	},
 
@@ -177,7 +178,8 @@ var msg = {
 		downloadIt: 'Descarga tu fondo de pantalla',
 		download:   'Descargar',
 		fileFormat: 'Formato',
-		preview:    'Vista previa',
+		loading:    'Cargando, por favor espere...',
+		preview:    'Vista previa:',
 		fold:       'doblar en las líneas punteadas',
 	},
 
@@ -257,7 +259,8 @@ var msg = {
 		downloadIt: 'Téléchargez votre fond d\'écran',
 		download:   'Télécharger',
 		fileFormat: 'Format',
-		preview:    'Aperçu',
+		loading:    'Chargement, veuillez patienter...',
+		preview:    'Aperçu:',
 		fold:       'plier sur les lignes pointillées',
 	},
 
@@ -337,7 +340,8 @@ var msg = {
 		downloadIt: 'Baixe seu papel de parede',
 		download:   'Baixar',
 		fileFormat: 'Formato',
-		preview:    'Pré-visualização',
+		loading:    'Carregando, por favor aguarde...',
+		preview:    'Pré-visualização:',
 		fold:       'dobre nas linhas tracejadas',
 	}
 }

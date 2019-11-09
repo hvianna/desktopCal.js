@@ -618,6 +618,14 @@ function initialize() {
 	document.getElementById('canvas-height').value = h;
 
 	// load two random images
+	let loaded = 0,
+		header = document.getElementById('preview-header'),
+		preview = document.getElementById('preview-content');
+
+	header.innerText = msg[ lang ].loading;
+	header.style = 'margin-top: 50%';
+	preview.style = 'display: none';
+
 	for ( let i of [0,1] ) {
 		fetch( `https://picsum.photos/${w}/${w*.75}/?random` )
 		.then( response => response.blob() )
@@ -625,8 +633,16 @@ function initialize() {
 			let url = URL.createObjectURL( blob );
 			let imgEl = document.getElementById( `image${i}` );
 			imgEl.src = url;
-			// adjust paper layout and initialize croppable areas when images finish loading
-			imgEl.addEventListener( 'load', changeLayout, { once: true } );
+
+			// adjust paper layout and initialize croppable areas when both images finish loading
+			imgEl.addEventListener( 'load', () => {
+				loaded++;
+				if ( loaded == 2 ) {
+					header.innerText = msg[ lang ].preview;
+					header.style = preview.style = '';
+					changeLayout();
+				}
+			});
 		});
 	}
 
