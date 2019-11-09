@@ -251,7 +251,15 @@ function getCustomHolidays() {
 		holidays = [];
 	}
 
-	return holidays;
+	// return holidays in chronological order
+	return holidays.sort( ( a, b ) => {
+		a = a.split('-');
+		b = b.split('-');
+		if ( a[0] == b[0] )
+			return a[1] - b[1];
+		else
+			return a[0] - b[0];
+	});
 }
 
 /**
