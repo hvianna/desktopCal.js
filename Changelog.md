@@ -1,6 +1,19 @@
 Changelog
 =========
 
+## version 19.11
+
+### Added:
+
++ You can now crop, move, resize and rotate your calendar images, thanks to [Cropper.js](https://github.com/fengyuanchen/cropperjs)!;
++ Customizable color schemes for the digital wallpaper calendar;
++ Selectable paper aspect ratio for optimal printing results.
+
+### Changed:
+
++ UI and layout improvements.
+
+
 ## version 19.1
 
 ### Added:
@@ -16,6 +29,7 @@ Changelog
 
 + Improved UI and printing layout;
 + Some code clean-up and organization.
+
 
 ## version 18.12
 
