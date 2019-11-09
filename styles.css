@@ -340,14 +340,20 @@ h2 ~ .note {
 	height: 824px;
 }
 
-#preview:not(.digital) #canvas,
-#preview-content .note {
+#preview:not(.digital) #canvas {
 	display: none;
 }
 
 #canvas {
 	max-height: 705px;
 	max-width: 100%;
+}
+
+#preview-content .note {
+	color: #999;
+	font-size: 10px;
+	margin-top: -2em;
+	padding: 0;
 }
 
 .top-half {
@@ -372,7 +378,9 @@ h2 ~ .note {
 	width: 100%;
 }
 .fold-line img {
+	height: 2.5em;
 	vertical-align: middle;
+	width: 2.5em;
 }
 
 .elements {
@@ -530,11 +538,8 @@ h2 ~ .note {
 		top: 0;
 	}
 	#preview-content .note {
-		color: #999;
-		display: block;
 		font-size: 1.5vw;
 		margin-top: -4em;
-		padding: 0;
 	}
 
 	.wall-single #preview-content {
