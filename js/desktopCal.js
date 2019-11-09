@@ -561,16 +561,10 @@ function restoreFromPrinting() {
  */
 function initialize() {
 
-	var d = new Date(),
-		month = d.getMonth() + 1,
-		year = d.getFullYear(),
-		browserLang = navigator.language.split('-'),
-		w = window.screen.width * window.devicePixelRatio,
-		h = window.screen.height * window.devicePixelRatio;
-
 	// try to get preferred language and country
-	let prefLang = localStorage.getItem('lang') || browserLang[0];
-	let prefCountry = localStorage.getItem('country') || browserLang[1].toLowerCase();
+	let	browserLang = navigator.language.split('-'),
+		prefLang = localStorage.getItem('lang') || browserLang[0],
+		prefCountry = localStorage.getItem('country') || browserLang[1].toLowerCase();
 
 	if ( Object.keys( msg ).includes( prefLang ) )
 		lang = prefLang;
@@ -600,6 +594,11 @@ function initialize() {
 		paper.checked = true;
 
 	// suggest current and next months for calendars
+
+	let d = new Date(),
+		month = d.getMonth() + 1,
+		year = d.getFullYear();
+
 	document.getElementById('bottom-year').value = year;
 	document.getElementById('bottom-month').selectedIndex = month;
 
@@ -614,10 +613,15 @@ function initialize() {
 	document.getElementById('top-month').selectedIndex = month;
 
 	// init canvas width and height fields with the display's dimensions
+
+	let w = window.screen.width * window.devicePixelRatio,
+		h = window.screen.height * window.devicePixelRatio;
+
 	document.getElementById('canvas-width').value = w;
 	document.getElementById('canvas-height').value = h;
 
 	// load two random images
+
 	let loaded = 0,
 		header = document.getElementById('preview-header'),
 		preview = document.getElementById('preview-content');
