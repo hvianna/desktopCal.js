@@ -5,7 +5,7 @@ Changelog
 
 ### Added:
 
-+ You can now crop, move, resize and rotate your calendar images, thanks to [Cropper.js](https://github.com/fengyuanchen/cropperjs)!;
++ You can now crop, move, resize and rotate your calendar images, thanks to [Cropper.js](https://github.com/fengyuanchen/cropperjs);
 + Customizable color schemes for the digital wallpaper calendar;
 + Selectable paper aspect ratio for optimal printing results.
 

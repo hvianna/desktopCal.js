@@ -3,8 +3,7 @@ desktopCal.js
 
 Calendar generator built with HTML, CSS & JavaScript.
 
-[![create-badge](https://img.shields.io/badge/Create%20your%20Calendar-HERE-red?style=for-the-badge)](https://hvianna.github.io/desktopCal.js/)
-[![js-badge](https://img.shields.io/badge/made%20with-javascript-yellow?style=for-the-badge&logo=javascript)](https://hvianna.github.io/desktopCal.js/)
+### [➡️ CREATE YOUR CALENDAR HERE](https://hvianna.github.io/desktopCal.js/)
 
 Calendars you can create with **desktopCal.js:**
 
@@ -34,4 +33,4 @@ You can add your own custom holidays. These will be saved in your browser's loca
 
 ## License
 
-**desktopCal.js** copyright (c) 2018-2019 Henrique Vianna. Licensed under the [GNU AGPL-3.0 License](https://github.com/hvianna/desktopCal.js/blob/master/LICENSE).
+**desktopCal.js** copyright (c) 2018-2019 Henrique Avila Vianna. Licensed under the [GNU AGPL-3.0 License](https://github.com/hvianna/desktopCal.js/blob/master/LICENSE).
