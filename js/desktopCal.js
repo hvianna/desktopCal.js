@@ -24,6 +24,10 @@ var _VERSION = '19.10-dev';
 var cropper = [],
 	colorPresets;
 
+function getVersion() {
+	return `v${_VERSION}`;
+}
+
 /**
  * Update/create Cropper.js areas whenever the calendar layout or paper size change
  */
