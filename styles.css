@@ -341,11 +341,8 @@ h2 ~ .note {
 	height: 824px;
 }
 
-#preview:not(.digital) #canvas {
-	display: none;
-}
-
 #canvas {
+	display: none;
 	max-height: 705px;
 	max-width: 100%;
 }
@@ -391,43 +388,6 @@ h2 ~ .note {
 
 .center {
 	text-align: center;
-}
-
-/* single month wall calendar */
-
-.wall-single #preview-content {
-	font-size: 12pt;
-}
-.wall-single .top-half,
-.wall-single .fold-line {
-	display: none;
-}
-.wall-single .elements {
-	display: block;
-}
-.wall-single .bottom-half {
-	border-top: none;
-	height: 100%;
-}
-.wall-single .bottom-half .cal-image,
-.wall-single .bottom-half .cal-content {
-	background-size: 100%;
-	height: 50%;
-	width: 100%;
-}
-.wall-single .calendar table th,
-.wall-single .calendar table td {
-	border-width: 1px 0;
-	text-align: center;
-}
-
-/* digital wallpaper calendar */
-
-.digital #canvas {
-	display: block;
-}
-.digital #preview-content {
-	display: none;
 }
 
 /**
@@ -500,6 +460,45 @@ h2 ~ .note {
 	text-align: center;
 }
 
+/* Single month wall calendar */
+
+.wall-single #preview-content {
+	font-size: 12pt;
+}
+.wall-single .top-half,
+.wall-single .fold-line {
+	display: none;
+}
+.wall-single .elements {
+	display: block;
+}
+.wall-single .bottom-half {
+	border-top: none;
+	height: 100%;
+}
+.wall-single .bottom-half .cal-image,
+.wall-single .bottom-half .cal-content {
+	background-size: 100%;
+	height: 50%;
+	width: 100%;
+}
+.wall-single .calendar table th,
+.wall-single .calendar table td {
+	border-width: 1px 0;
+	text-align: center;
+}
+
+/* Digital wallpaper calendar */
+
+.digital #canvas {
+	display: block;
+}
+.digital #preview-content {
+	display: none;
+}
+
+/* Breakpoint for smaller screens */
+
 @media screen and ( max-width: 1279px ) {
 
 	#config, #preview {
@@ -510,7 +509,7 @@ h2 ~ .note {
 }
 
 /**
- * Layout for printing
+ * Styles for printing
  */
 
 @media print {
