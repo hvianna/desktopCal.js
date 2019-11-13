@@ -242,11 +242,21 @@ p {
 #custom-holidays-table tr td:nth-child(2) {
 	text-align: center;
 }
-#custom-holidays-table input {
-	width: 50px;
+#custom-holidays-table td {
+	max-width: 160px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 #custom-holidays-table button {
 	width: 100px;
+}
+
+#custom-holiday-day {
+	width: 50px;
+}
+#custom-holiday-name {
+	width: 150px;
 }
 
 #print-config ul {

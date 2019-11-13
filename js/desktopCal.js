@@ -361,13 +361,14 @@ function generateCalendar( month, year, canvas = null ) {
 	else {
 		html += '<tr>'
 		for ( i = dow, d = ndays[ prevMon ] - i + 1; i > 0; i--, d++ )
-			html += '<td class="prev-month ' + checkHoliday( month == 1 ? year - 1 : year, prevMon, d ) + '">' + d;
+			html += '<td class="prev-month' + ( checkHoliday( month == 1 ? year - 1 : year, prevMon, d ).length ? ' holiday' : '' ) + '">' + d;
 	}
 
 	// loop for the current month
 	for ( i = 1; i <= ndays[ month ]; i++ ) {
+		let holidays = checkHoliday( year, month, i );
 		if ( canvas ) {
-			ctx.fillStyle = ( dow == 0 || checkHoliday( year, month, i ) ) ? document.getElementById('holiday-color').value : document.getElementById('text-color').value;
+			ctx.fillStyle = ( dow == 0 || holidays.length ) ? document.getElementById('holiday-color').value : document.getElementById('text-color').value;
 			if ( calSize == 'col' ) {
 				ctx.font = cellSize * .3 + 'px sans-serif';
 				ctx.textAlign = 'left';
@@ -385,8 +386,17 @@ function generateCalendar( month, year, canvas = null ) {
 			else
 				ctx.fillText( i, dow * cellSize * 1.3, currLine );
 		}
-		else
-			html += '<td class="' + checkHoliday( year, month, i ) + '">' + i;
+		else {
+			if ( holidays.length ) {
+				html += '<td class="holiday">' + i + '<span class="holiday-name">';
+				holidays.forEach( ( name, idx ) => {
+					html += ( idx ? '<br>' : '' ) + name;
+				});
+				html += '</span>';
+			}
+			else
+				html += '<td>' + i;
+		}
 
 		dow++;
 		if ( dow == 7 && i < ndays[ month ] ) {
@@ -433,7 +443,7 @@ function generateCalendar( month, year, canvas = null ) {
 			year++;
 		}
 		while ( dow > 0 && dow < 7 ) {
-			html += '<td class="next-month ' + checkHoliday( year, month, d ) + '">' + d;
+			html += '<td class="next-month' + ( checkHoliday( year, month, d ).length ? ' holiday' : '' ) + '">' + d;
 			d++;
 			dow++;
 		}
