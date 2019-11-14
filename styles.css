@@ -336,7 +336,7 @@ h2 ~ .note {
 
 #preview-content {
 	box-shadow: 1px 1px 6px rgba(0,0,0,.3);
-	font-size: 9pt;
+	font-size: 12px;
 }
 #preview-content.iso {
 	height: 707px;
@@ -485,7 +485,7 @@ h2 ~ .note {
 /* Single month wall calendar */
 
 .wall-single #preview-content {
-	font-size: 12pt;
+	font-size: 13px;
 }
 .wall-single .top-half,
 .wall-single .fold-line {
