@@ -416,13 +416,13 @@ h2 ~ .note {
 .calendar table th,
 .calendar table td {
 	border: 1px solid #ddd;
-	height: 14.3%;
 	padding: .5em;
 	width: 14.3%;
 }
 .calendar table th {
 	font-size: 80%;
 	font-weight: normal;
+	height: 10%;
 	text-align: center;
 	text-transform: uppercase;
 }
@@ -470,6 +470,18 @@ h2 ~ .note {
 	text-align: center;
 }
 
+.holiday-name {
+	bottom: 1em;
+	color: #999;
+	display: none;
+	font-size: 40%;
+	font-style: italic;
+	left: 0;
+	line-height: 1;
+	position: absolute;
+	right: 0;
+}
+
 /* Single month wall calendar */
 
 .wall-single #preview-content {
@@ -492,10 +504,18 @@ h2 ~ .note {
 	height: 50%;
 	width: 100%;
 }
+.wall-single .calendar {
+	height: calc( 100% - 8em );
+}
 .wall-single .calendar table th,
 .wall-single .calendar table td {
 	border-width: 1px 0;
+	position: relative;
 	text-align: center;
+	vertical-align: middle;
+}
+.wall-single .holiday-name {
+	display: block;
 }
 
 /* Digital wallpaper calendar */
@@ -554,12 +574,6 @@ h2 ~ .note {
 
 	.wall-single #preview-content {
 		font-size: 2.5vw;
-	}
-	.wall-single .calendar {
-		height: calc( 100% - 8em );
-	}
-	.wall-single .calendar table td {
-		vertical-align: middle;
 	}
 	.wall-single .top-half .note {
 		display: none;
