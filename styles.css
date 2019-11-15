@@ -118,7 +118,9 @@ p {
 	width: 32px;
 }
 
-#config, #preview {
+#config,
+#loading,
+#preview {
 	display: inline-block;
 	margin: 0 calc( ( 100vw - 1230px ) / 4 );
 }
@@ -317,11 +319,20 @@ h2 ~ .note {
  * Preview area
  */
 
+#loading,
 #preview {
 	position: sticky;
-	top: 10px;
 	vertical-align: top;
 	width: 500px;
+}
+
+#loading {
+	text-align: center;
+	top: 40%;
+}
+
+#preview {
+	top: 10px;
 }
 
 .preview-header {

@@ -41,6 +41,10 @@ function changeLayout() {
 	// set preview styles
 	changeStyle();
 
+	// hide loading message and display preview area
+	document.getElementById('loading').style.display = 'none';
+	document.getElementById('preview').style.display = '';
+
 	// set preview paper size
 	document.getElementById('preview-content').className = document.querySelector('input[name="paper"]:checked').value;
 
@@ -596,6 +600,9 @@ function restoreFromPrinting() {
  */
 function initialize() {
 
+	// hide preview while loading
+	document.getElementById('preview').style.display = 'none';
+
 	// try to get preferred language and country
 	let	browserLang = navigator.language.split('-'),
 		prefLang = localStorage.getItem('lang') || browserLang[0],
@@ -657,13 +664,7 @@ function initialize() {
 
 	// load two random images
 
-	let loaded = 0,
-		header = document.getElementById('preview-header'),
-		preview = document.getElementById('preview-content');
-
-	header.innerText = msg[ lang ].loading;
-	header.style = 'margin-top: 50%';
-	preview.style = 'display: none';
+	let loaded = 0;
 
 	for ( let i of [0,1] ) {
 		fetch( `https://picsum.photos/${w}/${w*.75}/?random` )
@@ -676,11 +677,8 @@ function initialize() {
 			// adjust paper layout and initialize croppable areas when both images finish loading
 			imgEl.addEventListener( 'load', () => {
 				loaded++;
-				if ( loaded == 2 ) {
-					header.innerText = msg[ lang ].preview;
-					header.style = preview.style = '';
+				if ( loaded == 2 )
 					changeLayout();
-				}
 			});
 		});
 	}
