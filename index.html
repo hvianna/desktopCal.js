@@ -56,7 +56,7 @@
 
 			<h2 data-i18n="design"></h2>
 
-			<div id="layout-selector" class="flex-blocks center">
+			<div id="layout-selector" class="flex-blocks align-center">
 				<input id="layout0" type="radio" name="layout" value="desktop" checked="checked">
 				<label for="layout0" class="label-layout">
 					<img src="img/layout-desktop.png">
@@ -153,7 +153,7 @@
 				</div>
 				<div class="config-blocks">
 					<label>
-						<span data-i18n="calSize" class="tag"></span>
+						<span data-i18n="calStyle" class="tag"></span>
 						<select id="cal-size">
 							<option value="col" data-i18n="column"></option>
 							<option value="row" data-i18n="row"></option>
@@ -208,6 +208,23 @@
 				</table>
 
 			</div> <!-- #canvas-config -->
+
+			<div id="calendar-config">
+				<h2 data-i18n="calSettings"></h2>
+				<div class="config-blocks">
+					<label>
+						<span data-i18n="calStyle" class="tag"></span>
+						<select id="cal-style">
+							<option value="modern" data-i18n="modern"></option>
+							<option value="" data-i18n="classic"></option>
+						</select>
+					</label>
+					<label id="show-holidays-label" class="align-middle">
+						<input id="show-holidays" type="checkbox" checked>
+						<span data-i18n="showHolidays"></span>
+					</label>
+				</div>
+			</div> <!-- #calendar-config -->
 
 			<h2 data-i18n="creditTitle"></h2>
 
@@ -298,7 +315,7 @@
 						<span data-i18n="fold"></span>
 						<img src="img/icons8-c-fold-leaflet-100.png">
 					</div>
-					<div class="note center" data-func="renderCredits"></div>
+					<div class="note align-center" data-func="renderCredits"></div>
 				</div>
 				<div id="bottom-half" class="bottom-half">
 					<div class="elements">
@@ -315,7 +332,7 @@
 						<span data-i18n="fold"></span>
 						<img src="img/icons8-c-fold-leaflet-100.png">
 					</div>
-					<div class="note center" data-func="renderCredits"></div>
+					<div class="note align-center" data-func="renderCredits"></div>
 				</div>
 			</div>
 		</div> <!-- .preview -->

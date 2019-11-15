@@ -37,7 +37,11 @@ function changeLayout() {
 
 	// set layout
 	document.getElementById('config').className = layout;
-	document.getElementById('preview').className = layout;
+
+	// set preview styles
+	changeStyle();
+
+	// set preview paper size
 	document.getElementById('preview-content').className = document.querySelector('input[name="paper"]:checked').value;
 
 	if ( layout != 'desktop' ) {
@@ -98,12 +102,29 @@ function changePaper() {
 }
 
 /**
+ * Set CSS classnames for the preview to match selected calendar layout and settings
+ */
+function changeStyle() {
+	let layout = document.querySelector('input[name="layout"]:checked').value,
+		previewEl = document.getElementById('preview');
+
+	previewEl.className = layout;
+	if ( layout != 'digital' )
+		previewEl.className += ` ${document.getElementById('cal-style').value}`;
+	if ( layout == 'wall-single' && document.getElementById('show-holidays').checked )
+		previewEl.className += ' show-holidays';
+}
+
+/**
  * Set event listeners for UI elements
  */
 function configUIElements() {
 
 	// calendar layout selector
 	document.querySelectorAll('input[name="layout"]').forEach( el => el.addEventListener( 'click', changeLayout ) );
+
+	// wall calendar settings
+	document.querySelectorAll('#cal-style, #show-holidays').forEach( el => el.addEventListener( 'change', changeStyle ) );
 
 	// digitar calendar configuration
 	document.getElementById('rotate-canvas').addEventListener( 'click', rotateCanvas );

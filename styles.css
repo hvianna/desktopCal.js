@@ -208,15 +208,12 @@ p {
 	max-width: 100%;
 }
 
-#back-config {
-	display: none;
-}
-
 .custom-file-button input,
-#config:not(.desktop) #back-config,
 #config.digital #print-config,
+#config.digital #calendar-config,
 #config:not(.digital) #canvas-config,
-#config:not(.digital) #download-config {
+#config:not(.digital) #download-config,
+#config:not(.wall-single) #show-holidays-label {
 	display: none;
 }
 
@@ -396,8 +393,16 @@ h2 ~ .note {
 	height: 100%;
 }
 
-.center {
+.align-center {
 	text-align: center;
+}
+
+.align-middle {
+	align-self: center;
+}
+
+.align-right {
+	text-align: right;
 }
 
 /**
@@ -427,6 +432,7 @@ h2 ~ .note {
 	text-transform: uppercase;
 }
 .calendar table td {
+	position: relative;
 	text-align: right;
 	vertical-align: top;
 }
@@ -470,6 +476,13 @@ h2 ~ .note {
 	text-align: center;
 }
 
+.modern .calendar table th,
+.modern .calendar table td {
+	border-width: 1px 0;
+	text-align: center;
+	vertical-align: middle;
+}
+
 .holiday-name {
 	bottom: 1em;
 	color: #999;
@@ -480,6 +493,10 @@ h2 ~ .note {
 	line-height: 1;
 	position: absolute;
 	right: 0;
+	text-align: center;
+}
+.show-holidays .holiday-name {
+	display: block;
 }
 
 /* Single month wall calendar */
@@ -506,16 +523,6 @@ h2 ~ .note {
 }
 .wall-single .calendar {
 	height: calc( 100% - 8em );
-}
-.wall-single .calendar table th,
-.wall-single .calendar table td {
-	border-width: 1px 0;
-	position: relative;
-	text-align: center;
-	vertical-align: middle;
-}
-.wall-single .holiday-name {
-	display: block;
 }
 
 /* Digital wallpaper calendar */
