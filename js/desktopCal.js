@@ -237,7 +237,10 @@ function loadImage( obj, n ) {
 
 	reader.onload = function() {
 		document.getElementById( `image${n}` ).src = reader.result;
-		cropper[ n ].replace( reader.result );
+		if ( cropper[n] )
+			cropper[ n ].replace( reader.result );
+		else
+			changeLayout(); // to create cropper areas
 	}
 
 	reader.readAsDataURL( obj.files[0] );
