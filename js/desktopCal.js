@@ -497,6 +497,10 @@ function updatePreview() {
 	// set lang attribute on html element
 	document.getElementsByTagName('html')[0].lang = `${lang}-${country.toUpperCase()}`;
 
+	// enable / disable calendar settings
+	document.getElementById('h-align').disabled = document.getElementById('cal-size').value == 'row';
+	document.getElementById('v-align').disabled = document.getElementById('cal-size').value == 'col';
+
 	if ( layout != 'digital' ) {
 		for ( let i of [0,1] ) {
 			if ( month[ i ] > 0 && year[ i ] > 0 ) {
