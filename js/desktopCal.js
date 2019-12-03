@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-var _VERSION = '19.10-dev';
+var _VERSION = '19.12-dev';
 
 var cropper = [],
 	colorPresets;
@@ -113,10 +113,11 @@ function changeStyle() {
 		previewEl = document.getElementById('preview');
 
 	previewEl.className = layout;
-	if ( layout != 'digital' )
+	if ( layout != 'digital' ) {
 		previewEl.className += ` ${document.getElementById('cal-style').value}`;
-	if ( layout == 'wall-single' && document.getElementById('show-holidays').checked )
-		previewEl.className += ' show-holidays';
+		if ( document.getElementById('show-holidays').checked )
+			previewEl.className += ' show-holidays';
+	}
 }
 
 /**
@@ -259,7 +260,7 @@ function generateCalendar( month, year, canvas = null ) {
 
 	var ndays = [ 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 
-	var html, dow, prevMon,	i, d,
+	var html, holidayList, dow, prevMon, i, d,
 		ctx, calSize, cellSize, initialX, initialY, currLine, vAlign, hAlign; // auxiliary variables for canvas
 
 	if ( ( year & 3 ) == 0 && ( ( year % 25 ) != 0 || ( year & 15 ) == 0 ) )
@@ -370,8 +371,10 @@ function generateCalendar( month, year, canvas = null ) {
 		ctx.font = cellSize / 2 + 'px sans-serif';
 		currLine = cellSize * 2; // current line, for the block calendar
 	}
-	else
+	else {
 		html = '<table><tr>';
+		holidayList = '';
+	}
 
 	// display week days initials
 	for ( i = 0; i < 7; i++ ) {
@@ -416,11 +419,14 @@ function generateCalendar( month, year, canvas = null ) {
 		}
 		else {
 			if ( holidays.length ) {
-				html += '<td class="holiday">' + i + '<span class="holiday-name">';
+				html += `<td class="holiday">${ i }<span class="holiday-name">`;
+				holidayList += `${ i } - `;
 				holidays.forEach( ( name, idx ) => {
 					html += ( idx ? '<br>' : '' ) + name;
+					holidayList += ( idx ? ' / ' : '' ) + name;
 				});
 				html += '</span>';
+				holidayList += '<br>';
 			}
 			else
 				html += '<td>' + i;
@@ -476,6 +482,7 @@ function generateCalendar( month, year, canvas = null ) {
 			dow++;
 		}
 
+		html += `<tr class="holiday-list"><td colspan="7">${ holidayList }`;
 		html += '</table>';
 
 		return html;
