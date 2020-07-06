@@ -618,9 +618,9 @@ function initialize() {
 	document.getElementById('preview').style.display = 'none';
 
 	// try to get preferred language and country
-	let	browserLang = navigator.language.split('-'),
-		prefLang = localStorage.getItem('lang') || browserLang[0],
-		prefCountry = localStorage.getItem('country') || browserLang[1].toLowerCase();
+	const [	browserLang, browserCountry ] = navigator.language.split('-'),
+		prefLang = localStorage.getItem('lang') || browserLang,
+		prefCountry = localStorage.getItem('country') || browserCountry && browserCountry.toLowerCase();
 
 	if ( Object.keys( msg ).includes( prefLang ) )
 		lang = prefLang;
