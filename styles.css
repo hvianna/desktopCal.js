@@ -41,15 +41,16 @@ h3 {
 label {
 	display: inline-block;
 }
-label span {
-	display: block;
-	font-size: 10px;
-	text-transform: uppercase;
-}
 
 button, input, select {
 	font: inherit;
 	padding: 6px;
+}
+input[type="number"] {
+	width: 90px;
+}
+input[type="color"] {
+	padding: 0;
 }
 
 button, .button {
@@ -59,10 +60,40 @@ button, .button {
 	color: #555;
 	cursor: pointer;
 	display: inline-block;
-	padding: 6px;
+	padding: 6px 20px;
 	text-align: center;
 	text-decoration: none;
-	width: 150px;
+	min-width: 100px;
+}
+
+.action-button::before,
+.icon-button::before {
+	background-size: 24px;
+	content: '';
+	display: inline-block;
+	height: 24px;
+	vertical-align: text-top;
+	width: 24px;
+}
+
+.icon-button::before {
+	margin-right: 10px;
+}
+
+button[data-action="rotR"]::before {
+	background-image: url(img/icons8-rotate-right-100.png);
+}
+button[data-action="rotL"]::before {
+	background-image: url(img/icons8-rotate-left-100.png);
+}
+button[data-action="flipX"]::before {
+	background-image: url(img/icons8-flip-vertical-100.png);
+}
+button[data-action="flipY"]::before {
+	background-image: url(img/icons8-flip-horizontal-100.png);
+}
+button[data-action="reset"]::before {
+	background-image: url(img/icons8-exchange-100.png);
 }
 
 p {
@@ -73,9 +104,8 @@ p {
 	margin-bottom: 20px;
 }
 
-.container {
-	display: flex;
-	justify-content: space-evenly;
+.fullwidth {
+	width: 100%;
 }
 
 .lang-selection {
@@ -88,10 +118,36 @@ p {
 	width: 32px;
 }
 
+#config,
+#loading,
+#preview {
+	display: inline-block;
+	margin: 0 calc( ( 100vw - 1230px ) / 4 );
+}
+
 #config {
 	color: #555;
 	padding: 20px;
 	width: 700px;
+}
+
+#color-presets-table {
+	font-size: 13px;
+}
+#color-presets-table button {
+	margin-right: 5px;
+}
+
+.color-block {
+	border: 1px solid #888;
+	display: inline-block;
+	height: 20px;
+	margin-right: 10px;
+	width: 20px;
+}
+
+.config-row {
+	margin-bottom: 20px;
 }
 
 .config-blocks {
@@ -117,10 +173,19 @@ p {
 	float: right;
 }
 
+#layout-selector input[type="radio"] {
+	display: none;
+}
+#layout-selector input[type="radio"]:checked + .label-layout {
+	background: #fff4d3;
+	border-color: #ea0;
+	color: #543;
+}
 .label-layout {
+	border: 4px solid transparent;
 	border-radius: 5px;
 	cursor: pointer;
-	padding: 6px;
+	padding: 10px;
 }
 .label-layout:hover {
 	background-color: #f0f0f0;
@@ -131,75 +196,43 @@ p {
 	margin: 0 auto;
 }
 
-#canvas-config input {
-	width: 80px;
+.tag {
+	display: block;
+	font-size: 10px;
+	text-transform: uppercase;
+}
+
+.image-selector {
+	height: 500px;
+	margin-bottom: 20px;
+}
+.image-selector img {
+	max-width: 100%;
 }
 
 .custom-file-button input,
-#config:not(.desktop) #back-config,
 #config.digital #print-config,
-#config:not(.digital) #canvas-config,
+#config.digital .calendar-config,
+#config.digital #show-holidays-label,
+#config:not(.digital) .canvas-config,
 #config:not(.digital) #download-config {
 	display: none;
 }
 
-.custom-file-button {
-	background-color: #f0f0f0;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	cursor: pointer;
-	display: inline-block;
-	margin-bottom: 20px;
-	padding: 6px 12px;
-	text-align: center;
-	min-width: 150px;
-}
 .custom-file-button::before {
 	background-image: url(img/icons8-image-file.png);
-	background-size: 24px;
-	content: '';
-	display: inline-block;
-	height: 24px;
-	vertical-align: text-top;
-	width: 24px;
 }
 
 .print-button::before {
 	background-image: url(img/icons8-print.png);
-	background-size: 24px;
-	content: '';
-	display: inline-block;
-	height: 24px;
-	margin-right: 10px;
-	vertical-align: text-top;
-	width: 24px;
 }
 
 .download-button::before {
 	background-image: url(img/icons8-download.png);
-	background-size: 24px;
-	content: '';
-	display: inline-block;
-	height: 24px;
-	margin-right: 10px;
-	vertical-align: text-top;
-	width: 24px;
 }
 
-.rotate-button {
-	border-radius: 50%;
-	height: 40px;
-	margin: 10px 0 0 10px;
-	width: 40px;
-}
 .rotate-button::before {
-	background-image: url(img/icons8-exchange-filled.png);
-	background-size: 24px;
-	content: '';
-	display: inline-block;
-	height: 24px;
-	vertical-align: text-top;
-	width: 24px;
+	background-image: url(img/icons8-rotate-screen-100.png);
 }
 
 #custom-holidays {
@@ -208,11 +241,21 @@ p {
 #custom-holidays-table tr td:nth-child(2) {
 	text-align: center;
 }
-#custom-holidays-table input {
-	width: 50px;
+#custom-holidays-table td {
+	max-width: 160px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 #custom-holidays-table button {
 	width: 100px;
+}
+
+#custom-holiday-day {
+	width: 50px;
+}
+#custom-holiday-name {
+	width: 150px;
 }
 
 #print-config ul {
@@ -230,19 +273,70 @@ p {
 	padding: 10px 0;
 }
 
-.credits {
-	border-top: 1px dotted #ccc;
-	margin-top: 50px;
+h2 ~ .note {
+	margin-top: -20px;
 }
 
+label .note {
+	padding: 0 0 0 18px;
+}
+
+.credits {
+	border-top: 1px dotted #ccc;
+	line-height: 1.6;
+	margin-top: 50px;
+	text-align: center;
+}
+
+/* Tabs */
+
+.tab-container {
+	background: #f0f0f0;
+}
+.tab-container input[type="radio"] {
+	display: none;
+}
+.tab-container .tab {
+	cursor: pointer;
+	margin-right: 10px;
+	padding: 10px;
+	text-align: center;
+	width: 20%;
+}
+.tab-container input[type="radio"]:checked + label {
+	background: #fff;
+	box-shadow: inset 0 4px #ea0;
+}
+
+#front-config,
+#back-config {
+	background: #fff;
+	display: none;
+	padding-top: 20px;
+}
+#pos0:checked ~ #front-config,
+#pos1:checked ~ #back-config {
+	display: block;
+}
 
 /**
  * Preview area
  */
 
+#loading,
 #preview {
-	margin: 40px 0;
-	width: 550px;
+	position: sticky;
+	vertical-align: top;
+	width: 500px;
+}
+
+#loading {
+	text-align: center;
+	top: 40%;
+}
+
+#preview {
+	top: 10px;
 }
 
 .preview-header {
@@ -252,21 +346,34 @@ p {
 	margin-bottom: 20px;
 }
 
-.preview-content {
+#preview-content {
 	box-shadow: 1px 1px 6px rgba(0,0,0,.3);
-	font-size: 9pt;
-	height: 715px;
-	width: 550px;
+	font-size: 12px;
 }
-
-#preview:not(.digital) #canvas,
-.preview-content .note {
-	display: none;
+#preview-content.iso {
+	height: 707px; /* aspect-ratio: 1 / 1.414 */
+}
+#preview-content.letter {
+	height: 646px; /* aspect-ratio: 1 / 1.292 */
+}
+#preview-content.tabloid {
+	height: 774px; /* aspect-ratio: 1 / 1.548 */
+}
+#preview-content.legal {
+	height: 824px; /* aspect-ratio: 1 / 1.648 */
 }
 
 #canvas {
-	max-height: 715px;
-	max-width: 550px;
+	display: none;
+	max-height: 705px;
+	max-width: 100%;
+}
+
+#preview-content .note {
+	color: #999;
+	font-size: 10px;
+	margin-top: -2em;
+	padding: 0;
 }
 
 .top-half {
@@ -291,7 +398,9 @@ p {
 	width: 100%;
 }
 .fold-line img {
+	height: 2.5em;
 	vertical-align: middle;
+	width: 2.5em;
 }
 
 .elements {
@@ -299,45 +408,16 @@ p {
 	height: 100%;
 }
 
-.center {
+.align-center {
 	text-align: center;
 }
 
-/* single month wall calendar */
-
-.wall-single .preview-content {
-	font-size: 12pt;
-}
-.wall-single .top-half,
-.wall-single .fold-line {
-	display: none;
-}
-.wall-single .elements {
-	display: block;
-}
-.wall-single .bottom-half {
-	border-top: none;
-	height: 100%;
-}
-.wall-single .bottom-half .cal-image,
-.wall-single .bottom-half .cal-content {
-	background-size: 100%;
-	height: 50%;
-	width: 100%;
-}
-.wall-single .calendar table th,
-.wall-single .calendar table td {
-	border-width: 1px 0;
-	text-align: center;
+.align-middle {
+	align-self: center;
 }
 
-/* digital wallpaper calendar */
-
-.digital #canvas {
-	display: block;
-}
-.digital .preview-content {
-	display: none;
+.align-right {
+	text-align: right;
 }
 
 /**
@@ -356,17 +436,18 @@ p {
 .calendar table th,
 .calendar table td {
 	border: 1px solid #ddd;
-	height: 14.3%;
-	padding: .5em;
+	padding: .3em .5em;
 	width: 14.3%;
 }
 .calendar table th {
 	font-size: 80%;
 	font-weight: normal;
+	height: 10%;
 	text-align: center;
 	text-transform: uppercase;
 }
 .calendar table td {
+	position: relative;
 	text-align: right;
 	vertical-align: top;
 }
@@ -374,13 +455,10 @@ p {
 .calendar table td.next-month {
 	color: #ccc;
 }
-.calendar table th:first-child,
-.calendar table td:first-child,
+.calendar table th.holiday,
 .calendar table td.holiday {
 	color: #c00;
 }
-.calendar table td:first-child.prev-month,
-.calendar table td:first-child.next-month,
 .calendar table td.holiday.prev-month,
 .calendar table td.holiday.next-month {
 	color: #fcc;
@@ -394,6 +472,10 @@ p {
 	overflow: hidden;
 	width: 40%;
 }
+#preview0, #preview1 {
+	height: 100%;
+	width: 100%;
+}
 
 .cal-content {
 	width: 60%;
@@ -406,20 +488,97 @@ p {
 	text-align: center;
 }
 
-@media screen and ( max-width: 1400px ) {
+.modern .calendar table th,
+.modern .calendar table td {
+	border-width: 1px 0;
+	text-align: center;
+	vertical-align: middle;
+}
 
-	.container {
-		display: block;
-	}
+.holiday-name {
+	bottom: 1em;
+	color: #999;
+	display: none;
+	font-size: 40%;
+	font-style: italic;
+	left: 0;
+	line-height: 1;
+	position: absolute;
+	right: 0;
+	text-align: center;
+}
+
+.holiday-list {
+	display: none;
+	font-size: 85%;
+}
+.holiday-list td {
+	border: none !important;
+	text-align: center !important;
+	vertical-align: middle !important;
+}
+
+.desktop.show-holidays .holiday-list {
+	display: table-row;
+}
+
+.desktop.show-holidays .calendar {
+	height: calc( 80% - 4.5em );
+}
+
+
+/* Single month wall calendar */
+
+.wall-single #preview-content {
+	font-size: 13px;
+}
+.wall-single .top-half,
+.wall-single .fold-line {
+	display: none;
+}
+.wall-single .elements {
+	display: block;
+}
+.wall-single .bottom-half {
+	border-top: none;
+	height: 100%;
+}
+.wall-single .bottom-half .cal-image,
+.wall-single .bottom-half .cal-content {
+	background-size: 100%;
+	height: 50%;
+	width: 100%;
+}
+.wall-single .calendar {
+	height: calc( 100% - 8em );
+}
+
+.wall-single.show-holidays .holiday-name {
+	display: block;
+}
+
+/* Digital wallpaper calendar */
+
+.digital #canvas {
+	display: block;
+}
+.digital #preview-content {
+	display: none;
+}
+
+/* Breakpoint for smaller screens */
+
+@media screen and ( max-width: 1279px ) {
 
 	#config, #preview {
+		display: block;
 		margin: 0 auto;
 		padding: 20px;
 	}
 }
 
 /**
- * Layout for printing
+ * Styles for printing
  */
 
 @media print {
@@ -428,8 +587,8 @@ p {
 	body,
 	.container,
 	#preview,
-	.preview-content {
-		height: 100%;
+	#preview-content {
+		height: 100% !important;
 		margin: 0;
 		width: 100%;
 	}
@@ -440,28 +599,20 @@ p {
 		display: none;
 	}
 
-	.preview-content {
+	#preview-content {
 		box-shadow: none;
-		font-size: 12pt;
+		font-size: 2.2vw;
 		left: 0;
 		position: absolute;
 		top: 0;
 	}
-	.preview-content .note {
-		color: #999;
-		display: block;
+	#preview-content .note {
+		font-size: 1.5vw;
 		margin-top: -4em;
-		padding: 0;
 	}
 
-	.wall-single .preview-content {
-		font-size: 15pt;
-	}
-	.wall-single .calendar {
-		height: calc( 100% - 8em );
-	}
-	.wall-single .calendar table td {
-		vertical-align: middle;
+	.wall-single #preview-content {
+		font-size: 2.5vw;
 	}
 	.wall-single .top-half .note {
 		display: none;

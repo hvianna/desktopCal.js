@@ -9,119 +9,199 @@
  */
 function checkHoliday( year, month, day ) {
 
-	var date, d, easter,
-		holidays = [],
-		easterHolidays = [],
-		customHolidays = getCustomHolidays();
+	let	holidays = [],
+		easterHolidays = [];
 
 	switch ( country ) {
 		case 'ar':
 			holidays = [
-				'1-1', '3-24', '4-2', '5-1', '5-25',
-				calcObservation( year, 6, 17, country ),
-				'6-20', '7-9',
-				calcObservation( year, 8, 17, country ),
-				calcObservation( year, 10, 12, country ),
-				calcObservation( year, 11, 20, country ),
-				'12-8', '12-25'
+				{ date: '1-1', name: 'Año Nuevo' },
+				{ date: '3-24', name: 'Memoria por la Verdad y la Justicia' },
+				{ date: '4-2', name: 'Día del Veterano' },
+				{ date: '5-1', name: 'Día del Trabajador' },
+				{ date: '5-25', name: 'Revolución de Mayo' },
+				{ date: calcObservation( year, 6, 17, country ), name: 'General Martín Miguel de Güemes' },
+				{ date: '6-20', name: 'General Manuel Belgrano' },
+				{ date: '7-9', name: 'Día de la Independencia' },
+				{ date: calcObservation( year, 8, 17, country ), name: 'General José de San Martín' },
+				{ date: calcObservation( year, 10, 12, country ), name: 'Respeto a la Diversidad Cultural' },
+				{ date: calcObservation( year, 11, 20, country ), name: 'Soberanía Nacional' },
+				{ date: '12-8', name: 'Inmaculada Concepción de María' },
+				{ date: '12-25', name: 'Navidad' }
 			];
-			easterHolidays = [ -48, -47, -2 ];
+			easterHolidays = [
+				{ days: -48, name: 'Carnaval' },
+				{ days: -47, name: 'Carnaval' },
+				{ days: -2, name: 'Viernes Santo' }
+			];
 			break;
 
 		case 'br':
-			holidays = [ '1-1',	'4-21',	'5-1', '9-7', '10-12', '11-2', '11-15', '12-25' ];
-			easterHolidays = [ -47, -2, 60 ]; // Carnival, Good Friday, Corpus Christi
+			holidays = [
+				{ date: '1-1', name: 'Confraternização Universal' },
+				{ date: '4-21', name: 'Tiradentes' },
+				{ date: '5-1', name: 'Dia do Trabalhador' },
+				{ date: '9-7', name: 'Proclamação da Independência' },
+				{ date: '10-12', name: 'Nossa Senhora Aparecida' },
+				{ date: '11-2', name: 'Finados' },
+				{ date: '11-15', name: 'Proclamação da República' },
+				{ date: '12-25', name: 'Natal' }
+			];
+			easterHolidays = [
+				{ days: -47, name: 'Carnaval' },
+				{ days: -2, name: 'Sexta-feira Santa' },
+				{ days: 60, name: 'Corpus Christi' }
+			];
 			break;
 
 		case 'ca':
 			holidays = [
-				'1-1',
-				floatingDoW( 1, year, 5, 18 ), // Victoria Day
-				'7-1',
-				floatingDoW( 1, year, 8, 1 ),
-				floatingDoW( 1, year, 9, 1 ),
-				floatingDoW( 1, year, 10, 8 ),
-				'11-11', '12-25', '12-26'
+				{ date: '1-1', name: 'New Year\'s Day' },
+				{ date: floatingDoW( 1, year, 5, 18 ), name: 'Victoria Day' },
+				{ date: '7-1', name: 'Canada Day' },
+				{ date: floatingDoW( 1, year, 8, 1 ), name: 'August Civic Holiday' },
+				{ date: floatingDoW( 1, year, 9, 1 ), name: 'Labour Day' },
+				{ date: floatingDoW( 1, year, 10, 8 ), name: 'Thanksgiving' },
+				{ date: '11-11', name: 'Remembrance Day' },
+				{ date: '12-25', name: 'Christmas Day' },
+				{ date: '12-26', name: 'Boxing Day' }
 			];
-			easterHolidays = [ -2, 1 ];
+			easterHolidays = [
+				{ days: -2, name: 'Good Friday' },
+				{ days: 1, name: 'Easter Monday' }
+			];
 			break;
 
 		case 'es':
-			holidays = [ '1-1', '1-6', '5-1', '8-15', '10-12', '11-1', '12-6', '12-8', '12-25' ];
-			easterHolidays = [ -3, -2 ]; // Maundy Thursday, Good Friday
+			holidays = [
+				{ date: '1-1', name: 'Año Nuevo' },
+				{ date: '1-6', name: 'Día de Reyes' },
+				{ date: '5-1', name: 'Día del Trabajador' },
+				{ date: '8-15', name: 'Asunción' },
+				{ date: '10-12', name: 'Fiesta Nacional de España' },
+				{ date: '11-1', name: 'Día de todos los Santos' },
+				{ date: '12-6', name: 'Día de la Constitución' },
+				{ date: '12-8', name: 'Inmaculada Concepción' },
+				{ date: '12-25', name: 'Navidad' }
+			];
+			easterHolidays = [
+				{ days: -3, name: 'Jueves Santo' },
+				{ days: -2, name: 'Viernes Santo' }
+			];
 			break;
 
 		case 'fr':
-			holidays = [ '1-1', '5-1', '5-8', '7-14', '8-15', '11-1', '11-11', '12-25', '12-26' ];
-			easterHolidays = [ -2, 1, 39, 50 ]; // Good Friday, Easter Monday, Ascension Day, Whit Monday
+			holidays = [
+				{ date: '1-1', name: 'Nouvel an' },
+				{ date: '5-1', name: 'Fête des Travailleurs' },
+				{ date: '5-8', name: 'Fête de la Victoire' },
+				{ date: '7-14', name: 'Fête Nationale' },
+				{ date: '8-15', name: 'Assomption' },
+				{ date: '11-1', name: 'Toussaint' },
+				{ date: '11-11', name: 'Armistice de 1918' },
+				{ date: '12-25', name: 'Noël' },
+				{ date: '12-26', name: 'Deuxième jour de Noël' }
+			];
+			easterHolidays = [
+				{ days: -2, name: 'Vendredi saint' },
+				{ days: 1, name: 'Lundi de Pâques' },
+				{ days: 39, name: 'Ascension' },
+				{ days: 50, name: 'Lundi de Pentecôte' }
+			];
 			break;
 
 		case 'mx':
 			holidays = [
-				calcObservation( year, 1, 1, country ),
-				floatingDoW( 1, year, 2, 1 ),
-				floatingDoW( 1, year, 3, 15 ),
-				calcObservation( year, 5, 1, country ),
-				calcObservation( year, 9, 16, country ),
-				floatingDoW( 1, year, 11, 15 ),
-				calcObservation( year, 12, 25, country )
+				{ date: calcObservation( year, 1, 1, country ), name: 'Año Nuevo' },
+				{ date: floatingDoW( 1, year, 2, 1 ), name: 'Día de la Constitución' },
+				{ date: floatingDoW( 1, year, 3, 15 ), name: 'Natalicio de Benito Juárez' },
+				{ date: calcObservation( year, 5, 1, country ), name: 'Día del Trabajo' },
+				{ date: calcObservation( year, 9, 16, country ), name: 'Día de la Independencia' },
+				{ date: floatingDoW( 1, year, 11, 15 ), name: 'Día de la Revolución' },
+				{ date: calcObservation( year, 12, 25, country ), name: 'Navidad' }
 			];
 			break;
 
 		case 'pt':
-			holidays = [ '1-1', '4-25', '5-1', '6-10', '8-15', '10-5', '11-1', '12-1', '12-8', '12-25' ]
-			easterHolidays = [ -47, -2, 60 ]; // Carnival, Good Friday, Corpus Christi
+			holidays = [
+				{ date: '1-1', name: 'Ano Novo' },
+				{ date: '4-25', name: 'Dia da Liberdade' },
+				{ date: '5-1', name: 'Dia do Trabalhador' },
+				{ date: '6-10', name: 'Dia de Portugal' },
+				{ date: '8-15', name: 'Assunção de Nossa Senhora' },
+				{ date: '10-5', name: 'Implantação da República' },
+				{ date: '11-1', name: 'Dia de Todos-os-Santos' },
+				{ date: '12-1', name: 'Restauração da Independência' },
+				{ date: '12-8', name: 'Imaculada Conceição' },
+				{ date: '12-25', name: 'Natal' }
+			];
+			easterHolidays = [
+				{ days: -47, name: 'Carnaval' },
+				{ days: -2, name: 'Sexta-feira Santa' },
+				{ days: 60, name: 'Corpo de Deus' }
+			];
 			break;
 
 		case 'uk':
 			holidays = [
-				calcObservation( year, 1, 1, country ),
-				floatingDoW( 1, year, 5, 1 ), floatingDoW( 1, year, 5, 25 ),
-				floatingDoW( 1, year, 8, 25 ),
-				calcObservation( year, 12, 25, country ), calcObservation( year, 12, 26, country )
+				{ date: calcObservation( year, 1, 1, country ), name: 'New Year\'s Day' },
+				{ date: floatingDoW( 1, year, 5, 1 ), name: 'May Day Bank Holiday' },
+				{ date: floatingDoW( 1, year, 5, 25 ), name: 'Spring Bank Holiday' },
+				{ date: floatingDoW( 1, year, 8, 25 ), name: 'Late Summer Bank Holiday' },
+				{ date: calcObservation( year, 12, 25, country ), name: 'Christmas Day' },
+				{ date: calcObservation( year, 12, 26, country ), name: 'Boxing Day' }
 			];
-			easterHolidays = [ -2, 1 ]; // Good Friday, Easter Monday, Ascension Day, Whit Monday
+			easterHolidays = [
+				{ days: -2, name: 'Good Friday' },
+				{ days: 1, name: 'Easter Monday' }
+			];
 			break;
 
 		case 'us':
 			holidays = [
-				'1-1', floatingDoW( 1, year, 1, 15 ),
-				floatingDoW( 1, year, 2, 15 ),
-				floatingDoW( 1, year, 5, 25 ),
-				'7-4',
-				floatingDoW( 1, year, 9, 1 ),
-				floatingDoW( 1, year, 10, 8 ),
-				'11-11', floatingDoW( 4, year, 11, 22 ),
-				'12-25'
+				{ date: '1-1', name: 'New Year\'s Day' },
+				{ date: floatingDoW( 1, year, 1, 15 ), name: 'Birthday of Martin Luther King Jr.' },
+				{ date: floatingDoW( 1, year, 2, 15 ), name: 'Washington\'s Birthday' },
+				{ date: floatingDoW( 1, year, 5, 25 ), name: 'Memorial Day' },
+				{ date: '7-4', name: 'Independence Day' },
+				{ date: floatingDoW( 1, year, 9, 1 ), name: 'Labor Day' },
+				{ date: floatingDoW( 1, year, 10, 8 ), name: 'Columbus Day' },
+				{ date: '11-11', name: 'Veterans Day' },
+				{ date: floatingDoW( 4, year, 11, 22 ), name: 'Thanksgiving Day' },
+				{ date: '12-25', name: 'Christmas Day' }
 			];
 			break;
 
 		case 'uy':
 			holidays = [
-				'1-1', '1-6',
-				calcObservation( year, 4, 19, country ),
-				'5-1',
-				calcObservation( year, 5, 18, country ),
-				'6-19',	'7-18', '8-25',
-				calcObservation( year, 10, 12, country ),
-				'11-2', '12-25'
+				{ date: '1-1', name: 'Año Nuevo' },
+				{ date: '1-6', name: 'Día de Reyes' },
+				{ date: calcObservation( year, 4, 19, country ), name: 'Desembarco de los 33 Orientales' },
+				{ date: '5-1', name: 'Día de los Trabajadores' },
+				{ date: calcObservation( year, 5, 18, country ), name: 'Batalla de las Piedras' },
+				{ date: '6-19', name: 'Natalicio de Artigas y Día del Nunca Más' },
+				{ date: '7-18', name: 'Jura de la Constitución' },
+				{ date: '8-25', name: 'Declaratoria de la Independencia' },
+				{ date: calcObservation( year, 10, 12, country ), name: 'Día de la Raza' },
+				{ date: '11-2', name: 'Día de los Difuntos' },
+				{ date: '12-25', name: 'Navidad' }
 			];
 			break;
 	}
 
 	// calculates floating holidays based on Easter Day
 	if ( easterHolidays.length ) {
-		easter = computus( year );
-		for ( d of easterHolidays ) {
-			date = new Date( easter.getTime() + d * 86400000);
-			holidays.push( `${ date.getMonth() + 1 }-${ date.getDate() }` );
-		}
+		let easter = computus( year );
+		easterHolidays.forEach( d => {
+			let date = new Date( easter.getTime() + d.days * 86400000);
+			holidays.push( { date: `${ date.getMonth() + 1 }-${ date.getDate() }`, name: d.name } );
+		});
 	}
 
-	if ( holidays.includes( `${month}-${day}` ) || customHolidays.includes( `${month}-${day}` ) )
-		return 'holiday';
-	else
-		return '';
+	holidays = holidays.concat( getCustomHolidays() );
+
+	// https://stackoverflow.com/questions/7364150/find-object-by-id-in-an-array-of-javascript-objects
+	return holidays.filter( i => i.date == `${month}-${day}` ).map( i => i.name );
 }
 
 /**
@@ -251,7 +331,23 @@ function getCustomHolidays() {
 		holidays = [];
 	}
 
-	return holidays;
+	// convert legacy holidays array (version =< 19.1)
+	holidays = holidays.map( d => {
+		if ( typeof d != 'object' )
+			return { date: d, name: '' }
+		else
+			return d
+	});
+
+	// return holidays in chronological order
+	return holidays.sort( ( a, b ) => {
+		a = a.date.split('-');
+		b = b.date.split('-');
+		if ( a[0] == b[0] )
+			return a[1] - b[1];
+		else
+			return a[0] - b[0];
+	});
 }
 
 /**
@@ -259,16 +355,13 @@ function getCustomHolidays() {
  */
 function listCustomHolidays() {
 
-	var i, d,
-		html = '',
+	var html = '',
 		holidays = getCustomHolidays();
 
-	if ( holidays.length ) {
-		for ( i = 0; i < holidays.length; i++ ) {
-			d = holidays[ i ].split('-');
-			html += `<tr><td>${msg[lang].monthNames[ d[0] ]}</td><td>${d[1]}</td><td><button type="button" onclick="deleteCustomHoliday( ${i} );">${msg[lang].delete}</button></td></tr>`;
-		}
-	}
+	holidays.forEach( ( item, i ) => {
+		let d = item.date.split('-');
+		html += `<tr><td>${msg[lang].monthNames[ d[0] ]}</td><td>${d[1]}</td><td>${item.name}</td><td><button type="button" onclick="deleteCustomHoliday( ${i} );">${msg[lang].delete}</button></td></tr>`;
+	});
 
 	return html;
 }
@@ -285,10 +378,11 @@ function addCustomHoliday() {
 	d = document.getElementById('custom-holiday-day').value;
 
 	if ( m > 0 && d > 0 ) {
-		holidays.push( `${m}-${d}` );
+		holidays.push( { date: `${m}-${d}`, name: document.getElementById('custom-holiday-name').value } );
 		localStorage.setItem( 'custom-holidays', JSON.stringify( holidays ) );
 		document.querySelector('#custom-holidays-table tbody').innerHTML = listCustomHolidays();
 		document.getElementById('custom-holiday-day').value = '';
+		document.getElementById('custom-holiday-name').value = '';
 		updatePreview();
 	}
 }

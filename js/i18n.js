@@ -26,24 +26,41 @@ var msg = {
 		defCountry: 'us',
 		monthNames: [ 'Month', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
 		weekDays:   [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
+		weekStart:  'Week starts on',
+		sunday:     'Sunday',
+		monday:     'Monday',
 		year:       'Year',
+		month:      'Month',
 		day:        'Day',
-		design:     'Design your calendar',
+		credits:    'Created with <strong>desktopCal.js</strong>',
+		creditTitle:'Credits',
+		creditDescr:'You can customize this line to include your photo credits, for example.',
+		front:      'Side 1',
+		back:       'Side 2',
+		design:     'Choose your layout',
+		edit:       'Select the image, month and year',
 		language:   'Language',
 		layout:     'Layout',
 		desktopCal: 'Desktop calendar',
 		wallSingle: 'Wall calendar',
 		digitalBg:  'Digital wallpaper',
+		screenConf: 'Screen configuration',
 		screenRes:  'Screen resolution',
 		chgOrient:  'Change orientation',
-		calSize:    'Style / Size',
-		small:      'Small',
-		medium:     'Medium',
-		large:      'Large',
-		column:     'Column',
-		row:        'Row',
-		horAlign:   'Horizontal pos',
-		verAlign:   'Vertical pos',
+		calStyle:   'Calendar style',
+		small:      'Small block',
+		medium:     'Medium block',
+		large:      'Large block',
+		column:     'Vertical bar',
+		row:        'Horizontal bar',
+		calSettings: 'Calendar settings',
+		modern:     'Modern',
+		classic:    'Classic',
+		showHolidays: 'Show holiday descriptions',
+		yes:        'Yes',
+		no:         'No',
+		horAlign:   'Horizontal alignment',
+		verAlign:   'Vertical alignment',
 		left:       'Left',
 		horCenter:  'Center',
 		right:      'Right',
@@ -53,48 +70,89 @@ var msg = {
 		width:      'Width',
 		height:     'Height',
 		pixels:     'pixels',
+		rotateR:    'Rotate clockwise',
+		rotateL:    'Rotate counterclockwise',
+		flipH:      'Flip horizontal',
+		flipV:      'Flip vertical',
+		reset:      'Reset',
+		colors:     'Colors',
+		colorPresets: 'Color schemes',
+		saveColors: 'Save to a new color scheme',
+		deletePreset: 'Do you really want to delete this custom color scheme?\nTHIS ACTION CANNOT BE UNDONE!',
+		bgColor:    'Background color',
+		bgOpacity:  'Background opacity',
+		textColor:  'Text color',
+		holidayColor:'Holidays color',
 		loadImage:  'Load Image',
-		holidays:   'National holidays',
+		holidays:   'Holidays',
+		countryHolidays: 'National holidays',
 		customHolidays: 'Custom holidays',
+		description: 'Description',
 		none:       'None',
 		add:        'Add',
 		delete:     'Delete',
-		imgNotice:  'Images are NOT uploaded anywhere out your computer.<br>All processing takes place in your browser.',
+		load:       'Load',
+		imgNotice:  'Images are NOT uploaded anywhere outside your computer. All processing takes place in your browser.',
 		printIt:    'Print It!',
-		print:      'Print',
+		paperSize:  'Paper size / aspect ratio:',
+		paperIso:   'A3 or A4',
+		paperLegal: 'Legal',
+		paperLetter:'Letter',
+		paperTabloid:'Tabloid',
+		print:      'Generate & Print',
 		tipBgImg:   'Configure your printer to print <strong>background images;</strong>',
+		tipPortrait:'Set page orientation to <strong>Portrait;</strong>',
 		tipMargins: 'Set the minimum margins allowed;',
 		tipHeaders: 'Turn off all headers and footers.',
 		downloadIt: 'Download your wallpaper',
 		download:   'Download',
 		fileFormat: 'File format',
-		preview:    'Preview',
+		loading:    'Loading, please wait...',
+		loadingTip: 'If this takes too long, try loading another image.',
+		preview:    'Preview:',
 		fold:       'fold on the dashed lines',
 	},
 
 	es: {
 		langName:   'Español',
 		defCountry: 'us',
-		monthNames: [ 'Mes', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubure', 'Noviembre', 'Diciembre' ],
+		monthNames: [ 'Mes', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ],
 		weekDays:   [ 'Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb' ],
+		weekStart:  'Semana comienza el',
+		sunday:     'Domingo',
+		monday:     'Lunes',
 		year:       'Año',
+		month:      'Mes',
 		day:        'Día',
-		design:     'Diseña tu calendario',
+		credits:    'Creado con <strong>desktopCal.js</strong>',
+		creditTitle:'Créditos',
+		creditDescr:'Puede personalizar esta línea para incluir sus créditos fotográficos, por ejemplo.',
+		front:      'Lado 1',
+		back:       'Lado 2',
+		design:     'Elige tu diseño',
+		edit:       'Seleccione la imagen, mes y año',
 		language:   'Idioma',
 		layout:     'Layout',
 		desktopCal: 'Calendario de escritorio',
 		wallSingle: 'Calendario de pared',
 		digitalBg:  'Fondo de pantalla',
+		screenConf: 'Configuración de pantalla',
 		screenRes:  'Resolución de la pantalla',
 		chgOrient:  'Cambiar orientación',
-		calSize:    'Estilo / Tamaño',
-		small:      'Pequeño',
-		medium:     'Mediano',
-		large:      'Grande',
-		column:     'Columna',
-		row:        'Fila',
-		horAlign:   'Pos. horizontal',
-		verAlign:   'Pos. vertical',
+		calStyle:   'Estilo de calendario',
+		small:      'Bloque pequeño',
+		medium:     'Bloque mediano',
+		large:      'Bloque grande',
+		column:     'Barra vertical',
+		row:        'Barra horizontal',
+		calSettings: 'Configuraciones de calendario',
+		modern:     'Moderno',
+		classic:    'Clásico',
+		showHolidays: 'Mostrar descripciones de feriados',
+		yes:        'Si',
+		no:         'No',
+		horAlign:   'Alineación horizontal',
+		verAlign:   'Alineación vertical',
 		left:       'Izquierda',
 		horCenter:  'Centrado',
 		right:      'Derecha',
@@ -104,22 +162,46 @@ var msg = {
 		width:      'Anchura',
 		height:     'Altura',
 		pixels:     'píxeles',
+		rotateR:    'Girar derecha',
+		rotateL:    'Girar izquierda',
+		flipH:      'Invertir horizontalmente',
+		flipV:      'Invertir verticalmente',
+		reset:      'Reiniciar',
+		colors:     'Colores',
+		colorPresets: 'Esquemas de color',
+		saveColors: 'Guardar en un nuevo esquema de color',
+		deletePreset: '¿Desea realmente borrar este esquema de color personalizado?\n¡ESTA ACCIÓN NO SE PUEDE DESHACER!',
+		bgColor:    'Color de fondo',
+		bgOpacity:  'Opacidad del fondo',
+		textColor:  'Color de texto',
+		holidayColor:'Color de feriados',
 		loadImage:  'Cargar Imagen',
-		holidays:   'Feriados nacionales',
+		holidays:   'Feriados',
+		countryHolidays: 'Feriados nacionales',
 		customHolidays: 'Feriados personalizados',
+		description: 'Descripción',
 		none:       'Ninguno',
 		add:        'Añadir',
 		delete:     'Borrar',
-		imgNotice:  'Las imágenes NO se envían fuera de su computadora.<br>Todo el procesamiento se lleva a cabo en su navegador.',
+		load:       'Cargar',
+		imgNotice:  'Las imágenes NO se envían fuera de su computadora. Todo el procesamiento se lleva a cabo en su navegador.',
 		printIt:    '¡Imprímelo!',
-		print:      'Imprimir',
+		paperSize:  'Tamaño de papel:',
+		paperIso:   'A3 o A4',
+		paperLegal: 'Legal',
+		paperLetter:'Carta',
+		paperTabloid:'Tabloide',
+		print:      'Generar e imprimir',
 		tipBgImg:   'Configure su impresora para imprimir <strong>imágenes de fondo;</strong>',
+		tipPortrait:'Establezca la orientación de la página en <strong>Retrato;</strong>',
 		tipMargins: 'Ajuste los márgenes para los valores más bajos permitidos;',
 		tipHeaders: 'Desactive todos los encabezados y pies de página.',
 		downloadIt: 'Descarga tu fondo de pantalla',
 		download:   'Descargar',
 		fileFormat: 'Formato',
-		preview:    'Vista previa',
+		loading:    'Cargando, por favor espere...',
+		loadingTip: 'Si esto lleva demasiado tiempo, intente cargar otra imagen.',
+		preview:    'Vista previa:',
 		fold:       'doblar en las líneas punteadas',
 	},
 
@@ -128,24 +210,41 @@ var msg = {
 		defCountry: 'fr',
 		monthNames: [ 'Mois', 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ],
 		weekDays:   [ 'Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam' ],
+		weekStart:  'Semaine commence le',
+		sunday:     'Dimanche',
+		monday:     'Lundi',
 		year:       'Année',
+		month:      'Mois',
 		day:        'Jour',
-		design:     'Concevez votre calendrier',
+		credits:    'Créé avec <strong>desktopCal.js</strong>',
+		creditTitle:'Crédits',
+		creditDescr:'Vous pouvez personnaliser cette ligne pour inclure vos crédits photo, par exemple.',
+		front:      'Côté 1',
+		back:       'Côté 2',
+		design:     'Choisissez votre design',
+		edit:       'Sélectionnez l\'image, le mois et l\'année',
 		language:   'Langue',
 		layout:     'Layout',
 		desktopCal: 'Calendrier de bureau',
 		wallSingle: 'Calendrier mural',
 		digitalBg:  'Fond d\'écran',
+		screenConf: 'Configuration de l\'écran',
 		screenRes:  'Résolution d\'écran',
 		chgOrient:  'Changer d\'orientation',
-		calSize:    'Style / Taille',
-		small:      'Petit',
-		medium:     'Moyen',
-		large:      'Grand',
-		column:     'Colonne',
-		row:        'Rangée',
-		horAlign:   'Pos. horizontale',
-		verAlign:   'Pos. verticale',
+		calStyle:   'Style de calendrier',
+		small:      'Petit bloc',
+		medium:     'Bloc moyen',
+		large:      'Gros bloc',
+		column:     'Barre verticale',
+		row:        'Barre Horizontale',
+		calSettings: 'Paramètres de calendrier',
+		modern:     'Moderne',
+		classic:    'Classique',
+		showHolidays: 'Afficher les descriptions de fériés',
+		yes:        'Oui',
+		no:         'Non',
+		horAlign:   'Alignement horizontale',
+		verAlign:   'Alignement verticale',
 		left:       'Gauche',
 		horCenter:  'Centré',
 		right:      'Droit',
@@ -155,22 +254,46 @@ var msg = {
 		width:      'Largeur',
 		height:     'Hauteur',
 		pixels:     'pixels',
+		rotateR:    'Tourner à droite',
+		rotateL:    'Tourner à gauche',
+		flipH:      'Retourner horizontalement',
+		flipV:      'Retourner verticalement',
+		reset:      'Réinitialiser',
+		colors:     'Couleurs',
+		colorPresets: 'Jeux de couleurs',
+		saveColors: 'Enregistrer dans un nouveau jeu de couleurs',
+		deletePreset: 'Voulez-vous vraiment supprimer ce jeu de couleurs personnalisé?\nCETTE ACTION NE PEUT PAS ÊTRE ANNULÉE!',
+		bgColor:    'Couleur du fond',
+		bgOpacity:  'Opacité du fond',
+		textColor:  'Couleur du texte',
+		holidayColor:'Couleur de jours fériés',
 		loadImage:  'Charger Image',
-		holidays:   'Fêtes nationales',
+		holidays:   'Jours fériés',
+		countryHolidays: 'Fêtes nationales',
 		customHolidays: 'Jours fériés personnalisées',
+		description: 'Description',
 		none:       'Aucun',
 		add:        'Ajouter',
 		delete:     'Effacer',
-		imgNotice:  'Les images NE sont PAS envoyées sur votre ordinateur.<br>Tous les traitements ont lieu dans votre navigateur.',
+		load:       'Charger',
+		imgNotice:  'Les images NE sont PAS envoyées sur votre ordinateur. Tous les traitements ont lieu dans votre navigateur.',
 		printIt:    'Imprime le!',
-		print:      'Imprimer',
+		paperSize:  'Format de papier:',
+		paperIso:   'A3 ou A4',
+		paperLegal: 'Légal',
+		paperLetter:'Lettre',
+		paperTabloid:'Tabloïde',
+		print:      'Générer et imprimer',
 		tipBgImg:   'Configurez votre imprimante pour imprimer des <strong>images d’arrière-plan;</strong>',
+		tipPortrait:'Définissez l\'orientation de la page sur <strong>Portrait;</strong>',
 		tipMargins: 'Ajuster les marges aux valeurs les plus basses autorisées;',
 		tipHeaders: 'Désactiver tous les en-têtes et pieds de page.',
 		downloadIt: 'Téléchargez votre fond d\'écran',
 		download:   'Télécharger',
 		fileFormat: 'Format',
-		preview:    'Aperçu',
+		loading:    'Chargement, veuillez patienter...',
+		loadingTip: 'Si cela prend trop de temps, essayez de charger une autre image.',
+		preview:    'Aperçu:',
 		fold:       'plier sur les lignes pointillées',
 	},
 
@@ -179,24 +302,41 @@ var msg = {
 		defCountry: 'br',
 		monthNames: [ 'Mês', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro' ],
 		weekDays:   [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb' ],
+		weekStart:  'Semana começa em',
+		sunday:     'Domingo',
+		monday:     'Segunda',
 		year:       'Ano',
+		month:      'Mês',
 		day:        'Dia',
-		design:     'Crie seu calendário',
+		credits:    'Criado com <strong>desktopCal.js</strong>',
+		creditTitle:'Créditos',
+		creditDescr:'Você pode personalizar esta linha para incluir seus créditos fotográficos, por exemplo.',
+		front:      'Lado 1',
+		back:       'Lado 2',
+		design:     'Escolha o layout',
+		edit:       'Selecione a imagem, mês e ano',
 		language:   'Idioma',
 		layout:     'Layout',
 		desktopCal: 'Calendário de mesa',
 		wallSingle: 'Calendário de parede',
 		digitalBg:  'Papel de parede digital',
+		screenConf: 'Configuração da tela',
 		screenRes:  'Resolução da tela',
-		chgOrient:  'Mudar orientação',
-		calSize:    'Estilo / Tamanho',
-		small:      'Pequeno',
-		medium:     'Médio',
-		large:      'Grande',
-		column:     'Coluna',
-		row:        'Linha',
-		horAlign:   'Pos. horizontal',
-		verAlign:   'Pos. vertical',
+		chgOrient:  'Alterar orientação',
+		calStyle:   'Estilo de calendário',
+		small:      'Quadro pequeno',
+		medium:     'Quadro médio',
+		large:      'Quadro grande',
+		column:     'Barra vertical',
+		row:        'Barra horizontal',
+		calSettings: 'Configurações do calendário',
+		modern:     'Moderno',
+		classic:    'Clássico',
+		showHolidays: 'Exibir descrições de feriados',
+		yes:        'Sim',
+		no:         'Não',
+		horAlign:   'Alinhamento horizontal',
+		verAlign:   'Alinhamento vertical',
 		left:       'Esquerda',
 		horCenter:  'Centro',
 		right:      'Direita',
@@ -205,23 +345,47 @@ var msg = {
 		bottom:     'Inferior',
 		width:      'Largura',
 		height:     'Altura',
+		colors:     'Cores',
+		colorPresets: 'Esquemas de cores',
+		saveColors: 'Salvar em um novo esquema de cores',
+		deletePreset: 'Deseja realmente excluir este esquema de cores personalizado?\nESTA AÇÃO NÃO PODE SER DESFEITA!',
+		bgColor:    'Cor de fundo',
+		bgOpacity:  'Opacidade do fundo',
+		textColor:  'Cor do texto',
+		holidayColor:'Cor dos feriados',
 		pixels:     'pixels',
+		rotateR:    'Girar para direita',
+		rotateL:    'Girar para esquerda',
+		flipH:      'Inverter horizontalmente',
+		flipV:      'Inverter verticalmente',
+		reset:      'Redefinir',
 		loadImage:  'Carregar Imagem',
-		holidays:   'Feriados nacionais',
+		holidays:   'Feriados',
+		countryHolidays: 'Feriados nacionais',
 		customHolidays: 'Feriados personalizados',
+		description: 'Descrição',
 		none:       'Nenhum',
 		add:        'Adicionar',
 		delete:     'Excluir',
-		imgNotice:  'As imagens NÃO são enviadas para fora de seu computador.<br>Todo o processamento ocorre no seu navegador.',
+		load:       'Carregar',
+		imgNotice:  'As imagens NÃO são enviadas para fora de seu computador. Todo o processamento ocorre no seu navegador.',
 		printIt:    'Imprima',
-		print:      'Imprimir',
+		paperSize:  'Formato do papel:',
+		paperIso:   'A3 ou A4',
+		paperLegal: 'Ofício',
+		paperLetter:'Carta',
+		paperTabloid:'Ofício 2',
+		print:      'Gerar e Imprimir',
 		tipBgImg:   'Configure sua impressora para imprimir <strong>imagens de fundo;</strong>',
+		tipPortrait:'Ajuste a orientação da página para <strong>Retrato;</strong>',
 		tipMargins: 'Ajuste as margens para os menores valores permitidos;',
 		tipHeaders: 'Desative todos os cabeçalhos e rodapés.',
-		downloadIt: 'Baixe sua tela de fundo',
+		downloadIt: 'Baixe seu papel de parede',
 		download:   'Baixar',
 		fileFormat: 'Formato',
-		preview:    'Pré-visualização',
+		loading:    'Carregando, por favor aguarde...',
+		loadingTip: 'Se demorar muito, experimente carregar outra imagem.',
+		preview:    'Pré-visualização:',
 		fold:       'dobre nas linhas tracejadas',
 	}
 }
@@ -262,6 +426,7 @@ function countryOptions() {
 function changeCountry( newCountry ) {
 
 	country = newCountry;
+	localStorage.setItem( 'country', country );
 	updatePreview();
 }
 
@@ -271,52 +436,40 @@ function changeLang( newLang ) {
 		return false;
 
 	lang = newLang;
+	localStorage.setItem( 'lang', lang );
 
-	// save values from input and select elements, so we can restore them after changing the language
+	translatePage();
+	updatePreview();
+}
 
-	var elems = document.querySelectorAll('input[type="text"], input[type="radio"], select');
+function translatePage() {
+
 	var values = [];
 
-	for ( var i = 0; i < elems.length; i++ ) {
-		if ( elems[ i ].localName == 'select' )
-			values[ i ] = elems[ i ].selectedIndex;
-		else if ( elems[ i ].attributes.type.nodeValue == 'radio' )
-			values[ i ] = elems[ i ].checked;
-		else
-			values[ i ] = elems[ i ].value;
-	}
+	// save values from select elements
+	document.querySelectorAll('select').forEach( ( el, i ) => values[ i ] = el.selectedIndex );
 
-	// save user selected pictures
+	// translate strings
+	document.querySelectorAll('[data-i18n]').forEach( el => {
+		let prop = 'innerHTML';
+		let text = msg[ lang ][ el.dataset.i18n ];
 
-	var elems = document.querySelectorAll('.cal-image');
-	var pics = [];
+		if ( el.tagName == 'INPUT' ) {
+			prop = 'placeholder';
+			text = text.replace( /<[^>]*>/g, '' );
+		}
+		else if ( el.classList.contains('action-button') )
+			prop = 'title';
+		el[ prop ] = text;
+	});
 
-	for ( i = 0; i < elems.length; i++ )
-		pics[ i ] = elems[ i ].style.backgroundImage;
+	// call functions to populate specific elements
+	document.querySelectorAll('[data-func]').forEach( el => el.innerHTML = window[ el.dataset.func ]() );
 
-	// upadte page HTML
+	// restore select elements
+	document.querySelectorAll('select').forEach( ( el, i ) => {
+		if ( values[ i ] >= 0 )
+			el.selectedIndex = values[ i ]
+	});
 
-	document.getElementById('container').innerHTML = pageTemplate();
-
-	// restore input and select values
-
-	elems = document.querySelectorAll('input[type="text"], input[type="radio"], select');
-
-	for ( i = 0; i < elems.length; i++ ) {
-		if ( elems[ i ].localName == 'select' )
-			elems[ i ].selectedIndex = values[ i ];
-		else if ( elems[ i ].attributes.type.nodeValue == 'radio' )
-			elems[ i ].checked = values[ i ];
-		else
-			elems[ i ].value = values[ i ];
-	}
-
-	// restore calendar pictures
-
-	elems = document.querySelectorAll('.cal-image');
-	for ( i = 0; i < elems.length; i++ )
-		elems[ i ].style.backgroundImage = pics[ i ];
-
-	// update preview
-	updatePreview();
 }

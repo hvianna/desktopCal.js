@@ -1,6 +1,23 @@
 Changelog
 =========
 
+## version 21.1
+
+### Added:
+
++ Crop, move, resize and rotate your calendar images, thanks to [Cropper.js](https://github.com/fengyuanchen/cropperjs);
++ Holidays' names / descriptions (re-enter your custom holidays to add descriptions);
++ Customizable color schemes for the digital wallpaper calendar;
++ Classic and Modern styles for the desktop and wall calendars;
++ Selectable paper aspect ratio for optimal printing results;
++ Customizable initial day of week (Sunday or Monday).
+
+### Improved:
+
++ More accurate Preview;
++ Several UI and layout improvements.
+
+
 ## version 19.1
 
 ### Added:
@@ -16,6 +33,7 @@ Changelog
 
 + Improved UI and printing layout;
 + Some code clean-up and organization.
+
 
 ## version 18.12
 
