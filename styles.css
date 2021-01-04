@@ -267,14 +267,18 @@ p {
 	padding: 0 0 10px 110px;
 }
 
-h2 ~ .note {
-	margin-top: -20px;
-}
-
 .note,
 .credits {
 	font-size: 12px;
 	padding: 10px 0;
+}
+
+h2 ~ .note {
+	margin-top: -20px;
+}
+
+label .note {
+	padding: 0 0 0 18px;
 }
 
 .credits {
@@ -347,16 +351,16 @@ h2 ~ .note {
 	font-size: 12px;
 }
 #preview-content.iso {
-	height: 707px;
+	height: 707px; /* aspect-ratio: 1 / 1.414 */
 }
 #preview-content.letter {
-	height: 646px;
+	height: 646px; /* aspect-ratio: 1 / 1.292 */
 }
 #preview-content.tabloid {
-	height: 774px;
+	height: 774px; /* aspect-ratio: 1 / 1.548 */
 }
 #preview-content.legal {
-	height: 824px;
+	height: 824px; /* aspect-ratio: 1 / 1.648 */
 }
 
 #canvas {
