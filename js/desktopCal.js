@@ -4,7 +4,7 @@
  *
  * https://github.com/hvianna/desktopCal.js
  *
- * Copyright (C) 2018-2019 Henrique Vianna <hvianna@gmail.com>
+ * Copyright (C) 2018-2021 Henrique Vianna <hvianna@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-var _VERSION = '19.12-dev';
+var _VERSION = '21.1';
 
 var cropper = [],
 	colorPresets;
