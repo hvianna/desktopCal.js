@@ -212,9 +212,9 @@ p {
 
 .custom-file-button input,
 #config.digital #print-config,
-#config.digital #calendar-config,
+#config.digital .calendar-config,
 #config.digital #show-holidays-label,
-#config:not(.digital) #canvas-config,
+#config:not(.digital) .canvas-config,
 #config:not(.digital) #download-config {
 	display: none;
 }
@@ -455,13 +455,10 @@ label .note {
 .calendar table td.next-month {
 	color: #ccc;
 }
-.calendar table th:first-child,
-.calendar table tr:not(.holiday-list) td:first-child,
+.calendar table th.holiday,
 .calendar table td.holiday {
 	color: #c00;
 }
-.calendar table td:first-child.prev-month,
-.calendar table td:first-child.next-month,
 .calendar table td.holiday.prev-month,
 .calendar table td.holiday.next-month {
 	color: #fcc;

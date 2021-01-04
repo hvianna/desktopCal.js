@@ -136,7 +136,7 @@
 				</div>
 			</div> <!-- .tab-container -->
 
-			<div id="canvas-config">
+			<div class="canvas-config">
 				<h2 data-i18n="screenConf"></h2>
 				<div class="config-blocks">
 					<label>
@@ -151,35 +151,59 @@
 					</label>
 					<button id="rotate-canvas" class="rotate-button icon-button" data-i18n="chgOrient"></button>
 				</div>
-				<h2 data-i18n="calSettings"></h2>
-				<div class="config-blocks">
-					<label>
-						<span data-i18n="calStyle" class="tag"></span>
-						<select id="cal-size">
-							<option value="col" data-i18n="column"></option>
-							<option value="row" data-i18n="row"></option>
-							<option value=".03" data-i18n="small"></option>
-							<option value=".05" data-i18n="medium" selected></option>
-							<option value=".07" data-i18n="large"></option>
-						</select>
-					</label>
-					<label>
-						<span data-i18n="horAlign" class="tag"></span>
-						<select id="h-align">
-							<option value="left" data-i18n="left"></option>
-							<option value="center" data-i18n="horCenter"></option>
-							<option value="right" data-i18n="right" selected></option>
-						</select>
-					</label>
-					<label class="align-right">
-						<span data-i18n="verAlign" class="tag"></span>
-						<select id="v-align">
-							<option value="top" data-i18n="top"></option>
-							<option value="center" data-i18n="verCenter" selected></option>
-							<option value="bottom" data-i18n="bottom"></option>
-						</select>
-					</label>
-				</div>
+			</div>
+
+			<h2 data-i18n="calSettings"></h2>
+			<div class="config-blocks">
+				<label>
+					<span data-i18n="weekStart" class="tag"></span>
+					<select id="week-start">
+						<option value="0" data-i18n="sunday"></option>
+						<option value="1" data-i18n="monday"></option>
+					</select>
+				</label>
+				<!-- Digital only -->
+				<label class="canvas-config">
+					<span data-i18n="calStyle" class="tag"></span>
+					<select id="cal-size">
+						<option value="col" data-i18n="column"></option>
+						<option value="row" data-i18n="row"></option>
+						<option value=".03" data-i18n="small"></option>
+						<option value=".05" data-i18n="medium" selected></option>
+						<option value=".07" data-i18n="large"></option>
+					</select>
+				</label>
+				<label class="canvas-config">
+					<span data-i18n="horAlign" class="tag"></span>
+					<select id="h-align">
+						<option value="left" data-i18n="left"></option>
+						<option value="center" data-i18n="horCenter"></option>
+						<option value="right" data-i18n="right" selected></option>
+					</select>
+				</label>
+				<label class="canvas-config align-right">
+					<span data-i18n="verAlign" class="tag"></span>
+					<select id="v-align">
+						<option value="top" data-i18n="top"></option>
+						<option value="center" data-i18n="verCenter" selected></option>
+						<option value="bottom" data-i18n="bottom"></option>
+					</select>
+				</label>
+				<!-- Print only -->
+				<label class="calendar-config">
+					<span data-i18n="calStyle" class="tag"></span>
+					<select id="cal-style">
+						<option value="modern" data-i18n="modern"></option>
+						<option value="" data-i18n="classic"></option>
+					</select>
+				</label>
+				<label id="show-holidays-label" class="calendar-config align-middle">
+					<input id="show-holidays" type="checkbox" checked>
+					<span data-i18n="showHolidays"></span>
+				</label>
+			</div>
+
+			<div class="canvas-config">
 				<h2 data-i18n="colors"></h2>
 				<div class="config-blocks">
 					<label>
@@ -207,25 +231,7 @@
 					<tbody data-func="listColorPresets">
 					</tbody>
 				</table>
-
-			</div> <!-- #canvas-config -->
-
-			<div id="calendar-config">
-				<h2 data-i18n="calSettings"></h2>
-				<div class="config-blocks">
-					<label>
-						<span data-i18n="calStyle" class="tag"></span>
-						<select id="cal-style">
-							<option value="modern" data-i18n="modern"></option>
-							<option value="" data-i18n="classic"></option>
-						</select>
-					</label>
-					<label id="show-holidays-label" class="align-middle">
-						<input id="show-holidays" type="checkbox" checked>
-						<span data-i18n="showHolidays"></span>
-					</label>
-				</div>
-			</div> <!-- #calendar-config -->
+			</div>
 
 			<h2 data-i18n="creditTitle"></h2>
 

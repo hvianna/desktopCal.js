@@ -106,6 +106,14 @@ function changePaper() {
 }
 
 /**
+ * Save initial weekday preference
+ */
+function changeInitialWeekday() {
+	localStorage.setItem( 'week-start', document.getElementById('week-start').value );
+	updatePreview();
+}
+
+/**
  * Set CSS classnames for the preview to match selected calendar layout and settings
  */
 function changeStyle() {
@@ -135,6 +143,9 @@ function configUIElements() {
 	document.getElementById('rotate-canvas').addEventListener( 'click', rotateCanvas );
 	document.querySelectorAll('#canvas-width, #canvas-height').forEach( el => el.addEventListener( 'change', changeLayout ) );
 	document.querySelectorAll('#cal-size, #h-align, #v-align, #bg-color, #bg-opacity, #text-color, #holiday-color').forEach( el => el.addEventListener( 'change', updatePreview ) );
+
+	// initial weekday
+	document.getElementById('week-start').addEventListener( 'change', changeInitialWeekday );
 
 	// update digital wallpaper canvas on Cropper.js events
 	document.getElementById('image0').addEventListener('crop', e => {
@@ -263,6 +274,11 @@ function generateCalendar( month, year, canvas = null ) {
 	var html, holidayList, dow, prevMon, i, d,
 		ctx, calSize, cellSize, initialX, initialY, currLine, vAlign, hAlign; // auxiliary variables for canvas
 
+	const initialWeekday = document.getElementById('week-start').value | 0;
+
+	// helper function for canvas calendar
+	const posX = dow => initialWeekday == 0 ? dow : dow >= initialWeekday ? dow - initialWeekday : 7 - initialWeekday + dow;
+
 	if ( ( year & 3 ) == 0 && ( ( year % 25 ) != 0 || ( year & 15 ) == 0 ) )
 		ndays[2]++; // leap year
 
@@ -377,22 +393,31 @@ function generateCalendar( month, year, canvas = null ) {
 	}
 
 	// display week days initials
-	for ( i = 0; i < 7; i++ ) {
+	i = initialWeekday;
+	do {
 		if ( canvas && ! isNaN( calSize ) ) {
 			ctx.fillStyle = i == 0 ? document.getElementById('holiday-color').value : document.getElementById('text-color').value;
-			ctx.fillText( msg[ lang ].weekDays[ i ].charAt(0), i * cellSize * 1.3, currLine );
+			ctx.fillText( msg[ lang ].weekDays[ i ].charAt(0), posX( i ) * cellSize * 1.3, currLine );
 		}
 		else
-			html += '<th>' + msg[ lang ].weekDays[ i ];
-	}
+			html += `<th${ i == 0 ? ' class="holiday"' : ''}>${ msg[ lang ].weekDays[ i ] }`;
+		i = i < 6 ? i + 1 : 0;
+	} while ( i != initialWeekday );
 
 	// if there are empty cells at the beginning, these are previous month's days
 	if ( canvas )
 		currLine += cellSize;
 	else {
 		html += '<tr>'
-		for ( i = dow, d = ndays[ prevMon ] - i + 1; i > 0; i--, d++ )
-			html += '<td class="prev-month' + ( checkHoliday( month == 1 ? year - 1 : year, prevMon, d ).length ? ' holiday' : '' ) + '">' + d;
+		if ( dow != initialWeekday ) {
+			let i = initialWeekday,
+				d = ndays[ prevMon ] - dow + initialWeekday + 1;
+			do {
+				html += '<td class="prev-month' + ( i == 0 || checkHoliday( month == 1 ? year - 1 : year, prevMon, d ).length ? ' holiday' : '' ) + '">' + d;
+				i = ++i % 7;
+				d++;
+			} while ( d <= ndays[ prevMon ] );
+		}
 	}
 
 	// loop for the current month
@@ -415,7 +440,7 @@ function generateCalendar( month, year, canvas = null ) {
 				ctx.fillText( i, i * cellSize * 1.1, cellSize * 2 );
 			}
 			else
-				ctx.fillText( i, dow * cellSize * 1.3, currLine );
+				ctx.fillText( i, posX( dow ) * cellSize * 1.3, currLine );
 		}
 		else {
 			if ( holidays.length ) {
@@ -429,12 +454,11 @@ function generateCalendar( month, year, canvas = null ) {
 				holidayList += '<br>';
 			}
 			else
-				html += '<td>' + i;
+				html += `<td${ dow == 0 ? ' class="holiday"' : ''}>${ i }`;
 		}
 
-		dow++;
-		if ( dow == 7 && i < ndays[ month ] ) {
-			dow = 0;
+		dow = ++dow % 7;
+		if ( dow == initialWeekday && i < ndays[ month ] ) {
 			if ( canvas )
 				currLine += cellSize;
 			else
@@ -476,10 +500,11 @@ function generateCalendar( month, year, canvas = null ) {
 			month = 1;
 			year++;
 		}
-		while ( dow > 0 && dow < 7 ) {
-			html += '<td class="next-month' + ( checkHoliday( year, month, d ).length ? ' holiday' : '' ) + '">' + d;
+
+		while ( dow != initialWeekday ) {
+			html += '<td class="next-month' + ( dow == 0 || checkHoliday( year, month, d ).length ? ' holiday' : '' ) + '">' + d;
 			d++;
-			dow++;
+			dow = ++dow % 7;
 		}
 
 		html += `<tr class="holiday-list"><td colspan="7">${ holidayList }`;
@@ -648,6 +673,9 @@ function initialize() {
 	let paper = document.querySelector( `input[name="paper"][value="${localStorage.getItem('paper')}"]` );
 	if ( paper )
 		paper.checked = true;
+
+	// load preferred initial weekday
+	document.getElementById('week-start').value = localStorage.getItem('week-start') | 0;
 
 	// suggest current and next months for calendars
 
