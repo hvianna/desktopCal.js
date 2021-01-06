@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-var _VERSION = '21.1';
+var _VERSION = '21.1.1';
 
 var cropper = [],
 	colorPresets;
@@ -401,7 +401,7 @@ function generateCalendar( month, year, canvas = null ) {
 		}
 		else
 			html += `<th${ i == 0 ? ' class="holiday"' : ''}>${ msg[ lang ].weekDays[ i ] }`;
-		i = i < 6 ? i + 1 : 0;
+		i = ++i % 7;
 	} while ( i != initialWeekday );
 
 	// if there are empty cells at the beginning, these are previous month's days
@@ -411,7 +411,7 @@ function generateCalendar( month, year, canvas = null ) {
 		html += '<tr>'
 		if ( dow != initialWeekday ) {
 			let i = initialWeekday,
-				d = ndays[ prevMon ] - dow + initialWeekday + 1;
+				d = ndays[ prevMon ] - ( dow < initialWeekday ? dow + 7 : dow ) + initialWeekday + 1;
 			do {
 				html += '<td class="prev-month' + ( i == 0 || checkHoliday( month == 1 ? year - 1 : year, prevMon, d ).length ? ' holiday' : '' ) + '">' + d;
 				i = ++i % 7;
