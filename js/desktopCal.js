@@ -411,7 +411,7 @@ function generateCalendar( month, year, canvas = null ) {
 		html += '<tr>'
 		if ( dow != initialWeekday ) {
 			let i = initialWeekday,
-				d = ndays[ prevMon ] - dow + initialWeekday + 1;
+				d = ndays[ prevMon ] - ( dow < initialWeekday ? dow + 7 : dow ) + initialWeekday + 1;
 			do {
 				html += '<td class="prev-month' + ( i == 0 || checkHoliday( month == 1 ? year - 1 : year, prevMon, d ).length ? ' holiday' : '' ) + '">' + d;
 				i = ++i % 7;
