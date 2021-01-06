@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## version 21.1.1
+
+Fixes a bug when weeks are configured to start on Monday and the first day of the month falls on a Sunday.
+
+
 ## version 21.1
 
 ### Added:
@@ -10,7 +15,7 @@ Changelog
 + Customizable color schemes for the digital wallpaper calendar;
 + Classic and Modern styles for the desktop and wall calendars;
 + Selectable paper aspect ratio for optimal printing results;
-+ Customizable initial day of week (Sunday or Monday).
++ Configurable initial day of week (Sunday or Monday).
 
 ### Improved:
 
