@@ -401,7 +401,7 @@ function generateCalendar( month, year, canvas = null ) {
 		}
 		else
 			html += `<th${ i == 0 ? ' class="holiday"' : ''}>${ msg[ lang ].weekDays[ i ] }`;
-		i = i < 6 ? i + 1 : 0;
+		i = ++i % 7;
 	} while ( i != initialWeekday );
 
 	// if there are empty cells at the beginning, these are previous month's days
