@@ -72,6 +72,32 @@ function checkHoliday( year, month, day ) {
 			];
 			break;
 
+		case 'de':
+			holidays = [
+				{ date: '1-1', name: 'Neujahr' },
+				{ date: '1-6', name: 'Heilige Drei Könige' },
+				{ date: '3-8', name: 'Internationaler Frauentag' },
+				{ date: '5-1', name: 'Tag der Arbeit' },
+				{ date: '8-15', name: 'Mariä Himmelfahrt' },
+				{ date: '9-20', name: 'Weltkindertag' },
+				{ date: '10-3', name: 'Tag der Deutschen Einheit' },
+				{ date: '10-31', name: 'Reformationstag' },
+				{ date: '11-1', name: 'Allerheiligen' },
+				{ date: floatingDoW( 3, year, 11, 16 ), name: 'Buß- und Bettag' }, // Wednesday between November 16-22
+				{ date: '12-25', name: '1. Weihnachtsfeiertag' },
+				{ date: '12-26', name: '2. Weihnachtsfeiertag' }
+			];
+			easterHolidays = [
+				{ days: -2, name: 'Karfreitag' },
+				{ days: 0, name: 'Ostersonntag' },
+				{ days: 1, name: 'Ostermontag' },
+				{ days: 39, name: 'Christi Himmelfahrt' },
+				{ days: 49, name: 'Pfingstsonntag' },
+				{ days: 50, name: 'Pfingstmontag' },
+				{ days: 60, name: 'Fronleichnam' },
+			];
+			break;
+
 		case 'es':
 			holidays = [
 				{ date: '1-1', name: 'Año Nuevo' },
@@ -193,7 +219,7 @@ function checkHoliday( year, month, day ) {
 	if ( easterHolidays.length ) {
 		let easter = computus( year );
 		easterHolidays.forEach( d => {
-			let date = new Date( easter.getTime() + d.days * 86400000);
+			let date = dateAdd( easter, d.days );
 			holidays.push( { date: `${ date.getMonth() + 1 }-${ date.getDate() }`, name: d.name } );
 		});
 	}
@@ -258,8 +284,16 @@ function computus( year ) {
  */
 function floatingDoW( dow, year, month, day ) {
 
+	let ndays = [ 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+	if ( ( year & 3 ) == 0 && ( ( year % 25 ) != 0 || ( year & 15 ) == 0 ) )
+		ndays[2]++; // leap year
+
 	while ( ( new Date( year, month - 1, day ) ).getDay() != dow ) {
 		day++;
+		if ( day > ndays[ month ] ) {
+			day = 1;
+			month = month == 12 ? 1 : month + 1;
+		}
 	}
 
 	return `${month}-${day}`;
@@ -309,11 +343,31 @@ function calcObservation( year, month, day, country ) {
 			break;
 	}
 
-	date = new Date( date.getTime() + diff * 86400000 );
-
-	return `${date.getMonth()+1}-${date.getDate()}`;
+	return dateToMonthDay( dateAdd( date, diff ) );
 }
 
+/**
+ * Adds (or subtracts) a given number of days to a Date object
+ *
+ * @param {Date} date
+ * @param {number} nDays
+ *
+ * @returns {Date}
+ */
+function dateAdd( date, nDays ) {
+	return new Date( date.getTime() + nDays * 86400000 );
+}
+
+/**
+ * Converts a given Date object to a 'month-day' string
+ *
+ * @param {Date} date
+ *
+ * @returns {string}
+ */
+function dateToMonthDay( date ) {
+	return `${ date.getMonth() + 1 }-${ date.getDate() }`;
+}
 
 /**
  * Reads custom holidays from local storage

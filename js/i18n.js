@@ -10,6 +10,7 @@ var countries = {
 	ar: { name: 'Argentina' },
 	br: { name: 'Brasil' },
 	ca: { name: 'Canada' },
+	de: { name: 'Deutschland' },
 	es: { name: 'España' },
 	fr: { name: 'France' },
 	mx: { name: 'Mexico' },
