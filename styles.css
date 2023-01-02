@@ -162,6 +162,13 @@ p {
 	margin-bottom: 40px;
 }
 
+.flex-wrap {
+	column-gap: 1em;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
 .config-block {
 	display: inline-block;
 }

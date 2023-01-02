@@ -445,13 +445,13 @@ function generateCalendar( month, year, canvas = null ) {
 		else {
 			if ( holidays.length ) {
 				html += `<td class="holiday">${ i }<span class="holiday-name">`;
-				holidayList += `${ i } - `;
+				holidayList += `<span>${ i } - `;
 				holidays.forEach( ( name, idx ) => {
 					html += ( idx ? '<br>' : '' ) + name;
 					holidayList += ( idx ? ' / ' : '' ) + name;
 				});
 				html += '</span>';
-				holidayList += '<br>';
+				holidayList += '</span>';
 			}
 			else
 				html += `<td${ dow == 0 ? ' class="holiday"' : ''}>${ i }`;
@@ -507,7 +507,7 @@ function generateCalendar( month, year, canvas = null ) {
 			dow = ++dow % 7;
 		}
 
-		html += `<tr class="holiday-list"><td colspan="7">${ holidayList }`;
+		html += `<tr class="holiday-list"><td colspan="7"><div class="flex-wrap">${ holidayList }</div>`;
 		html += '</table>';
 
 		return html;
