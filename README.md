@@ -1,11 +1,14 @@
 desktopCal.js
 =============
 
-Calendar generator built with HTML, CSS & JavaScript.
++ Create your own calendars to print or use as wallpaper.
++ Includes national holidays for several countries and also allows you to add your custom holidays.
++ Multilingual support.
++ Built with HTML, CSS & JavaScript.
 
-### [➡️ CREATE YOUR CALENDAR HERE](https://henriquevianna.com/desktopCal.js/)
+**Create your calendar on our website: [https://henriquevianna.com/desktopCal.js/](https://henriquevianna.com/desktopCal.js/)**
 
-Calendars you can create with **desktopCal.js:**
+## Calendars you can create
 
 | Desktop calendar | Wall calendar | Digital wallpaper calendar |
 |---|---|---|
@@ -29,9 +32,19 @@ You can add your own custom holidays. These will be saved in your browser's loca
 + [Saving canvas as image](https://weworkweplay.com/play/saving-html5-canvas-as-image/) and [solution to CORS issue on canvas.toDataURL()](https://stackoverflow.com/a/30517793/2370385)
 + [W3Schools Canvas Reference](https://www.w3schools.com/tags/ref_canvas.asp)
 + [How to draw a rounded Rectangle on HTML Canvas?](https://stackoverflow.com/a/7838871/2370385)
-+ Public holidays in [Argentina](https://en.wikipedia.org/wiki/Public_holidays_in_Argentina), [Brazil](https://pt.wikipedia.org/wiki/Feriados_no_Brasil), [Canada](https://en.wikipedia.org/wiki/Public_holidays_in_Canada), [France](https://en.wikipedia.org/wiki/Public_holidays_in_France), [Mexico](https://en.wikipedia.org/wiki/Public_holidays_in_Mexico), [Portugal](https://en.wikipedia.org/wiki/Public_holidays_in_Portugal), [Spain](https://en.wikipedia.org/wiki/Public_holidays_in_Spain), [United Kingdom](https://en.wikipedia.org/wiki/Public_holidays_in_the_United_Kingdom), [United States](https://en.wikipedia.org/wiki/Federal_holidays_in_the_United_States), [Uruguay](https://en.wikipedia.org/wiki/Public_holidays_in_Uruguay).
++ Public holidays in [Argentina](https://en.wikipedia.org/wiki/Public_holidays_in_Argentina),
+[Brazil](https://pt.wikipedia.org/wiki/Feriados_no_Brasil),
+[Canada](https://en.wikipedia.org/wiki/Public_holidays_in_Canada),
+[France](https://en.wikipedia.org/wiki/Public_holidays_in_France),
+Germany ([here](https://en.wikipedia.org/wiki/Public_holidays_in_Germany), [here](https://en.wikipedia.org/wiki/Bu%C3%9F-_und_Bettag) and [here](https://www.schulferien.org/deutschland/feiertage/)),
+[Mexico](https://en.wikipedia.org/wiki/Public_holidays_in_Mexico),
+[Portugal](https://en.wikipedia.org/wiki/Public_holidays_in_Portugal),
+[Spain](https://en.wikipedia.org/wiki/Public_holidays_in_Spain),
+[United Kingdom](https://en.wikipedia.org/wiki/Public_holidays_in_the_United_Kingdom),
+[United States](https://en.wikipedia.org/wiki/Federal_holidays_in_the_United_States),
+[Uruguay](https://en.wikipedia.org/wiki/Public_holidays_in_Uruguay).
 + [Paper sizes](https://papersizes.io/)
 
 ## License
 
-**desktopCal.js** copyright (c) 2018-2021 Henrique Avila Vianna. Licensed under the [GNU AGPL-3.0 License](https://github.com/hvianna/desktopCal.js/blob/master/LICENSE).
+**desktopCal.js** copyright (c) 2018-2023 Henrique Avila Vianna. Licensed under the [GNU AGPL-3.0 License](https://github.com/hvianna/desktopCal.js/blob/master/LICENSE).

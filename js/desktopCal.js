@@ -4,7 +4,7 @@
  *
  * https://github.com/hvianna/desktopCal.js
  *
- * Copyright (C) 2018-2021 Henrique Vianna <hvianna@gmail.com>
+ * Copyright (C) 2018-2023 Henrique Vianna <hvianna@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-var _VERSION = '21.1.1';
+'use strict';
+
+var _VERSION = '23.1';
 
 var cropper = [],
 	colorPresets;
@@ -269,22 +271,18 @@ function loadImage( obj, n ) {
  */
 function generateCalendar( month, year, canvas = null ) {
 
-	var ndays = [ 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
-
-	var html, holidayList, dow, prevMon, i, d,
-		ctx, calSize, cellSize, initialX, initialY, currLine, vAlign, hAlign; // auxiliary variables for canvas
-
+	const ndays = getMonthDays( year );
 	const initialWeekday = document.getElementById('week-start').value | 0;
 
 	// helper function for canvas calendar
 	const posX = dow => initialWeekday == 0 ? dow : dow >= initialWeekday ? dow - initialWeekday : 7 - initialWeekday + dow;
 
-	if ( ( year & 3 ) == 0 && ( ( year % 25 ) != 0 || ( year & 15 ) == 0 ) )
-		ndays[2]++; // leap year
+	let html, holidayList;
+	let ctx, calSize, cellSize, initialX, initialY, currLine, vAlign, hAlign; // auxiliary variables for canvas
 
-	prevMon = month > 1 ? month - 1 : 12;
+	let prevMon = month > 1 ? month - 1 : 12;
 
-	dow = ( new Date( year, month - 1, 1 ) ).getDay();
+	let dow = ( new Date( year, month - 1, 1 ) ).getDay();
 
 	if ( canvas ) {
 		ctx = canvas.getContext('2d');
@@ -393,7 +391,7 @@ function generateCalendar( month, year, canvas = null ) {
 	}
 
 	// display week days initials
-	i = initialWeekday;
+	let i = initialWeekday;
 	do {
 		if ( canvas && ! isNaN( calSize ) ) {
 			ctx.fillStyle = i == 0 ? document.getElementById('holiday-color').value : document.getElementById('text-color').value;
@@ -421,7 +419,7 @@ function generateCalendar( month, year, canvas = null ) {
 	}
 
 	// loop for the current month
-	for ( i = 1; i <= ndays[ month ]; i++ ) {
+	for ( let i = 1; i <= ndays[ month ]; i++ ) {
 		let holidays = checkHoliday( year, month, i );
 		if ( canvas ) {
 			ctx.fillStyle = ( dow == 0 || holidays.length ) ? document.getElementById('holiday-color').value : document.getElementById('text-color').value;
@@ -445,13 +443,13 @@ function generateCalendar( month, year, canvas = null ) {
 		else {
 			if ( holidays.length ) {
 				html += `<td class="holiday">${ i }<span class="holiday-name">`;
-				holidayList += `${ i } - `;
+				holidayList += `<span>${ i } - `;
 				holidays.forEach( ( name, idx ) => {
 					html += ( idx ? '<br>' : '' ) + name;
 					holidayList += ( idx ? ' / ' : '' ) + name;
 				});
 				html += '</span>';
-				holidayList += '<br>';
+				holidayList += '</span>';
 			}
 			else
 				html += `<td${ dow == 0 ? ' class="holiday"' : ''}>${ i }`;
@@ -493,7 +491,7 @@ function generateCalendar( month, year, canvas = null ) {
 		ctx.shadowOffsetX = ctx.shadowOffsetY = 0;
 	}
 	else { // fill remaining cells with next month's days
-		d = 1;
+		let d = 1;
 		if ( month < 12 )
 			month++;
 		else {
@@ -507,7 +505,7 @@ function generateCalendar( month, year, canvas = null ) {
 			dow = ++dow % 7;
 		}
 
-		html += `<tr class="holiday-list"><td colspan="7">${ holidayList }`;
+		html += `<tr class="holiday-list"><td colspan="7"><div class="flex-wrap">${ holidayList }</div>`;
 		html += '</table>';
 
 		return html;
