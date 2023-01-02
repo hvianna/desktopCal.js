@@ -1,11 +1,14 @@
 desktopCal.js
 =============
 
-Calendar generator built with HTML, CSS & JavaScript.
++ Create your own calendars to print or use as wallpaper.
++ Includes national holidays for several countries and also allows you to add your custom holidays.
++ Multilingual support.
++ Built with HTML, CSS & JavaScript.
 
-### [➡️ CREATE YOUR CALENDAR HERE](https://henriquevianna.com/desktopCal.js/)
+**Create your calendar on our website: [https://henriquevianna.com/desktopCal.js/](https://henriquevianna.com/desktopCal.js/)**
 
-Calendars you can create with **desktopCal.js:**
+## Calendars you can create
 
 | Desktop calendar | Wall calendar | Digital wallpaper calendar |
 |---|---|---|
