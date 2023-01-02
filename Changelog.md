@@ -1,6 +1,17 @@
 Changelog
 =========
 
+## version 23.1
+
+### Added:
+
++ German translation and holidays for Germany - thank you [@fischer-felix](https://github.com/fischer-felix) [(#5)](https://github.com/hvianna/desktopCal.js/pull/5).
+
+### Improved:
+
++ Minor layout improvement of holidays list in the desktop format.
+
+
 ## version 21.1.1
 
 Fixes a bug when weeks are configured to start on Monday and the first day of the month falls on a Sunday.
