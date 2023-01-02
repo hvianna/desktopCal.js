@@ -284,19 +284,37 @@ function computus( year ) {
  */
 function floatingDoW( dow, year, month, day ) {
 
-	let ndays = [ 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
-	if ( ( year & 3 ) == 0 && ( ( year % 25 ) != 0 || ( year & 15 ) == 0 ) )
-		ndays[2]++; // leap year
+	let ndays = getMonthDays( year );
 
 	while ( ( new Date( year, month - 1, day ) ).getDay() != dow ) {
 		day++;
 		if ( day > ndays[ month ] ) {
 			day = 1;
-			month = month == 12 ? 1 : month + 1;
+			month++;
+			if ( month > 12 ) {
+				month = 1;
+				year++;
+				ndays = getMonthDays( year );
+			}
 		}
 	}
 
 	return `${month}-${day}`;
+}
+
+/**
+ * Returns an array with the number of days for each month of the given year
+ *
+ * @param {number} year
+ *
+ * @returns {array}
+ */
+function getMonthDays( year ) {
+	let ndays = [ 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+	if ( ( year & 3 ) == 0 && ( ( year % 25 ) != 0 || ( year & 15 ) == 0 ) )
+		ndays[2]++; // leap year
+
+	return ndays;
 }
 
 /**
