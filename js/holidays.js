@@ -341,6 +341,7 @@ function calcObservation( year, month, day, country ) {
 				diff = -1;
 			break;
 
+		case 'au' :
 		case 'uk' :
 			if ( dow == 0 )
 				diff = 1;
