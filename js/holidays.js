@@ -36,6 +36,42 @@ function checkHoliday( year, month, day ) {
 			];
 			break;
 
+		case 'au':
+			holidays = [
+				{ date: calcObservation( year, 1, 1, country ), name: 'New Year\'s Day' },
+				{ date: '1-26', name: 'Australia Day' },
+				{ date: floatingDoW( 1, year, 2, 8 ), name: 'Royal Hobart Regatta (TAS)' },
+				{ date: floatingDoW( 1, year, 3, 1 ), name: 'Labour Day (WA)' },
+				{ date: floatingDoW( 1, year, 3, 8 ), name: 'Labour Day (VIC)' },
+				{ date: floatingDoW( 1, year, 3, 8 ), name: 'Canberra Day (ACT)' },
+				{ date: floatingDoW( 1, year, 3, 8 ), name: 'Adelaide Cup Day (SA)' },
+				{ date: floatingDoW( 1, year, 3, 8 ), name: 'Eight Hours Day (TAS)' },
+				{ date: '4-25', name: 'Anzac Day' },
+				{ date: floatingDoW( 1, year, 5, 1 ), name: 'May Day (NT)' },
+				{ date: floatingDoW( 1, year, 5, 1 ), name: 'Labour Day (QLD)' },
+				{ date: floatingDoW( 1, year, 5, 27 ), name: 'Reconciliation Day (ACT)' },
+				{ date: floatingDoW( 1, year, 6, 1 ), name: 'Western Australia Day (WA)' },
+				{ date: floatingDoW( 1, year, 6, 8 ), name: 'King\'s Birthday (VIC, NSW, SA, TAS)' },
+				{ date: floatingDoW( 1, year, 6, 8 ), name: 'Sovereign\'s Birthday (ACT)' },
+				{ date: floatingDoW( 1, year, 6, 8 ), name: 'June public holiday (NT)' },
+				{ date: floatingDoW( 1, year, 8, 1 ), name: 'Picnic Day (NT)' },
+				{ date: floatingDoW( 3, year, 8, 10 ), name: 'Royal Queensland Show (Brisbane)' },
+				{ date: floatingDoW( 1, year, 9, 22 ), name: 'King\'s Birthday (WA)' },
+				{ date: floatingDoW( 1, year, 10, 1 ), name: 'King\'s Birthday (QLD)' },
+				{ date: floatingDoW( 1, year, 10, 1 ), name: 'Labour Day (ACT, NSW, SA)' },
+				{ date: floatingDoW( 2, year, 11, 1 ), name: 'Melbourne Cup (VIC)' },
+				{ date: floatingDoW( 1, year, 11, 1 ), name: 'Recreation Day (TAS)' },
+				{ date: calcObservation( year, 12, 25, country ), name: 'Christmas Day' },
+				{ date: calcObservation( year, 12, 26, country ), name: 'Boxing Day' }
+			];
+			easterHolidays = [
+				{ days: -2, name: 'Good Friday' },
+				{ days: -1, name: 'Saturday before Easter Sunday' },
+				{ days: 0, name: 'Easter Sunday' },
+				{ days: 1, name: 'Easter Monday' }
+			];
+			break;
+
 		case 'br':
 			holidays = [
 				{ date: '1-1', name: 'Confraternização Universal' },
