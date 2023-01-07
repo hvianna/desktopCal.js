@@ -20,12 +20,12 @@ function checkHoliday( year, month, day ) {
 				{ date: '4-2', name: 'Día del Veterano' },
 				{ date: '5-1', name: 'Día del Trabajador' },
 				{ date: '5-25', name: 'Revolución de Mayo' },
-				{ date: calcObservation( year, 6, 17, country ), name: 'General Martín Miguel de Güemes' },
+				...observed( year, 6, 17, country, 'General Martín Miguel de Güemes' ),
 				{ date: '6-20', name: 'General Manuel Belgrano' },
 				{ date: '7-9', name: 'Día de la Independencia' },
-				{ date: calcObservation( year, 8, 17, country ), name: 'General José de San Martín' },
-				{ date: calcObservation( year, 10, 12, country ), name: 'Respeto a la Diversidad Cultural' },
-				{ date: calcObservation( year, 11, 20, country ), name: 'Soberanía Nacional' },
+				...observed( year, 8, 17, country, 'General José de San Martín' ),
+				...observed( year, 10, 12, country, 'Respeto a la Diversidad Cultural' ),
+				...observed( year, 11, 20, country, 'Soberanía Nacional' ),
 				{ date: '12-8', name: 'Inmaculada Concepción de María' },
 				{ date: '12-25', name: 'Navidad' }
 			];
@@ -174,13 +174,13 @@ function checkHoliday( year, month, day ) {
 
 		case 'mx':
 			holidays = [
-				{ date: calcObservation( year, 1, 1, country ), name: 'Año Nuevo' },
+				...observed( year, 1, 1, country, 'Año Nuevo' ),
 				{ date: floatingDoW( 1, year, 2, 1 ), name: 'Día de la Constitución' },
 				{ date: floatingDoW( 1, year, 3, 15 ), name: 'Natalicio de Benito Juárez' },
-				{ date: calcObservation( year, 5, 1, country ), name: 'Día del Trabajo' },
-				{ date: calcObservation( year, 9, 16, country ), name: 'Día de la Independencia' },
+				...observed( year, 5, 1, country, 'Día del Trabajo' ),
+				...observed( year, 9, 16, country, 'Día de la Independencia' ),
 				{ date: floatingDoW( 1, year, 11, 15 ), name: 'Día de la Revolución' },
-				{ date: calcObservation( year, 12, 25, country ), name: 'Navidad' }
+				...observed( year, 12, 25, country, 'Navidad')
 			];
 			break;
 
@@ -206,12 +206,12 @@ function checkHoliday( year, month, day ) {
 
 		case 'uk':
 			holidays = [
-				{ date: calcObservation( year, 1, 1, country ), name: 'New Year\'s Day' },
+				...observed( year, 1, 1, country, 'New Year\'s Day' ),
 				{ date: floatingDoW( 1, year, 5, 1 ), name: 'May Day Bank Holiday' },
 				{ date: floatingDoW( 1, year, 5, 25 ), name: 'Spring Bank Holiday' },
 				{ date: floatingDoW( 1, year, 8, 25 ), name: 'Late Summer Bank Holiday' },
-				{ date: calcObservation( year, 12, 25, country ), name: 'Christmas Day' },
-				{ date: calcObservation( year, 12, 26, country ), name: 'Boxing Day' }
+				...observed( year, 12, 25, country, 'Christmas Day', { consecutive: 1 } ),
+				...observed( year, 12, 26, country, 'Boxing Day', { consecutive: 1 } )
 			];
 			easterHolidays = [
 				{ days: -2, name: 'Good Friday' },
@@ -238,13 +238,13 @@ function checkHoliday( year, month, day ) {
 			holidays = [
 				{ date: '1-1', name: 'Año Nuevo' },
 				{ date: '1-6', name: 'Día de Reyes' },
-				{ date: calcObservation( year, 4, 19, country ), name: 'Desembarco de los 33 Orientales' },
+				...observed( year, 4, 19, country, 'Desembarco de los 33 Orientales' ),
 				{ date: '5-1', name: 'Día de los Trabajadores' },
-				{ date: calcObservation( year, 5, 18, country ), name: 'Batalla de las Piedras' },
+				...observed( year, 5, 18, country, 'Batalla de las Piedras' ),
 				{ date: '6-19', name: 'Natalicio de Artigas y Día del Nunca Más' },
 				{ date: '7-18', name: 'Jura de la Constitución' },
 				{ date: '8-25', name: 'Declaratoria de la Independencia' },
-				{ date: calcObservation( year, 10, 12, country ), name: 'Día de la Raza' },
+				...observed( year, 10, 12, country, 'Día de la Raza' ),
 				{ date: '11-2', name: 'Día de los Difuntos' },
 				{ date: '12-25', name: 'Navidad' }
 			];
@@ -354,51 +354,76 @@ function getMonthDays( year ) {
 }
 
 /**
- * Calculates the observation date for a given holiday according to a country's rules
+ * Returns an array of actual and observed holiday dates according to a country's rules
  *
- * @param {number} year
- * @param {number} month
- * @param {number} day
- * @param {string} country
+ * I.e. if a holiday falls on a Sunday and an Monday becomes a public holiday instead,
+ * both Sunday and Monday dates will be returned.
  *
- * @returns {string} holiday date in 'month-day' format
+ * @param {number} year Holiday year
+ * @param {number} month Holiday month
+ * @param {number} day Holiday day
+ * @param {string} country Country code
+ * @param {string} name Holiday name
+ * @param {Object} options Additional options
+ * @param {string} options.observedName Holiday name for the observed date
+ * @param {number} options.consecutive How many consecutive holidays follow this one (to avoid shifting observed date onto them)
  */
-function calcObservation( year, month, day, country ) {
+function observed( year, month, day, country, name, options ) {
+	options = options || {};
 
-	var diff = 0,
+	var diffs = [0],
 		date = new Date( year, month - 1, day ),
 		dow = date.getDay();
 
 	switch ( country ) {
 		case 'mx' :
 			if ( dow == 0 )
-				diff = 1;
+				diffs = [1];
 			else if ( dow == 6 )
-				diff = -1;
+				diffs = [-1];
 			break;
 
 		case 'au' :
 		case 'uk' :
+			var consecutive = options.consecutive || 0;
 			if ( dow == 0 )
-				diff = 1;
+				diffs.push( 1 + consecutive );
 			else if ( dow == 6 )
-				diff = 2;
+				diffs.push( 2 );
 			break;
 
 		case 'ar' :
 		case 'uy' :
 			if ( dow == 2 )
-				diff = -1;
+				diffs = [-1];
 			else if ( dow == 3 )
-				diff = -2;
+				diffs = [-2];
 			else if ( dow == 4 )
-				diff = 4;
+				diffs = [4];
 			else if ( dow == 5 )
-				diff = 3;
+				diffs = [3];
 			break;
 	}
 
-	return dateToMonthDay( dateAdd( date, diff ) );
+	var observedName = options.observedName;
+	if ( !observedName ) {
+		switch ( country ) {
+			case 'au':
+				observedName = `Additional public holiday for ${name}`;
+				break;
+			case 'uk':
+				observedName = `${name} (in lieu)`;
+				break;
+		}
+	}
+
+	return diffs.map(diff => {
+		var newDate = dateToMonthDay( dateAdd( date, diff ) );
+		return {
+			date: newDate,
+			name: ( diff == 0 || !observedName ) ? name : observedName
+		}
+	});
 }
 
 /**
