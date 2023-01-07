@@ -210,8 +210,8 @@ function checkHoliday( year, month, day ) {
 				{ date: floatingDoW( 1, year, 5, 1 ), name: 'May Day Bank Holiday' },
 				{ date: floatingDoW( 1, year, 5, 25 ), name: 'Spring Bank Holiday' },
 				{ date: floatingDoW( 1, year, 8, 25 ), name: 'Late Summer Bank Holiday' },
-				...observed( year, 12, 25, country, 'Christmas Day', { consecutive: 1 } ),
-				...observed( year, 12, 26, country, 'Boxing Day', { consecutive: 1 } )
+				...observed( year, 12, 25, country, 'Christmas Day', { consecutive: 2 } ),
+				...observed( year, 12, 26, country, 'Boxing Day', { consecutive: 2 } )
 			];
 			easterHolidays = [
 				{ days: -2, name: 'Good Friday' },
@@ -366,7 +366,7 @@ function getMonthDays( year ) {
  * @param {string} name Holiday name
  * @param {Object} options Additional options
  * @param {string} options.observedName Holiday name for the observed date
- * @param {number} options.consecutive How many consecutive holidays follow this one (to avoid shifting observed date onto them)
+ * @param {number} options.consecutive How many consecutive holidays is this one a part of (to avoid shifting observed date onto them)
  */
 function observed( year, month, day, country, name, options ) {
 	options = options || {};
@@ -385,9 +385,9 @@ function observed( year, month, day, country, name, options ) {
 
 		case 'au' :
 		case 'uk' :
-			var consecutive = options.consecutive || 0;
+			var consecutive = options.consecutive || 1;
 			if ( dow == 0 )
-				diffs.push( 1 + consecutive );
+				diffs.push( consecutive );
 			else if ( dow == 6 )
 				diffs.push( 2 );
 			break;
