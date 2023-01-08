@@ -363,7 +363,7 @@ function getMonthDays( year ) {
  * @returns Array (zero or one) of holiday definitions applicable
  */
 function inRegions ( holidayRegions, holiday ) {
-	if (!region || holidayRegions.includes(region)) {
+	if (holidayRegions.includes(region)) {
 		return [holiday];
 	} else {
 		return [];
