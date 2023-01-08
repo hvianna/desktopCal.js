@@ -65,9 +65,12 @@ function checkHoliday( year, month, day ) {
 			];
 			easterHolidays = [
 				{ days: -2, name: 'Good Friday' },
-				{ days: -1, name: 'Saturday before Easter Sunday' },
+				...inRegions(['act', 'nsw', 'nt', 'sa'], { days: -1, name: 'Easter Saturday' }),
+				...inRegions(['qld'], { days: -1, name: 'The day after Good Friday' }),
+				...inRegions(['vic'], { days: -1, name: 'Saturday before Easter Sunday' }),
 				{ days: 0, name: 'Easter Sunday' },
-				{ days: 1, name: 'Easter Monday' }
+				{ days: 1, name: 'Easter Monday' },
+				...inRegions(['tas'], { days: 2, name: 'Easter Tuesday (Public Service only)' })
 			];
 			break;
 
