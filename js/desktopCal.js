@@ -655,6 +655,11 @@ function initialize() {
 	else
 		country = msg[ lang ].defCountry;
 
+	const prefRegion = localStorage.getItem('region');
+	if ( prefRegion && Object.keys( countries[country].regions ).includes( prefRegion ) ) {
+		region = prefRegion;
+	}
+
 	// load color presets
 	colorPresets = JSON.parse( localStorage.getItem( 'color-presets' ) ) || [];
 
