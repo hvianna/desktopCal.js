@@ -33,6 +33,7 @@ You can add your own custom holidays. These will be saved in your browser's loca
 + [W3Schools Canvas Reference](https://www.w3schools.com/tags/ref_canvas.asp)
 + [How to draw a rounded Rectangle on HTML Canvas?](https://stackoverflow.com/a/7838871/2370385)
 + Public holidays in [Argentina](https://en.wikipedia.org/wiki/Public_holidays_in_Argentina),
+[Australia](https://www.fairwork.gov.au/employment-conditions/public-holidays),
 [Brazil](https://pt.wikipedia.org/wiki/Feriados_no_Brasil),
 [Canada](https://en.wikipedia.org/wiki/Public_holidays_in_Canada),
 [France](https://en.wikipedia.org/wiki/Public_holidays_in_France),

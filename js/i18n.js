@@ -8,6 +8,7 @@ var lang, country;
 // countries for holiday selection list
 var countries = {
 	ar: { name: 'Argentina' },
+	au: { name: 'Australia' },
 	br: { name: 'Brasil' },
 	ca: { name: 'Canada' },
 	de: { name: 'Deutschland' },
