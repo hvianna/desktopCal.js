@@ -495,7 +495,6 @@ var msg = {
 		day:        'День',
 		credits:    'Создано с <strong>desktopCal.js</strong>',
 		creditTitle:'Уведомление',
-		creditDescr:'You can customize this line to include your photo credits, for example.',
 		creditDescr:'Вы можете изменить эту строку, чтобы включить в нее информацию, например, об авторе фотографии.',
 		front:      'Сторона 1',
 		back:       'Сторона 2',
