@@ -365,16 +365,16 @@ function getMonthDays( year ) {
  * @param {string} country Country code
  * @param {string} name Holiday name
  * @param {Object} options Additional options
- * @param {string} options.observedName Holiday name for the observed date
  * @param {number} options.consecutive How many consecutive holidays is this one a part of (to avoid shifting observed date onto them)
  * @returns {string} holiday date in 'month-day' format
  */
 function observed( year, month, day, country, name, options ) {
 	options = options || {};
 
-	var diffs = [0],
+	let diffs = [0],
 		date = new Date( year, month - 1, day ),
-		dow = date.getDay();
+		dow = date.getDay(),
+		observedName = name;
 
 	switch ( country ) {
 		case 'mx' :
@@ -391,6 +391,7 @@ function observed( year, month, day, country, name, options ) {
 				diffs.push( consecutive );
 			else if ( dow == 6 )
 				diffs.push( 2 );
+			observedName = `${name} (in lieu)`;
 			break;
 
 		case 'ar' :
@@ -406,23 +407,11 @@ function observed( year, month, day, country, name, options ) {
 			break;
 	}
 
-	var observedName = options.observedName;
-	if ( !observedName ) {
-		switch ( country ) {
-			case 'au':
-				observedName = `Additional public holiday for ${name}`;
-				break;
-			case 'uk':
-				observedName = `${name} (in lieu)`;
-				break;
-		}
-	}
-
 	return diffs.map(diff => {
 		var newDate = dateToMonthDay( dateAdd( date, diff ) );
 		return {
 			date: newDate,
-			name: ( diff == 0 || !observedName ) ? name : observedName
+			name: diff == 0 ? name : observedName
 		}
 	});
 }
