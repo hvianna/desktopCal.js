@@ -38,8 +38,8 @@ function checkHoliday( year, month, day ) {
 
 		case 'au':
 			holidays = [
-				{ date: calcObservation( year, 1, 1, country ), name: 'New Year\'s Day' },
-				{ date: '1-26', name: 'Australia Day' },
+				...observed( year, 1, 1, country, 'New Year\'s Day' ),
+				...observed( year, 1, 26, country, 'Australia Day' ),
 				{ date: floatingDoW( 1, year, 2, 8 ), name: 'Royal Hobart Regatta (TAS)' },
 				{ date: floatingDoW( 1, year, 3, 1 ), name: 'Labour Day (WA)' },
 				{ date: floatingDoW( 1, year, 3, 8 ), name: 'Labour Day (VIC)' },
@@ -61,8 +61,8 @@ function checkHoliday( year, month, day ) {
 				{ date: floatingDoW( 1, year, 10, 1 ), name: 'Labour Day (ACT, NSW, SA)' },
 				{ date: floatingDoW( 2, year, 11, 1 ), name: 'Melbourne Cup (VIC)' },
 				{ date: floatingDoW( 1, year, 11, 1 ), name: 'Recreation Day (TAS)' },
-				{ date: calcObservation( year, 12, 25, country ), name: 'Christmas Day' },
-				{ date: calcObservation( year, 12, 26, country ), name: 'Boxing Day' }
+				...observed( year, 12, 25, country, 'Christmas Day', { consecutive: 2 } ),
+				...observed( year, 12, 26, country, 'Boxing Day', { consecutive: 2 } )
 			];
 			easterHolidays = [
 				{ days: -2, name: 'Good Friday' },
