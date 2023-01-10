@@ -367,6 +367,7 @@ function getMonthDays( year ) {
  * @param {Object} options Additional options
  * @param {string} options.observedName Holiday name for the observed date
  * @param {number} options.consecutive How many consecutive holidays is this one a part of (to avoid shifting observed date onto them)
+ * @returns {string} holiday date in 'month-day' format
  */
 function observed( year, month, day, country, name, options ) {
 	options = options || {};
