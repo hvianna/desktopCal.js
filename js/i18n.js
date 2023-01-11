@@ -3,12 +3,24 @@
  */
 
 // current language and country
-var lang, country;
+var lang, country, region;
 
-// countries for holiday selection list
+// countries and regions for holiday selection list
 var countries = {
 	ar: { name: 'Argentina' },
-	au: { name: 'Australia' },
+	au: {
+		name: 'Australia',
+		regions: {
+			act: { name: 'Australian Capital Territory' },
+			nsw: { name: 'New South Wales' },
+			nt:  { name: 'Northern Territory' },
+			qld: { name: 'Queensland' },
+			sa:  { name: 'South Australia' },
+			tas: { name: 'Tasmania' },
+			vic: { name: 'Victoria' },
+			wa:  { name: 'Western Australia' }
+		}
+	},
 	br: { name: 'Brasil' },
 	ca: { name: 'Canada' },
 	de: { name: 'Deutschland' },
@@ -599,20 +611,29 @@ function monthOptions() {
 }
 
 function countryOptions() {
+	let html = `<option value="">${msg[lang].none}</option>`;
 
-	var html = `<option value="">${msg[lang].none}</option>`,
-		keys = Object.keys( countries );
-
-	for ( var i = 0; i < keys.length; i++ )
-		html += `<option value="${ keys[ i ] }" ${ keys[ i ] == country ? 'selected' : '' }>${ countries[ keys[ i ] ].name }</option>`;
+	for ( const [ key, { name, regions } ] of Object.entries( countries ) ) {
+		if ( regions ) {
+			html += `<optgroup label="${ name }">`;
+		}
+		html += `<option value="${ key }" ${ key == country && !region ? 'selected' : '' }>${ name }</option>`;
+		if ( regions ) {
+			for ( const [ regionKey, { name: regionName } ] of Object.entries( regions )) {
+				html += `<option value="${ key }-${ regionKey }" ${ key == country && regionKey == region ? 'selected' : '' }>${ regionName }</option>`;
+			}
+			html += `</optgroup>`;
+		}
+	}
 
 	return html;
 }
 
-function changeCountry( newCountry ) {
+function changeCountry( newValue ) {
 
-	country = newCountry;
+	[country, region] = newValue.split('-');
 	localStorage.setItem( 'country', country );
+	localStorage.setItem( 'region', region );
 	updatePreview();
 }
 

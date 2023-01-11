@@ -40,35 +40,37 @@ function checkHoliday( year, month, day ) {
 			holidays = [
 				...observed( year, 1, 1, country, 'New Year\'s Day' ),
 				...observed( year, 1, 26, country, 'Australia Day' ),
-				{ date: floatingDoW( 1, year, 2, 8 ), name: 'Royal Hobart Regatta (TAS)' },
-				{ date: floatingDoW( 1, year, 3, 1 ), name: 'Labour Day (WA)' },
-				{ date: floatingDoW( 1, year, 3, 8 ), name: 'Labour Day (VIC)' },
-				{ date: floatingDoW( 1, year, 3, 8 ), name: 'Canberra Day (ACT)' },
-				{ date: floatingDoW( 1, year, 3, 8 ), name: 'Adelaide Cup Day (SA)' },
-				{ date: floatingDoW( 1, year, 3, 8 ), name: 'Eight Hours Day (TAS)' },
+				...inRegions(['tas'], { date: floatingDoW( 1, year, 2, 8 ), name: 'Royal Hobart Regatta' }),
+				...inRegions(['vic', 'wa'], { date: floatingDoW( 1, year, 3, 1 ), name: 'Labour Day' }),
+				...inRegions(['act'], { date: floatingDoW( 1, year, 3, 8 ), name: 'Canberra Day' }),
+				...inRegions(['sa'], { date: floatingDoW( 1, year, 3, 8 ), name: 'Adelaide Cup Day' }),
+				...inRegions(['tas'], { date: floatingDoW( 1, year, 3, 8 ), name: 'Eight Hours Day' }),
 				{ date: '4-25', name: 'Anzac Day' },
-				{ date: floatingDoW( 1, year, 5, 1 ), name: 'May Day (NT)' },
-				{ date: floatingDoW( 1, year, 5, 1 ), name: 'Labour Day (QLD)' },
-				{ date: floatingDoW( 1, year, 5, 27 ), name: 'Reconciliation Day (ACT)' },
-				{ date: floatingDoW( 1, year, 6, 1 ), name: 'Western Australia Day (WA)' },
-				{ date: floatingDoW( 1, year, 6, 8 ), name: 'King\'s Birthday (VIC, NSW, SA, TAS)' },
-				{ date: floatingDoW( 1, year, 6, 8 ), name: 'Sovereign\'s Birthday (ACT)' },
-				{ date: floatingDoW( 1, year, 6, 8 ), name: 'June public holiday (NT)' },
-				{ date: floatingDoW( 1, year, 8, 1 ), name: 'Picnic Day (NT)' },
-				{ date: floatingDoW( 3, year, 8, 10 ), name: 'Royal Queensland Show (Brisbane)' },
-				{ date: floatingDoW( 1, year, 9, 22 ), name: 'King\'s Birthday (WA)' },
-				{ date: floatingDoW( 1, year, 10, 1 ), name: 'King\'s Birthday (QLD)' },
-				{ date: floatingDoW( 1, year, 10, 1 ), name: 'Labour Day (ACT, NSW, SA)' },
-				{ date: floatingDoW( 2, year, 11, 1 ), name: 'Melbourne Cup (VIC)' },
-				{ date: floatingDoW( 1, year, 11, 1 ), name: 'Recreation Day (TAS)' },
+				...inRegions(['nt'], { date: floatingDoW( 1, year, 5, 1 ), name: 'May Day' }),
+				...inRegions(['qld'], { date: floatingDoW( 1, year, 5, 1 ), name: 'Labour Day' }),
+				...inRegions(['act'], { date: floatingDoW( 1, year, 5, 27 ), name: 'Reconciliation Day' }),
+				...inRegions(['wa'], { date: floatingDoW( 1, year, 6, 1 ), name: 'Western Australia Day' }),
+				...inRegions(['vic', 'nsw', 'sa', 'tas'], { date: floatingDoW( 1, year, 6, 8 ), name: 'King\'s Birthday' }),
+				...inRegions(['act'], { date: floatingDoW( 1, year, 6, 8 ), name: 'Sovereign\'s Birthday' }),
+				...inRegions(['nt'], { date: floatingDoW( 1, year, 6, 8 ), name: 'June public holiday' }),
+				...inRegions(['nt'], { date: floatingDoW( 1, year, 8, 1 ), name: 'Picnic Day' }),
+				...inRegions(['qld'], { date: floatingDoW( 3, year, 8, 10 ), name: 'Royal Queensland Show (Brisbane)' }),
+				...inRegions(['wa'], { date: floatingDoW( 1, year, 9, 22 ), name: 'King\'s Birthday' }),
+				...inRegions(['qld'], { date: floatingDoW( 1, year, 10, 1 ), name: 'King\'s Birthday' }),
+				...inRegions(['act', 'nsw', 'sa'], { date: floatingDoW( 1, year, 10, 1 ), name: 'Labour Day' }),
+				...inRegions(['vic'], { date: floatingDoW( 2, year, 11, 1 ), name: 'Melbourne Cup' }),
+				...inRegions(['tas'], { date: floatingDoW( 1, year, 11, 1 ), name: 'Recreation Day' }),
 				...observed( year, 12, 25, country, 'Christmas Day', { consecutive: 2 } ),
 				...observed( year, 12, 26, country, 'Boxing Day', { consecutive: 2 } )
 			];
 			easterHolidays = [
 				{ days: -2, name: 'Good Friday' },
-				{ days: -1, name: 'Saturday before Easter Sunday' },
+				...inRegions(['act', 'nsw', 'nt', 'sa'], { days: -1, name: 'Easter Saturday' }),
+				...inRegions(['qld'], { days: -1, name: 'The day after Good Friday' }),
+				...inRegions(['vic'], { days: -1, name: 'Saturday before Easter Sunday' }),
 				{ days: 0, name: 'Easter Sunday' },
-				{ days: 1, name: 'Easter Monday' }
+				{ days: 1, name: 'Easter Monday' },
+				...inRegions(['tas'], { days: 2, name: 'Easter Tuesday (Public Service only)' })
 			];
 			break;
 
@@ -351,6 +353,22 @@ function getMonthDays( year ) {
 		ndays[2]++; // leap year
 
 	return ndays;
+}
+
+/**
+ * Returns the holiday only if it's applicable in the current region
+ *
+ * @param {array} holidayRegions Regions the holiday is observed in
+ * @param {object} holiday Holiday definition
+ * @returns Array (zero or one) of holiday definitions applicable
+ */
+function inRegions ( holidayRegions, holiday ) {
+	if ( holidayRegions.includes( region ) ) {
+		return [ holiday ];
+	}
+	else {
+		return [];
+	}
 }
 
 /**
