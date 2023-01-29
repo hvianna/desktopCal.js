@@ -388,19 +388,16 @@ function inRegions ( holidayRegions, holiday ) {
 }
 
 /**
- * Returns an array of actual and observed holiday dates according to a country's rules
- *
- * I.e. if a holiday falls on a Sunday and an Monday becomes a public holiday instead,
- * both Sunday and Monday dates will be returned.
+ * Returns an array of actual and/or observed holiday dates according to a country's rules
  *
  * @param {number} year Holiday year
  * @param {number} month Holiday month
  * @param {number} day Holiday day
- * @param {string} country Country code
+ * @param {string} country Country (or Country-Region) code
  * @param {string} name Holiday name
  * @param {Object} options Additional options
  * @param {number} options.consecutive How many consecutive holidays is this one a part of (to avoid shifting observed date onto them)
- * @returns {string} holiday date in 'month-day' format
+ * @returns {array} array of event objects
  */
 function observed( year, month, day, country, name, options ) {
 	options = options || {};
@@ -420,6 +417,7 @@ function observed( year, month, day, country, name, options ) {
 
 		case 'au' :
 		case 'uk' :
+			// if a holiday falls on a Sunday and Monday becomes a public holiday instead, both Sunday and Monday dates will be returned
 			var consecutive = options.consecutive || 1;
 			if ( dow == 0 )
 				diffs.push( consecutive );
