@@ -9,12 +9,12 @@
  */
 function checkHoliday( year, month, day ) {
 
-	let	holidays = [],
-		easterHolidays = [];
+	const easterSunday = computus( year ),
+		  holidays = getCustomHolidays();
 
 	switch ( country ) {
 		case 'ar':
-			holidays = [
+			holidays.push(
 				{ date: '1-1', name: 'Año Nuevo' },
 				{ date: '3-24', name: 'Memoria por la Verdad y la Justicia' },
 				{ date: '4-2', name: 'Día del Veterano' },
@@ -27,17 +27,15 @@ function checkHoliday( year, month, day ) {
 				...observed( year, 10, 12, country, 'Respeto a la Diversidad Cultural' ),
 				...observed( year, 11, 20, country, 'Soberanía Nacional' ),
 				{ date: '12-8', name: 'Inmaculada Concepción de María' },
-				{ date: '12-25', name: 'Navidad' }
-			];
-			easterHolidays = [
-				{ days: -48, name: 'Carnaval' },
-				{ days: -47, name: 'Carnaval' },
-				{ days: -2, name: 'Viernes Santo' }
-			];
+				{ date: '12-25', name: 'Navidad' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -48 ) ), name: 'Carnaval' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -47 ) ), name: 'Carnaval' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Viernes Santo' }
+			);
 			break;
 
 		case 'au':
-			holidays = [
+			holidays.push(
 				...observed( year, 1, 1, country, 'New Year\'s Day' ),
 				...observed( year, 1, 26, country, 'Australia Day' ),
 				...inRegions(['tas'], { date: floatingDoW( 1, year, 2, 8 ), name: 'Royal Hobart Regatta' }),
@@ -61,21 +59,19 @@ function checkHoliday( year, month, day ) {
 				...inRegions(['vic'], { date: floatingDoW( 2, year, 11, 1 ), name: 'Melbourne Cup' }),
 				...inRegions(['tas'], { date: floatingDoW( 1, year, 11, 1 ), name: 'Recreation Day' }),
 				...observed( year, 12, 25, country, 'Christmas Day', { consecutive: 2 } ),
-				...observed( year, 12, 26, country, 'Boxing Day', { consecutive: 2 } )
-			];
-			easterHolidays = [
-				{ days: -2, name: 'Good Friday' },
-				...inRegions(['act', 'nsw', 'nt', 'sa'], { days: -1, name: 'Easter Saturday' }),
-				...inRegions(['qld'], { days: -1, name: 'The day after Good Friday' }),
-				...inRegions(['vic'], { days: -1, name: 'Saturday before Easter Sunday' }),
-				{ days: 0, name: 'Easter Sunday' },
-				{ days: 1, name: 'Easter Monday' },
-				...inRegions(['tas'], { days: 2, name: 'Easter Tuesday (Public Service only)' })
-			];
+				...observed( year, 12, 26, country, 'Boxing Day', { consecutive: 2 } ),
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Good Friday' },
+				...inRegions( ['act', 'nsw', 'nt', 'sa'], { date: dateToMonthDay( dateAdd( easterSunday, -1 ) ), name: 'Easter Saturday' } ),
+				...inRegions( ['qld'], { date: dateToMonthDay( dateAdd( easterSunday, -1 ) ), name: 'The day after Good Friday' } ),
+				...inRegions( ['vic'], { date: dateToMonthDay( dateAdd( easterSunday, -1 ) ), name: 'Saturday before Easter Sunday' } ),
+				{ date: dateToMonthDay( dateAdd( easterSunday, 0 ) ), name: 'Easter Sunday' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 1 ) ), name: 'Easter Monday' },
+				...inRegions( ['tas'], { date: dateToMonthDay( dateAdd( easterSunday, 2 ) ), name: 'Easter Tuesday (Public Service only)' } )
+			);
 			break;
 
 		case 'br':
-			holidays = [
+			holidays.push(
 				{ date: '1-1', name: 'Confraternização Universal' },
 				{ date: '4-21', name: 'Tiradentes' },
 				{ date: '5-1', name: 'Dia do Trabalhador' },
@@ -83,17 +79,16 @@ function checkHoliday( year, month, day ) {
 				{ date: '10-12', name: 'Nossa Senhora Aparecida' },
 				{ date: '11-2', name: 'Finados' },
 				{ date: '11-15', name: 'Proclamação da República' },
-				{ date: '12-25', name: 'Natal' }
-			];
-			easterHolidays = [
-				{ days: -47, name: 'Carnaval' },
-				{ days: -2, name: 'Sexta-feira Santa' },
-				{ days: 60, name: 'Corpus Christi' }
-			];
+				{ date: '12-25', name: 'Natal' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -47 ) ), name: 'Carnaval' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Paixão de Cristo' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 0 ) ), name: 'Páscoa' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 60 ) ), name: 'Corpus Christi' }
+			);
 			break;
 
 		case 'ca':
-			holidays = [
+			holidays.push(
 				{ date: '1-1', name: 'New Year\'s Day' },
 				{ date: floatingDoW( 1, year, 5, 18 ), name: 'Victoria Day' },
 				{ date: '7-1', name: 'Canada Day' },
@@ -102,16 +97,14 @@ function checkHoliday( year, month, day ) {
 				{ date: floatingDoW( 1, year, 10, 8 ), name: 'Thanksgiving' },
 				{ date: '11-11', name: 'Remembrance Day' },
 				{ date: '12-25', name: 'Christmas Day' },
-				{ date: '12-26', name: 'Boxing Day' }
-			];
-			easterHolidays = [
-				{ days: -2, name: 'Good Friday' },
-				{ days: 1, name: 'Easter Monday' }
-			];
+				{ date: '12-26', name: 'Boxing Day' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Good Friday' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 1 ) ), name: 'Easter Monday' }
+			);
 			break;
 
 		case 'de':
-			holidays = [
+			holidays.push(
 				{ date: '1-1', name: 'Neujahr' },
 				{ date: '1-6', name: 'Heilige Drei Könige' },
 				{ date: '3-8', name: 'Internationaler Frauentag' },
@@ -123,21 +116,19 @@ function checkHoliday( year, month, day ) {
 				{ date: '11-1', name: 'Allerheiligen' },
 				{ date: floatingDoW( 3, year, 11, 16 ), name: 'Buß- und Bettag' }, // Wednesday between November 16-22
 				{ date: '12-25', name: '1. Weihnachtsfeiertag' },
-				{ date: '12-26', name: '2. Weihnachtsfeiertag' }
-			];
-			easterHolidays = [
-				{ days: -2, name: 'Karfreitag' },
-				{ days: 0, name: 'Ostersonntag' },
-				{ days: 1, name: 'Ostermontag' },
-				{ days: 39, name: 'Christi Himmelfahrt' },
-				{ days: 49, name: 'Pfingstsonntag' },
-				{ days: 50, name: 'Pfingstmontag' },
-				{ days: 60, name: 'Fronleichnam' },
-			];
+				{ date: '12-26', name: '2. Weihnachtsfeiertag' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Karfreitag' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 0 ) ), name: 'Ostersonntag' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 1 ) ), name: 'Ostermontag' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 39 ) ), name: 'Christi Himmelfahrt' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 49 ) ), name: 'Pfingstsonntag' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 50 ) ), name: 'Pfingstmontag' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 60 ) ), name: 'Fronleichnam' }
+			);
 			break;
 
 		case 'es':
-			holidays = [
+			holidays.push(
 				{ date: '1-1', name: 'Año Nuevo' },
 				{ date: '1-6', name: 'Día de Reyes' },
 				{ date: '5-1', name: 'Día del Trabajador' },
@@ -146,16 +137,14 @@ function checkHoliday( year, month, day ) {
 				{ date: '11-1', name: 'Día de todos los Santos' },
 				{ date: '12-6', name: 'Día de la Constitución' },
 				{ date: '12-8', name: 'Inmaculada Concepción' },
-				{ date: '12-25', name: 'Navidad' }
-			];
-			easterHolidays = [
-				{ days: -3, name: 'Jueves Santo' },
-				{ days: -2, name: 'Viernes Santo' }
-			];
+				{ date: '12-25', name: 'Navidad' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -3 ) ), name: 'Jueves Santo' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Viernes Santo' }
+			);
 			break;
 
 		case 'fr':
-			holidays = [
+			holidays.push(
 				{ date: '1-1', name: 'Nouvel an' },
 				{ date: '5-1', name: 'Fête des Travailleurs' },
 				{ date: '5-8', name: 'Fête de la Victoire' },
@@ -164,18 +153,16 @@ function checkHoliday( year, month, day ) {
 				{ date: '11-1', name: 'Toussaint' },
 				{ date: '11-11', name: 'Armistice de 1918' },
 				{ date: '12-25', name: 'Noël' },
-				{ date: '12-26', name: 'Deuxième jour de Noël' }
-			];
-			easterHolidays = [
-				{ days: -2, name: 'Vendredi saint' },
-				{ days: 1, name: 'Lundi de Pâques' },
-				{ days: 39, name: 'Ascension' },
-				{ days: 50, name: 'Lundi de Pentecôte' }
-			];
+				{ date: '12-26', name: 'Deuxième jour de Noël' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Vendredi saint' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 1 ) ), name: 'Lundi de Pâques' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 39 ) ), name: 'Ascension' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 50 ) ), name: 'Lundi de Pentecôte' }
+			);
 			break;
 
 		case 'mx':
-			holidays = [
+			holidays.push(
 				...observed( year, 1, 1, country, 'Año Nuevo' ),
 				{ date: floatingDoW( 1, year, 2, 1 ), name: 'Día de la Constitución' },
 				{ date: floatingDoW( 1, year, 3, 15 ), name: 'Natalicio de Benito Juárez' },
@@ -183,11 +170,11 @@ function checkHoliday( year, month, day ) {
 				...observed( year, 9, 16, country, 'Día de la Independencia' ),
 				{ date: floatingDoW( 1, year, 11, 15 ), name: 'Día de la Revolución' },
 				...observed( year, 12, 25, country, 'Navidad')
-			];
+			);
 			break;
 
 		case 'pt':
-			holidays = [
+			holidays.push(
 				{ date: '1-1', name: 'Ano Novo' },
 				{ date: '4-25', name: 'Dia da Liberdade' },
 				{ date: '5-1', name: 'Dia do Trabalhador' },
@@ -197,32 +184,28 @@ function checkHoliday( year, month, day ) {
 				{ date: '11-1', name: 'Dia de Todos-os-Santos' },
 				{ date: '12-1', name: 'Restauração da Independência' },
 				{ date: '12-8', name: 'Imaculada Conceição' },
-				{ date: '12-25', name: 'Natal' }
-			];
-			easterHolidays = [
-				{ days: -47, name: 'Carnaval' },
-				{ days: -2, name: 'Sexta-feira Santa' },
-				{ days: 60, name: 'Corpo de Deus' }
-			];
+				{ date: '12-25', name: 'Natal' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -47 ) ), name: 'Carnaval' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Sexta-feira Santa' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 60 ) ), name: 'Corpo de Deus' }
+			);
 			break;
 
 		case 'uk':
-			holidays = [
+			holidays.push(
 				...observed( year, 1, 1, country, 'New Year\'s Day' ),
 				{ date: floatingDoW( 1, year, 5, 1 ), name: 'May Day Bank Holiday' },
 				{ date: floatingDoW( 1, year, 5, 25 ), name: 'Spring Bank Holiday' },
 				{ date: floatingDoW( 1, year, 8, 25 ), name: 'Late Summer Bank Holiday' },
 				...observed( year, 12, 25, country, 'Christmas Day', { consecutive: 2 } ),
-				...observed( year, 12, 26, country, 'Boxing Day', { consecutive: 2 } )
-			];
-			easterHolidays = [
-				{ days: -2, name: 'Good Friday' },
-				{ days: 1, name: 'Easter Monday' }
-			];
+				...observed( year, 12, 26, country, 'Boxing Day', { consecutive: 2 } ),
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Good Friday' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 1 ) ), name: 'Easter Monday' }
+			);
 			break;
 
 		case 'us':
-			holidays = [
+			holidays.push(
 				{ date: '1-1', name: 'New Year\'s Day' },
 				{ date: floatingDoW( 1, year, 1, 15 ), name: 'Birthday of Martin Luther King Jr.' },
 				{ date: floatingDoW( 1, year, 2, 15 ), name: 'Washington\'s Birthday' },
@@ -233,11 +216,11 @@ function checkHoliday( year, month, day ) {
 				{ date: '11-11', name: 'Veterans Day' },
 				{ date: floatingDoW( 4, year, 11, 22 ), name: 'Thanksgiving Day' },
 				{ date: '12-25', name: 'Christmas Day' }
-			];
+			);
 			break;
 
 		case 'uy':
-			holidays = [
+			holidays.push(
 				{ date: '1-1', name: 'Año Nuevo' },
 				{ date: '1-6', name: 'Día de Reyes' },
 				...observed( year, 4, 19, country, 'Desembarco de los 33 Orientales' ),
@@ -249,20 +232,9 @@ function checkHoliday( year, month, day ) {
 				...observed( year, 10, 12, country, 'Día de la Raza' ),
 				{ date: '11-2', name: 'Día de los Difuntos' },
 				{ date: '12-25', name: 'Navidad' }
-			];
+			);
 			break;
 	}
-
-	// calculates floating holidays based on Easter Day
-	if ( easterHolidays.length ) {
-		let easter = computus( year );
-		easterHolidays.forEach( d => {
-			let date = dateAdd( easter, d.days );
-			holidays.push( { date: `${ date.getMonth() + 1 }-${ date.getDate() }`, name: d.name } );
-		});
-	}
-
-	holidays = holidays.concat( getCustomHolidays() );
 
 	// https://stackoverflow.com/questions/7364150/find-object-by-id-in-an-array-of-javascript-objects
 	return holidays.filter( i => i.date == `${month}-${day}` ).map( i => i.name );
