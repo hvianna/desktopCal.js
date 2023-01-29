@@ -32,18 +32,19 @@ You can add your own custom holidays. These will be saved in your browser's loca
 + [Saving canvas as image](https://weworkweplay.com/play/saving-html5-canvas-as-image/) and [solution to CORS issue on canvas.toDataURL()](https://stackoverflow.com/a/30517793/2370385)
 + [W3Schools Canvas Reference](https://www.w3schools.com/tags/ref_canvas.asp)
 + [How to draw a rounded Rectangle on HTML Canvas?](https://stackoverflow.com/a/7838871/2370385)
-+ Public holidays in [Argentina](https://en.wikipedia.org/wiki/Public_holidays_in_Argentina),
-[Australia](https://www.fairwork.gov.au/employment-conditions/public-holidays),
-[Brazil](https://pt.wikipedia.org/wiki/Feriados_no_Brasil),
-[Canada](https://en.wikipedia.org/wiki/Public_holidays_in_Canada),
-[France](https://en.wikipedia.org/wiki/Public_holidays_in_France),
-Germany ([here](https://en.wikipedia.org/wiki/Public_holidays_in_Germany), [here](https://en.wikipedia.org/wiki/Bu%C3%9F-_und_Bettag) and [here](https://www.schulferien.org/deutschland/feiertage/)),
-[Mexico](https://en.wikipedia.org/wiki/Public_holidays_in_Mexico),
-[Portugal](https://en.wikipedia.org/wiki/Public_holidays_in_Portugal),
-[Spain](https://en.wikipedia.org/wiki/Public_holidays_in_Spain),
-[United Kingdom](https://en.wikipedia.org/wiki/Public_holidays_in_the_United_Kingdom),
-[United States](https://en.wikipedia.org/wiki/Federal_holidays_in_the_United_States),
-[Uruguay](https://en.wikipedia.org/wiki/Public_holidays_in_Uruguay).
++ References for public holidays:
+  + [Argentina](https://en.wikipedia.org/wiki/Public_holidays_in_Argentina)
+  + [Australia](https://www.fairwork.gov.au/employment-conditions/public-holidays)
+  + [Brazil](https://pt.wikipedia.org/wiki/Feriados_no_Brasil) - [AC](https://agencia.ac.gov.br/governo-do-acre-divulga-calendario-de-feriados-e-pontos-facultativos-de-2023/), [AL](https://www.correiodosmunicipios-al.com.br/2022/01/governo-de-alagoas-divulga-calendario-de-feriados-previstos-para-2022/), [PR](https://www.legislacao.pr.gov.br/legislacao/pesquisarAto.do?action=exibir&codAto=251964&indice=1&totalRegistros=28&dt=29.0.2023.11.16.25.855)
+  + [Canada](https://en.wikipedia.org/wiki/Public_holidays_in_Canada)
+  + [France](https://en.wikipedia.org/wiki/Public_holidays_in_France)
+  + [Germany](https://en.wikipedia.org/wiki/Public_holidays_in_Germany), also [here](https://en.wikipedia.org/wiki/Bu%C3%9F-_und_Bettag) and [here](https://www.schulferien.org/deutschland/feiertage/)
+  + [Mexico](https://en.wikipedia.org/wiki/Public_holidays_in_Mexico)
+  + [Portugal](https://en.wikipedia.org/wiki/Public_holidays_in_Portugal)
+  + [Spain](https://en.wikipedia.org/wiki/Public_holidays_in_Spain)
+  + [United Kingdom](https://en.wikipedia.org/wiki/Public_holidays_in_the_United_Kingdom)
+  + [United States](https://en.wikipedia.org/wiki/Federal_holidays_in_the_United_States)
+  + [Uruguay](https://en.wikipedia.org/wiki/Public_holidays_in_Uruguay)
 + [Paper sizes](https://papersizes.io/)
 
 ## License

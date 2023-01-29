@@ -73,17 +73,61 @@ function checkHoliday( year, month, day ) {
 		case 'br':
 			holidays.push(
 				{ date: '1-1', name: 'Confraternização Universal' },
+				...inRegions( ['ro'], { date: '1-4', name: 'Criação do estado de Rondônia' } ),
+				...inRegions( ['ac'], ...observed( year, 1, 20, 'br-ac', 'Dia do Católico' ) ),
+				...inRegions( ['ac'], ...observed( year, 1, 23, 'br-ac', 'Dia do Evangélico' ) ),
+				...inRegions( ['pe'], { date: '3-6', name: 'Revolução Pernambucana' } ),
+				...inRegions( ['ac'], ...observed( year, 3, 8, 'br-ac', 'Dia Internacional da Mulher' ) ),
+				...inRegions( ['to'], { date: '3-18', name: 'Criação da Comarca do Norte' } ),
+				...inRegions( ['ap','ce'], { date: '3-19', name: 'São José' } ),
+				...inRegions( ['ce'], { date: '3-25', name: 'Abolição da escravidão no Ceará' } ),
 				{ date: '4-21', name: 'Tiradentes' },
+				...inRegions( ['df'], { date: '4-21', name: 'Fundação de Brasília' } ),
+				...inRegions( ['mg'], { date: '4-21', name: 'Data Magna do estado de Minas Gerais' } ),
+				...inRegions( ['rj'], { date: '4-23', name: 'São Jorge' } ),
 				{ date: '5-1', name: 'Dia do Trabalhador' },
+				...inRegions( ['ac'], { date: '6-15', name: 'Aniversário do estado do Acre' } ),
+				...inRegions( ['ro'], { date: '6-18', name: 'Dia do Evangélico' } ),
+				...inRegions( ['al','pe'], { date: '6-24', name: 'São João' } ),
+				...inRegions( ['al'], { date: '6-29', name: 'São Pedro' } ),
+				...inRegions( ['ba'], { date: '7-2', name: 'Independência da Bahia' } ),
+				...inRegions( ['se'], { date: '7-8', name: 'Emancipação política de Sergipe' } ),
+				...inRegions( ['sp'], { date: '7-9', name: 'Revolução Constitucionalista' } ),
+				...inRegions( ['go'], { date: '7-26', name: 'Fundação da cidade de Goiás' } ),
+				...inRegions( ['ma'], { date: '7-28', name: 'Adesão do Maranhão à independência do Brasil' } ),
+				...inRegions( ['pb'], { date: '8-5', name: 'Nossa Senhora das Neves' } ),
+				...inRegions( ['rn'], { date: '8-7', name: 'Fixação do Marco Colonial de Touros' } ),
+				...inRegions( ['sc'], ...observed( year, 8, 11, 'br-sc', 'Data Magna do estado de Santa Catarina' ) ),
+				...inRegions( ['ce'], { date: '8-15', name: 'Nossa Senhora da Assunção' } ),
+				...inRegions( ['pa'], { date: '8-15', name: 'Adesão do Pará à independência do Brasil' } ),
+				...inRegions( ['pr'], { date: '8-29', name: 'Dia do Paraná (ponto facultativo)' } ),
+				...inRegions( ['ac'], ...observed( year, 9, 5, 'br-ac', 'Dia da Amazônia' ) ),
+				...inRegions( ['am'], { date: '9-5', name: 'Elevação do Amazonas à categoria de província' } ),
 				{ date: '9-7', name: 'Proclamação da Independência' },
+				...inRegions( ['to'], { date: '9-8', name: 'Nossa Senhora da Natividade' } ),
+				...inRegions( ['ap'], { date: '9-13', name: 'Data Magna do estado do Amapá' } ),
+				...inRegions( ['al'], { date: '9-16', name: 'Emancipação Política de Alagoas' } ),
+				...inRegions( ['rs'], { date: '9-20', name: 'Revolução Farroupilha' } ),
+				...inRegions( ['rn'], { date: '10-3', name: 'Mártires de Cunhaú e Uruaçu' } ),
+				...inRegions( ['rr'], { date: '10-5', name: 'Criação do estado de Roraima' } ),
+				...inRegions( ['to'], { date: '10-5', name: 'Criação do estado de Tocantins' } ),
+				...inRegions( ['ms'], { date: '10-11', name: 'Criação do estado do Mato Grosso do Sul' } ),
 				{ date: '10-12', name: 'Nossa Senhora Aparecida' },
+				...inRegions( ['rj'], { date: floatingDoW( 1, year, 10, 15 ), name: 'Dia do Comércio' } ),
+				...inRegions( ['pi'], { date: '10-19', name: 'Dia do Piauí' } ),
+				...inRegions( ['go'], { date: '10-24', name: 'Pedra fundamental de Goiânia' } ),
 				{ date: '11-2', name: 'Finados' },
 				{ date: '11-15', name: 'Proclamação da República' },
+				...inRegions( ['ac'], ...observed( year, 11, 17, 'br-ac', 'Tratado de Petrópolis' ) ),
+				...inRegions( ['al','am','mt','rj'], { date: '11-20', name: 'Dia da Consciência Negra' } ),
+				...inRegions( ['al','df'], { date: '11-30', name: 'Dia do Evangélico' } ),
+				...inRegions( ['am'], { date: '12-8', name: 'Nossa Senhora da Conceição' } ),
 				{ date: '12-25', name: 'Natal' },
 				{ date: dateToMonthDay( dateAdd( easterSunday, -47 ) ), name: 'Carnaval' },
 				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Paixão de Cristo' },
 				{ date: dateToMonthDay( dateAdd( easterSunday, 0 ) ), name: 'Páscoa' },
-				{ date: dateToMonthDay( dateAdd( easterSunday, 60 ) ), name: 'Corpus Christi' }
+				{ date: dateToMonthDay( dateAdd( easterSunday, 60 ) ), name: 'Corpus Christi' },
+				...inRegions( ['es'], { date: dateToMonthDay( dateAdd( easterSunday, 8 ) ), name: 'Nossa Senhora da Penha' } )
 			);
 			break;
 
@@ -394,6 +438,18 @@ function observed( year, month, day, country, name, options ) {
 				diffs = [4];
 			else if ( dow == 5 )
 				diffs = [3];
+			break;
+
+		case 'br-ac' :
+			// holidays between Tuesday and Thursday are postponed to Friday
+			if ( dow >= 2 && dow <= 4 )
+				diffs = [ 5 - dow ];
+			break;
+
+		case 'br-sc' :
+			// holidays on working days are postponed to Sunday
+			if ( dow > 0 )
+				diffs = [ 7 - dow ];
 			break;
 	}
 
