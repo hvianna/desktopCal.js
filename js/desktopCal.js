@@ -21,13 +21,13 @@
  */
 'use strict';
 
-var _VERSION = '23.1';
+const VERSION = '23.1';
 
-var cropper = [],
+let cropper = [],
 	colorPresets;
 
 function getVersion() {
-	return `v${_VERSION}`;
+	return `v${VERSION}`;
 }
 
 /**
@@ -35,7 +35,7 @@ function getVersion() {
  */
 function changeLayout() {
 
-	var layout = document.querySelector('input[name="layout"]:checked').value;
+	const layout = document.querySelector('input[name="layout"]:checked').value;
 
 	// set layout
 	document.getElementById('config').className = layout;
@@ -61,10 +61,10 @@ function changeLayout() {
 
 	// Cropper.js won't change the aspect ratio of preview elements, so we need to recreate them..
 
-	for ( let i of [0,1] ) {
+	for ( const i of [0,1] ) {
 		// save loaded image
-		let imgEl = document.getElementById( `image${i}` );
-		let imgSrc = imgEl.src;
+		const imgEl = document.getElementById( `image${i}` ),
+			  imgSrc = imgEl.src;
 
 		// destroy cropper instance
 		if ( cropper[ i ] )
@@ -74,7 +74,7 @@ function changeLayout() {
 		imgEl.src = imgSrc;
 
 		// clear preview element style
-		let pvwEl = document.getElementById( `preview${i}` );
+		const pvwEl = document.getElementById( `preview${i}` );
 		pvwEl.style = '';
 
 		// create new cropper instance with proper aspect ratio
@@ -119,8 +119,8 @@ function changeInitialWeekday() {
  * Set CSS classnames for the preview to match selected calendar layout and settings
  */
 function changeStyle() {
-	let layout = document.querySelector('input[name="layout"]:checked').value,
-		previewEl = document.getElementById('preview');
+	const layout = document.querySelector('input[name="layout"]:checked').value,
+		  previewEl = document.getElementById('preview');
 
 	previewEl.className = layout;
 	if ( layout != 'digital' ) {
@@ -168,8 +168,8 @@ function configUIElements() {
 	// Cropper.js action buttons
 	document.querySelectorAll('.cropper-action').forEach( el => {
 		el.addEventListener('click', e => {
-			let n = e.target.dataset.obj;
-			let action = e.target.dataset.action;
+			const n = e.target.dataset.obj,
+				  action = e.target.dataset.action;
 			switch ( action ) {
 				case 'rotR':
 					cropper[ n ].rotate(90);
@@ -214,7 +214,7 @@ function deleteColorPreset( index ) {
 }
 
 function listColorPresets() {
-	var html = '';
+	let html = '';
 
 	colorPresets.forEach( ( preset, index ) => {
 		html += '<tr><td>' +
@@ -246,8 +246,7 @@ function loadColorPreset( index ) {
  */
 function loadImage( obj, n ) {
 
-	var reader = new FileReader(),
-		layout = document.getElementById('preview').className;
+	const reader = new FileReader();
 
 	reader.onload = function() {
 		document.getElementById( `image${n}` ).src = reader.result;
@@ -518,11 +517,10 @@ function generateCalendar( month, year, canvas = null ) {
  */
 function updatePreview() {
 
-	var area = [ document.getElementById('top-half'), document.getElementById('bottom-half') ],
-		year = [ document.getElementById('top-year').value, document.getElementById('bottom-year').value ],
-		month = [ document.getElementById('top-month').value, document.getElementById('bottom-month').value ],
-		country = document.getElementById('country').value,
-		layout = document.querySelector('input[name="layout"]:checked').value;
+	const area    = [ document.getElementById('top-half'), document.getElementById('bottom-half') ],
+		  year    = [ document.getElementById('top-year').value, document.getElementById('bottom-year').value ],
+		  month   = [ document.getElementById('top-month').value, document.getElementById('bottom-month').value ],
+		  layout  = document.querySelector('input[name="layout"]:checked').value;
 
 	// set lang attribute on html element
 	document.getElementsByTagName('html')[0].lang = `${lang}-${country.toUpperCase()}`;
@@ -532,7 +530,7 @@ function updatePreview() {
 	document.getElementById('v-align').disabled = document.getElementById('cal-size').value == 'col';
 
 	if ( layout != 'digital' ) {
-		for ( let i of [0,1] ) {
+		for ( const i of [0,1] ) {
 			if ( month[ i ] > 0 && year[ i ] > 0 ) {
 				area[ i ].querySelector('.cal-title').innerText = msg[ lang ].monthNames[ month[ i ] ] + ' ' + year[ i ];
 				area[ i ].querySelector('.calendar').innerHTML = generateCalendar( month[ i ], year[ i ] );
@@ -540,12 +538,13 @@ function updatePreview() {
 		}
 	}
 	else {
-		let canvas = document.getElementById('canvas');
+		const canvas = document.getElementById('canvas'),
+			  ctx    = canvas.getContext('2d'),
+			  img    = cropper[0].getCroppedCanvas();
+
 		canvas.width = document.getElementById('canvas-width').value;
 		canvas.height = document.getElementById('canvas-height').value;
-		let ctx = canvas.getContext('2d');
 
-		let img = cropper[0].getCroppedCanvas();
 		if ( img )
 			ctx.drawImage( img, 0, 0, canvas.width, canvas.height );
 		generateCalendar( month[ 1 ], year[ 1 ], canvas );
@@ -565,10 +564,10 @@ function renderCredits() {
  */
 function rotateCanvas() {
 
-	var tmp = document.getElementById('canvas-width').value;
+	const canvasWidth  = document.getElementById('canvas-width'),
+		  canvasHeight = document.getElementById('canvas-height');
 
-	document.getElementById('canvas-width').value = document.getElementById('canvas-height').value;
-	document.getElementById('canvas-height').value = tmp;
+	[ canvasWidth.value, canvasHeight.value ] = [ canvasHeight.value, canvasWidth.value ];
 
 	changeLayout();
 }
@@ -578,7 +577,7 @@ function rotateCanvas() {
  */
 function downloadCalendar( obj ) {
 
-	var format = document.querySelector('input[name="file-format"]:checked').value;
+	const format = document.querySelector('input[name="file-format"]:checked').value;
 	obj.download = 'desktopCal-' + document.getElementById('bottom-year').value + '-' + document.getElementById('bottom-month').value + '.' + format;
 	obj.href = document.getElementById('canvas').toDataURL(`image/${format}`);
 }
@@ -609,12 +608,12 @@ CanvasRenderingContext2D.prototype.roundRect = function ( x, y, w, h, r ) {
  */
 async function prepareForPrinting() {
 
-	for ( let i of [0,1] ) {
+	for ( const i of [0,1] ) {
 		document.getElementById( `preview${i}` ).style.display = 'none'; // hide cropper.js preview area
-		let img = cropper[ i ].getCroppedCanvas();
+		const img = cropper[ i ].getCroppedCanvas();
 		if ( img ) {
-			let blob = await new Promise( resolve => img.toBlob( resolve ) );
-			let url = URL.createObjectURL( blob );
+			const blob = await new Promise( resolve => img.toBlob( resolve ) );
+			const url = URL.createObjectURL( blob );
 			document.getElementById( `cal-image${i}` ).style = `background-image: url(${url})`;
 		}
 	}
@@ -626,7 +625,7 @@ async function prepareForPrinting() {
  * Restore preview areas and clear background images used for printing
  */
 function restoreFromPrinting() {
-	for ( let i of [0,1] ) {
+	for ( const i of [0,1] ) {
 		document.getElementById( `preview${i}` ).style.display = 'block';
 		document.getElementById( `cal-image${i}` ).style = '';
 	}
@@ -642,8 +641,8 @@ function initialize() {
 
 	// try to get preferred language and country
 	const [	browserLang, browserCountry ] = navigator.language.split('-'),
-		prefLang = localStorage.getItem('lang') || browserLang,
-		prefCountry = localStorage.getItem('country') || browserCountry && browserCountry.toLowerCase();
+		  prefLang = localStorage.getItem('lang') || browserLang,
+		  prefCountry = localStorage.getItem('country') || browserCountry && browserCountry.toLowerCase();
 
 	if ( Object.keys( msg ).includes( prefLang ) )
 		lang = prefLang;
@@ -701,8 +700,8 @@ function initialize() {
 
 	// init canvas width and height fields with the display's dimensions
 
-	let w = window.screen.width * window.devicePixelRatio,
-		h = window.screen.height * window.devicePixelRatio;
+	const w = window.screen.width * window.devicePixelRatio,
+		  h = window.screen.height * window.devicePixelRatio;
 
 	document.getElementById('canvas-width').value = w;
 	document.getElementById('canvas-height').value = h;
@@ -711,12 +710,12 @@ function initialize() {
 
 	let loaded = 0;
 
-	for ( let i of [0,1] ) {
+	for ( const i of [0,1] ) {
 		fetch( `https://picsum.photos/${w}/${w*.75}/?random` )
 		.then( response => response.blob() )
 		.then( blob => {
-			let url = URL.createObjectURL( blob );
-			let imgEl = document.getElementById( `image${i}` );
+			const url   = URL.createObjectURL( blob ),
+				  imgEl = document.getElementById( `image${i}` );
 			imgEl.src = url;
 
 			// adjust paper layout and initialize croppable areas when both images finish loading

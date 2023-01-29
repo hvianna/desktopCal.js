@@ -3,10 +3,10 @@
  */
 
 // current language and country
-var lang, country, region;
+let lang, country, region;
 
 // countries and regions for holiday selection list
-var countries = {
+const countries = {
 	ar: { name: 'Argentina' },
 	au: {
 		name: 'Australia',
@@ -65,7 +65,7 @@ var countries = {
 }
 
 // translations of messages
-var msg = {
+const msg = {
 	en: {
 		langName:   'English',
 		defCountry: 'us',
@@ -619,23 +619,21 @@ var msg = {
 	}
 }
 
-
 function langOptions() {
+	const keys = Object.keys( msg );
 
-	var html = '',
-		keys = Object.keys( msg );
+	let html = '';
 
-	for ( var i = 0; i < keys.length; i++ )
+	for ( let i = 0; i < keys.length; i++ )
 		html += `<li><a href="javascript:changeLang('${ keys[ i ] }');" title="${ msg[ keys[ i ] ].langName }"><img src="img/icons8-${ keys[ i ] }-flag.png"></a></li>`;
 
 	return html;
 }
 
 function monthOptions() {
+	let html = '';
 
-	var html = '';
-
-	for ( var i = 0; i < 13; i++ )
+	for ( let i = 0; i < 13; i++ )
 		html += `<option value="${ i }">${ msg[ lang ].monthNames[ i ] }</option>`;
 
 	return html;
@@ -661,15 +659,13 @@ function countryOptions() {
 }
 
 function changeCountry( newValue ) {
-
-	[country, region] = newValue.split('-');
+	[ country, region ] = newValue.split('-');
 	localStorage.setItem( 'country', country );
 	localStorage.setItem( 'region', region );
 	updatePreview();
 }
 
 function changeLang( newLang ) {
-
 	if ( ! Object.keys( msg ).includes( newLang ) ) // invalid language?
 		return false;
 
@@ -681,8 +677,7 @@ function changeLang( newLang ) {
 }
 
 function translatePage() {
-
-	var values = [];
+	let values = [];
 
 	// save values from select elements
 	document.querySelectorAll('select').forEach( ( el, i ) => values[ i ] = el.selectedIndex );
@@ -709,5 +704,4 @@ function translatePage() {
 		if ( values[ i ] >= 0 )
 			el.selectedIndex = values[ i ]
 	});
-
 }
