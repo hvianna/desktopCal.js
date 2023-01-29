@@ -66,6 +66,10 @@ button, .button {
 	min-width: 100px;
 }
 
+optgroup option {
+	font-size: 90%;
+}
+
 .action-button::before,
 .icon-button::before {
 	background-size: 24px;
