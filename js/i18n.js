@@ -3,12 +3,56 @@
  */
 
 // current language and country
-var lang, country;
+let lang, country, region;
 
-// countries for holiday selection list
-var countries = {
+// countries and regions for holiday selection list
+const countries = {
 	ar: { name: 'Argentina' },
-	br: { name: 'Brasil' },
+	au: {
+		name: 'Australia',
+		regions: {
+			act: { name: 'Australian Capital Territory' },
+			nsw: { name: 'New South Wales' },
+			nt:  { name: 'Northern Territory' },
+			qld: { name: 'Queensland' },
+			sa:  { name: 'South Australia' },
+			tas: { name: 'Tasmania' },
+			vic: { name: 'Victoria' },
+			wa:  { name: 'Western Australia' }
+		}
+	},
+	br: {
+		name: 'Brasil',
+		regions: {
+			ac: { name: 'Acre' },
+			al: { name: 'Alagoas' },
+			ap: { name: 'Amapá' },
+			am: { name: 'Amazonas' },
+			ba: { name: 'Bahia' },
+			ce: { name: 'Ceará' },
+			df: { name: 'Distrito Federal' },
+			es: { name: 'Espírito Santo' },
+			go: { name: 'Goiás' },
+			ma: { name: 'Maranhão' },
+			mt: { name: 'Mato Grosso' },
+			ms: { name: 'Mato Grosso do Sul' },
+			mg: { name: 'Minas Gerais' },
+			pa: { name: 'Pará' },
+			pb: { name: 'Paraíba' },
+			pr: { name: 'Paraná' },
+			pe: { name: 'Pernambuco' },
+			pi: { name: 'Piauí' },
+			rj: { name: 'Rio de Janeiro' },
+			rn: { name: 'Rio Grande do Norte' },
+			rs: { name: 'Rio Grande do Sul' },
+			ro: { name: 'Rondônia' },
+			rr: { name: 'Roraima' },
+			sc: { name: 'Santa Catarina' },
+			sp: { name: 'São Paulo' },
+			se: { name: 'Sergipe' },
+			to: { name: 'Tocantins' }
+		}
+	},
 	ca: { name: 'Canada' },
 	de: { name: 'Deutschland' },
 	es: { name: 'España' },
@@ -21,7 +65,7 @@ var countries = {
 }
 
 // translations of messages
-var msg = {
+const msg = {
 	en: {
 		langName:   'English',
 		defCountry: 'us',
@@ -480,51 +524,151 @@ var msg = {
 		loadingTip: 'Se demorar muito, experimente carregar outra imagem.',
 		preview:    'Pré-visualização:',
 		fold:       'dobre nas linhas tracejadas',
+	},
+
+	ru: {
+		langName:   'Русский',
+		defCountry: 'us',
+		monthNames: [ 'Месяц', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь' ],
+		weekDays:   [ 'Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб' ],
+		weekStart:  'Неделя начинается с',
+		sunday:     'Воскресенья',
+		monday:     'Понедельника',
+		year:       'Год',
+		month:      'Месяц',
+		day:        'День',
+		credits:    'Создано с <strong>desktopCal.js</strong>',
+		creditTitle:'Уведомление',
+		creditDescr:'Вы можете изменить эту строку, чтобы включить в нее информацию, например, об авторе фотографии.',
+		front:      'Сторона 1',
+		back:       'Сторона 2',
+		design:     'Выберите макет календаря',
+		edit:       'Выберите изображение, месяц и год',
+		language:   'Язык',
+		layout:     'Макет',
+		desktopCal: 'Настольный календарь',
+		wallSingle: 'Настенный календарь',
+		digitalBg:  'Цифровые обои',
+		screenConf: 'Конфигурация экрана',
+		screenRes:  'Разрешение экрана',
+		chgOrient:  'Изменить ориентацию',
+		calStyle:   'Стиль календаря',
+		small:      'Маленький блок',
+		medium:     'Средний блок',
+		large:      'Большой блок',
+		column:     'Вертикальная полоса',
+		row:        'Горизонтальная полоса',
+		calSettings: 'Настройки календаря',
+		modern:     'Современный',
+		classic:    'Классический',
+		showHolidays: 'Показывать описание праздников',
+		yes:        'Да',
+		no:         'Нет',
+		horAlign:   'Выравнивание по горизонтали',
+		verAlign:   'Выравнивание по вертикали',
+		left:       'Влево',
+		horCenter:  'По центру',
+		right:      'Вправо',
+		top:        'По верхнему краю',
+		verCenter:  'По центру',
+		bottom:     'По нижнему краю',
+		width:      'Ширина',
+		height:     'Высота',
+		pixels:     'пикселей',
+		rotateR:    'Повернуть по часовой стрелке',
+		rotateL:    'Повернуть против часовой стрелки',
+		flipH:      'Отразить по горизонтали',
+		flipV:      'Отразить по вертикали',
+		reset:      'Сбросить',
+		colors:     'Цвета',
+		colorPresets: 'Цветовые схемы',
+		saveColors: 'Сохранить как новую цветовую схему',
+		deletePreset: 'Вы действительно хотите удалить эту цветовую схему?\nЭТО ДЕЙСТВИЕ НЕЛЬЗЯ ОТМЕНИТЬ!',
+		bgColor:    'Цвет фона',
+		bgOpacity:  'Прозрачность фона',
+		textColor:  'Цвет текста',
+		holidayColor:'Цвет праздников',
+		loadImage:  'Загрузить изображение',
+		holidays:   'Праздники',
+		countryHolidays: 'Национальные праздники',
+		customHolidays: 'Свои праздники',
+		description: 'Описание',
+		none:       'Нет',
+		add:        'Добавить',
+		delete:     'Удалить',
+		load:       'Загрузить',
+		imgNotice:  'Изображения НЕ покидают ваш компьютер. Вся обработка происходит в вашем браузере.',
+		printIt:    'Напечатать!',
+		paperSize:  'Формат бумаги / соотношение сторон',
+		paperIso:   'A3 или A4',
+		paperLegal: 'Legal',
+		paperLetter:'Letter',
+		paperTabloid:'Tabloid',
+		print:      'Сгенерировать и напечатать',
+		tipBgImg:   'Включите печать <strong>фоновых изображений</strong> в настройках принтера;',
+		tipPortrait:'Установите <strong>портретный</strong> режим печати;',
+		tipMargins: 'Задайте минимальный возможный размер полей;',
+		tipHeaders: 'Отключите верхний и нижний колонтитулы.',
+		downloadIt: 'Скачать ваши обои',
+		download:   'Скачать',
+		fileFormat: 'Формат файла',
+		loading:    'Загрузка, пожалуйста, подождите...',
+		loadingTip: 'Если это занимает слишком много времени, попробуйте загрузить другое изображение.',
+		preview:    'Предпросмотр:',
+		fold:       'сложите по пунктирным линиям',
 	}
 }
 
-
 function langOptions() {
+	const keys = Object.keys( msg );
 
-	var html = '',
-		keys = Object.keys( msg );
+	let html = '';
 
-	for ( var i = 0; i < keys.length; i++ )
+	for ( let i = 0; i < keys.length; i++ )
 		html += `<li><a href="javascript:changeLang('${ keys[ i ] }');" title="${ msg[ keys[ i ] ].langName }"><img src="img/icons8-${ keys[ i ] }-flag.png"></a></li>`;
 
 	return html;
 }
 
 function monthOptions() {
+	let html = '';
 
-	var html = '';
-
-	for ( var i = 0; i < 13; i++ )
+	for ( let i = 0; i < 13; i++ )
 		html += `<option value="${ i }">${ msg[ lang ].monthNames[ i ] }</option>`;
 
 	return html;
 }
 
 function countryOptions() {
+	let html = `<option value="">${msg[lang].none}</option>`;
 
-	var html = `<option value="">${msg[lang].none}</option>`,
-		keys = Object.keys( countries );
-
-	for ( var i = 0; i < keys.length; i++ )
-		html += `<option value="${ keys[ i ] }" ${ keys[ i ] == country ? 'selected' : '' }>${ countries[ keys[ i ] ].name }</option>`;
+	for ( const [ key, { name, regions } ] of Object.entries( countries ) ) {
+		if ( regions ) {
+			html += `<optgroup label="${ name }">`;
+		}
+		html += `<option value="${ key }" ${ key == country && !region ? 'selected' : '' }>${ name }</option>`;
+		if ( regions ) {
+			for ( const [ regionKey, { name: regionName } ] of Object.entries( regions )) {
+				html += `<option value="${ key }-${ regionKey }" ${ key == country && regionKey == region ? 'selected' : '' }>${ regionName }</option>`;
+			}
+			html += `</optgroup>`;
+		}
+	}
 
 	return html;
 }
 
-function changeCountry( newCountry ) {
-
-	country = newCountry;
+function changeCountry( newValue ) {
+	[ country, region ] = newValue.split('-');
 	localStorage.setItem( 'country', country );
+	if ( region )
+		localStorage.setItem( 'region', region );
+	else
+		localStorage.removeItem( 'region' );
 	updatePreview();
 }
 
 function changeLang( newLang ) {
-
 	if ( ! Object.keys( msg ).includes( newLang ) ) // invalid language?
 		return false;
 
@@ -536,8 +680,7 @@ function changeLang( newLang ) {
 }
 
 function translatePage() {
-
-	var values = [];
+	let values = [];
 
 	// save values from select elements
 	document.querySelectorAll('select').forEach( ( el, i ) => values[ i ] = el.selectedIndex );
@@ -564,5 +707,4 @@ function translatePage() {
 		if ( values[ i ] >= 0 )
 			el.selectedIndex = values[ i ]
 	});
-
 }

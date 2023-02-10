@@ -9,53 +9,130 @@
  */
 function checkHoliday( year, month, day ) {
 
-	let	holidays = [],
-		easterHolidays = [];
+	const easterSunday = computus( year ),
+		  holidays = getCustomHolidays();
 
 	switch ( country ) {
 		case 'ar':
-			holidays = [
+			holidays.push(
 				{ date: '1-1', name: 'Año Nuevo' },
 				{ date: '3-24', name: 'Memoria por la Verdad y la Justicia' },
 				{ date: '4-2', name: 'Día del Veterano' },
 				{ date: '5-1', name: 'Día del Trabajador' },
 				{ date: '5-25', name: 'Revolución de Mayo' },
-				{ date: calcObservation( year, 6, 17, country ), name: 'General Martín Miguel de Güemes' },
+				...observed( year, 6, 17, country, 'General Martín Miguel de Güemes' ),
 				{ date: '6-20', name: 'General Manuel Belgrano' },
 				{ date: '7-9', name: 'Día de la Independencia' },
-				{ date: calcObservation( year, 8, 17, country ), name: 'General José de San Martín' },
-				{ date: calcObservation( year, 10, 12, country ), name: 'Respeto a la Diversidad Cultural' },
-				{ date: calcObservation( year, 11, 20, country ), name: 'Soberanía Nacional' },
+				...observed( year, 8, 17, country, 'General José de San Martín' ),
+				...observed( year, 10, 12, country, 'Respeto a la Diversidad Cultural' ),
+				...observed( year, 11, 20, country, 'Soberanía Nacional' ),
 				{ date: '12-8', name: 'Inmaculada Concepción de María' },
-				{ date: '12-25', name: 'Navidad' }
-			];
-			easterHolidays = [
-				{ days: -48, name: 'Carnaval' },
-				{ days: -47, name: 'Carnaval' },
-				{ days: -2, name: 'Viernes Santo' }
-			];
+				{ date: '12-25', name: 'Navidad' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -48 ) ), name: 'Carnaval' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -47 ) ), name: 'Carnaval' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Viernes Santo' }
+			);
+			break;
+
+		case 'au':
+			holidays.push(
+				...observed( year, 1, 1, country, 'New Year\'s Day' ),
+				...observed( year, 1, 26, country, 'Australia Day' ),
+				...inRegions(['tas'], { date: floatingDoW( 1, year, 2, 8 ), name: 'Royal Hobart Regatta' }),
+				...inRegions(['vic', 'wa'], { date: floatingDoW( 1, year, 3, 1 ), name: 'Labour Day' }),
+				...inRegions(['act'], { date: floatingDoW( 1, year, 3, 8 ), name: 'Canberra Day' }),
+				...inRegions(['sa'], { date: floatingDoW( 1, year, 3, 8 ), name: 'Adelaide Cup Day' }),
+				...inRegions(['tas'], { date: floatingDoW( 1, year, 3, 8 ), name: 'Eight Hours Day' }),
+				{ date: '4-25', name: 'Anzac Day' },
+				...inRegions(['nt'], { date: floatingDoW( 1, year, 5, 1 ), name: 'May Day' }),
+				...inRegions(['qld'], { date: floatingDoW( 1, year, 5, 1 ), name: 'Labour Day' }),
+				...inRegions(['act'], { date: floatingDoW( 1, year, 5, 27 ), name: 'Reconciliation Day' }),
+				...inRegions(['wa'], { date: floatingDoW( 1, year, 6, 1 ), name: 'Western Australia Day' }),
+				...inRegions(['vic', 'nsw', 'sa', 'tas'], { date: floatingDoW( 1, year, 6, 8 ), name: 'King\'s Birthday' }),
+				...inRegions(['act'], { date: floatingDoW( 1, year, 6, 8 ), name: 'Sovereign\'s Birthday' }),
+				...inRegions(['nt'], { date: floatingDoW( 1, year, 6, 8 ), name: 'June public holiday' }),
+				...inRegions(['nt'], { date: floatingDoW( 1, year, 8, 1 ), name: 'Picnic Day' }),
+				...inRegions(['qld'], { date: floatingDoW( 3, year, 8, 10 ), name: 'Royal Queensland Show (Brisbane)' }),
+				...inRegions(['wa'], { date: floatingDoW( 1, year, 9, 22 ), name: 'King\'s Birthday' }),
+				...inRegions(['qld'], { date: floatingDoW( 1, year, 10, 1 ), name: 'King\'s Birthday' }),
+				...inRegions(['act', 'nsw', 'sa'], { date: floatingDoW( 1, year, 10, 1 ), name: 'Labour Day' }),
+				...inRegions(['vic'], { date: floatingDoW( 2, year, 11, 1 ), name: 'Melbourne Cup' }),
+				...inRegions(['tas'], { date: floatingDoW( 1, year, 11, 1 ), name: 'Recreation Day' }),
+				...observed( year, 12, 25, country, 'Christmas Day', { consecutive: 2 } ),
+				...observed( year, 12, 26, country, 'Boxing Day', { consecutive: 2 } ),
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Good Friday' },
+				...inRegions( ['act', 'nsw', 'nt', 'sa'], { date: dateToMonthDay( dateAdd( easterSunday, -1 ) ), name: 'Easter Saturday' } ),
+				...inRegions( ['qld'], { date: dateToMonthDay( dateAdd( easterSunday, -1 ) ), name: 'The day after Good Friday' } ),
+				...inRegions( ['vic'], { date: dateToMonthDay( dateAdd( easterSunday, -1 ) ), name: 'Saturday before Easter Sunday' } ),
+				{ date: dateToMonthDay( dateAdd( easterSunday, 0 ) ), name: 'Easter Sunday' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 1 ) ), name: 'Easter Monday' },
+				...inRegions( ['tas'], { date: dateToMonthDay( dateAdd( easterSunday, 2 ) ), name: 'Easter Tuesday (Public Service only)' } )
+			);
 			break;
 
 		case 'br':
-			holidays = [
+			holidays.push(
 				{ date: '1-1', name: 'Confraternização Universal' },
+				...inRegions( ['ro'], { date: '1-4', name: 'Criação do estado de Rondônia' } ),
+				...inRegions( ['ac'], ...observed( year, 1, 20, 'br-ac', 'Dia do Católico' ) ),
+				...inRegions( ['ac'], ...observed( year, 1, 23, 'br-ac', 'Dia do Evangélico' ) ),
+				...inRegions( ['pe'], { date: '3-6', name: 'Revolução Pernambucana' } ),
+				...inRegions( ['ac'], ...observed( year, 3, 8, 'br-ac', 'Dia Internacional da Mulher' ) ),
+				...inRegions( ['to'], { date: '3-18', name: 'Criação da Comarca do Norte' } ),
+				...inRegions( ['ap','ce'], { date: '3-19', name: 'São José' } ),
+				...inRegions( ['ce'], { date: '3-25', name: 'Abolição da escravidão no Ceará' } ),
 				{ date: '4-21', name: 'Tiradentes' },
+				...inRegions( ['df'], { date: '4-21', name: 'Fundação de Brasília' } ),
+				...inRegions( ['mg'], { date: '4-21', name: 'Data Magna do estado de Minas Gerais' } ),
+				...inRegions( ['rj'], { date: '4-23', name: 'São Jorge' } ),
 				{ date: '5-1', name: 'Dia do Trabalhador' },
+				...inRegions( ['ac'], { date: '6-15', name: 'Aniversário do estado do Acre' } ),
+				...inRegions( ['ro'], { date: '6-18', name: 'Dia do Evangélico' } ),
+				...inRegions( ['al','pe'], { date: '6-24', name: 'São João' } ),
+				...inRegions( ['al'], { date: '6-29', name: 'São Pedro' } ),
+				...inRegions( ['ba'], { date: '7-2', name: 'Independência da Bahia' } ),
+				...inRegions( ['se'], { date: '7-8', name: 'Emancipação política de Sergipe' } ),
+				...inRegions( ['sp'], { date: '7-9', name: 'Revolução Constitucionalista' } ),
+				...inRegions( ['go'], { date: '7-26', name: 'Fundação da cidade de Goiás' } ),
+				...inRegions( ['ma'], { date: '7-28', name: 'Adesão do Maranhão à independência do Brasil' } ),
+				...inRegions( ['pb'], { date: '8-5', name: 'Nossa Senhora das Neves' } ),
+				...inRegions( ['rn'], { date: '8-7', name: 'Fixação do Marco Colonial de Touros' } ),
+				...inRegions( ['sc'], ...observed( year, 8, 11, 'br-sc', 'Data Magna do estado de Santa Catarina' ) ),
+				...inRegions( ['ce'], { date: '8-15', name: 'Nossa Senhora da Assunção' } ),
+				...inRegions( ['pa'], { date: '8-15', name: 'Adesão do Pará à independência do Brasil' } ),
+				...inRegions( ['pr'], { date: '8-29', name: 'Dia do Paraná (ponto facultativo)' } ),
+				...inRegions( ['ac'], ...observed( year, 9, 5, 'br-ac', 'Dia da Amazônia' ) ),
+				...inRegions( ['am'], { date: '9-5', name: 'Elevação do Amazonas à categoria de província' } ),
 				{ date: '9-7', name: 'Proclamação da Independência' },
+				...inRegions( ['to'], { date: '9-8', name: 'Nossa Senhora da Natividade' } ),
+				...inRegions( ['ap'], { date: '9-13', name: 'Data Magna do estado do Amapá' } ),
+				...inRegions( ['al'], { date: '9-16', name: 'Emancipação Política de Alagoas' } ),
+				...inRegions( ['rs'], { date: '9-20', name: 'Revolução Farroupilha' } ),
+				...inRegions( ['rn'], { date: '10-3', name: 'Mártires de Cunhaú e Uruaçu' } ),
+				...inRegions( ['rr'], { date: '10-5', name: 'Criação do estado de Roraima' } ),
+				...inRegions( ['to'], { date: '10-5', name: 'Criação do estado de Tocantins' } ),
+				...inRegions( ['ms'], { date: '10-11', name: 'Criação do estado do Mato Grosso do Sul' } ),
 				{ date: '10-12', name: 'Nossa Senhora Aparecida' },
+				...inRegions( ['rj'], { date: floatingDoW( 1, year, 10, 15 ), name: 'Dia do Comércio' } ),
+				...inRegions( ['pi'], { date: '10-19', name: 'Dia do Piauí' } ),
+				...inRegions( ['go'], { date: '10-24', name: 'Pedra fundamental de Goiânia' } ),
 				{ date: '11-2', name: 'Finados' },
 				{ date: '11-15', name: 'Proclamação da República' },
-				{ date: '12-25', name: 'Natal' }
-			];
-			easterHolidays = [
-				{ days: -47, name: 'Carnaval' },
-				{ days: -2, name: 'Sexta-feira Santa' },
-				{ days: 60, name: 'Corpus Christi' }
-			];
+				...inRegions( ['ac'], ...observed( year, 11, 17, 'br-ac', 'Tratado de Petrópolis' ) ),
+				...inRegions( ['al','am','mt','rj'], { date: '11-20', name: 'Dia da Consciência Negra' } ),
+				...inRegions( ['al','df'], { date: '11-30', name: 'Dia do Evangélico' } ),
+				...inRegions( ['am'], { date: '12-8', name: 'Nossa Senhora da Conceição' } ),
+				{ date: '12-25', name: 'Natal' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -47 ) ), name: 'Carnaval' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Paixão de Cristo' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 0 ) ), name: 'Páscoa' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 60 ) ), name: 'Corpus Christi' },
+				...inRegions( ['es'], { date: dateToMonthDay( dateAdd( easterSunday, 8 ) ), name: 'Nossa Senhora da Penha' } )
+			);
 			break;
 
 		case 'ca':
-			holidays = [
+			holidays.push(
 				{ date: '1-1', name: 'New Year\'s Day' },
 				{ date: floatingDoW( 1, year, 5, 18 ), name: 'Victoria Day' },
 				{ date: '7-1', name: 'Canada Day' },
@@ -64,16 +141,14 @@ function checkHoliday( year, month, day ) {
 				{ date: floatingDoW( 1, year, 10, 8 ), name: 'Thanksgiving' },
 				{ date: '11-11', name: 'Remembrance Day' },
 				{ date: '12-25', name: 'Christmas Day' },
-				{ date: '12-26', name: 'Boxing Day' }
-			];
-			easterHolidays = [
-				{ days: -2, name: 'Good Friday' },
-				{ days: 1, name: 'Easter Monday' }
-			];
+				{ date: '12-26', name: 'Boxing Day' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Good Friday' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 1 ) ), name: 'Easter Monday' }
+			);
 			break;
 
 		case 'de':
-			holidays = [
+			holidays.push(
 				{ date: '1-1', name: 'Neujahr' },
 				{ date: '1-6', name: 'Heilige Drei Könige' },
 				{ date: '3-8', name: 'Internationaler Frauentag' },
@@ -85,21 +160,19 @@ function checkHoliday( year, month, day ) {
 				{ date: '11-1', name: 'Allerheiligen' },
 				{ date: floatingDoW( 3, year, 11, 16 ), name: 'Buß- und Bettag' }, // Wednesday between November 16-22
 				{ date: '12-25', name: '1. Weihnachtsfeiertag' },
-				{ date: '12-26', name: '2. Weihnachtsfeiertag' }
-			];
-			easterHolidays = [
-				{ days: -2, name: 'Karfreitag' },
-				{ days: 0, name: 'Ostersonntag' },
-				{ days: 1, name: 'Ostermontag' },
-				{ days: 39, name: 'Christi Himmelfahrt' },
-				{ days: 49, name: 'Pfingstsonntag' },
-				{ days: 50, name: 'Pfingstmontag' },
-				{ days: 60, name: 'Fronleichnam' },
-			];
+				{ date: '12-26', name: '2. Weihnachtsfeiertag' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Karfreitag' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 0 ) ), name: 'Ostersonntag' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 1 ) ), name: 'Ostermontag' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 39 ) ), name: 'Christi Himmelfahrt' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 49 ) ), name: 'Pfingstsonntag' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 50 ) ), name: 'Pfingstmontag' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 60 ) ), name: 'Fronleichnam' }
+			);
 			break;
 
 		case 'es':
-			holidays = [
+			holidays.push(
 				{ date: '1-1', name: 'Año Nuevo' },
 				{ date: '1-6', name: 'Día de Reyes' },
 				{ date: '5-1', name: 'Día del Trabajador' },
@@ -108,16 +181,14 @@ function checkHoliday( year, month, day ) {
 				{ date: '11-1', name: 'Día de todos los Santos' },
 				{ date: '12-6', name: 'Día de la Constitución' },
 				{ date: '12-8', name: 'Inmaculada Concepción' },
-				{ date: '12-25', name: 'Navidad' }
-			];
-			easterHolidays = [
-				{ days: -3, name: 'Jueves Santo' },
-				{ days: -2, name: 'Viernes Santo' }
-			];
+				{ date: '12-25', name: 'Navidad' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -3 ) ), name: 'Jueves Santo' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Viernes Santo' }
+			);
 			break;
 
 		case 'fr':
-			holidays = [
+			holidays.push(
 				{ date: '1-1', name: 'Nouvel an' },
 				{ date: '5-1', name: 'Fête des Travailleurs' },
 				{ date: '5-8', name: 'Fête de la Victoire' },
@@ -126,30 +197,28 @@ function checkHoliday( year, month, day ) {
 				{ date: '11-1', name: 'Toussaint' },
 				{ date: '11-11', name: 'Armistice de 1918' },
 				{ date: '12-25', name: 'Noël' },
-				{ date: '12-26', name: 'Deuxième jour de Noël' }
-			];
-			easterHolidays = [
-				{ days: -2, name: 'Vendredi saint' },
-				{ days: 1, name: 'Lundi de Pâques' },
-				{ days: 39, name: 'Ascension' },
-				{ days: 50, name: 'Lundi de Pentecôte' }
-			];
+				{ date: '12-26', name: 'Deuxième jour de Noël' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Vendredi saint' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 1 ) ), name: 'Lundi de Pâques' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 39 ) ), name: 'Ascension' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 50 ) ), name: 'Lundi de Pentecôte' }
+			);
 			break;
 
 		case 'mx':
-			holidays = [
-				{ date: calcObservation( year, 1, 1, country ), name: 'Año Nuevo' },
+			holidays.push(
+				...observed( year, 1, 1, country, 'Año Nuevo' ),
 				{ date: floatingDoW( 1, year, 2, 1 ), name: 'Día de la Constitución' },
 				{ date: floatingDoW( 1, year, 3, 15 ), name: 'Natalicio de Benito Juárez' },
-				{ date: calcObservation( year, 5, 1, country ), name: 'Día del Trabajo' },
-				{ date: calcObservation( year, 9, 16, country ), name: 'Día de la Independencia' },
+				...observed( year, 5, 1, country, 'Día del Trabajo' ),
+				...observed( year, 9, 16, country, 'Día de la Independencia' ),
 				{ date: floatingDoW( 1, year, 11, 15 ), name: 'Día de la Revolución' },
-				{ date: calcObservation( year, 12, 25, country ), name: 'Navidad' }
-			];
+				...observed( year, 12, 25, country, 'Navidad')
+			);
 			break;
 
 		case 'pt':
-			holidays = [
+			holidays.push(
 				{ date: '1-1', name: 'Ano Novo' },
 				{ date: '4-25', name: 'Dia da Liberdade' },
 				{ date: '5-1', name: 'Dia do Trabalhador' },
@@ -159,72 +228,58 @@ function checkHoliday( year, month, day ) {
 				{ date: '11-1', name: 'Dia de Todos-os-Santos' },
 				{ date: '12-1', name: 'Restauração da Independência' },
 				{ date: '12-8', name: 'Imaculada Conceição' },
-				{ date: '12-25', name: 'Natal' }
-			];
-			easterHolidays = [
-				{ days: -47, name: 'Carnaval' },
-				{ days: -2, name: 'Sexta-feira Santa' },
-				{ days: 60, name: 'Corpo de Deus' }
-			];
+				{ date: '12-25', name: 'Natal' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -47 ) ), name: 'Carnaval' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Sexta-feira Santa' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 60 ) ), name: 'Corpo de Deus' }
+			);
 			break;
 
 		case 'uk':
-			holidays = [
-				{ date: calcObservation( year, 1, 1, country ), name: 'New Year\'s Day' },
+			holidays.push(
+				...observed( year, 1, 1, country, 'New Year\'s Day' ),
 				{ date: floatingDoW( 1, year, 5, 1 ), name: 'May Day Bank Holiday' },
 				{ date: floatingDoW( 1, year, 5, 25 ), name: 'Spring Bank Holiday' },
 				{ date: floatingDoW( 1, year, 8, 25 ), name: 'Late Summer Bank Holiday' },
-				{ date: calcObservation( year, 12, 25, country ), name: 'Christmas Day' },
-				{ date: calcObservation( year, 12, 26, country ), name: 'Boxing Day' }
-			];
-			easterHolidays = [
-				{ days: -2, name: 'Good Friday' },
-				{ days: 1, name: 'Easter Monday' }
-			];
+				...observed( year, 12, 25, country, 'Christmas Day', { consecutive: 2 } ),
+				...observed( year, 12, 26, country, 'Boxing Day', { consecutive: 2 } ),
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Good Friday' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 1 ) ), name: 'Easter Monday' }
+			);
 			break;
 
 		case 'us':
-			holidays = [
+			holidays.push(
 				{ date: '1-1', name: 'New Year\'s Day' },
 				{ date: floatingDoW( 1, year, 1, 15 ), name: 'Birthday of Martin Luther King Jr.' },
-				{ date: floatingDoW( 1, year, 2, 15 ), name: 'Washington\'s Birthday' },
+				{ date: floatingDoW( 1, year, 2, 15 ), name: 'Presidents\' Day' },
 				{ date: floatingDoW( 1, year, 5, 25 ), name: 'Memorial Day' },
+				{ date: '6-19', name: 'Juneteenth' },
 				{ date: '7-4', name: 'Independence Day' },
 				{ date: floatingDoW( 1, year, 9, 1 ), name: 'Labor Day' },
 				{ date: floatingDoW( 1, year, 10, 8 ), name: 'Columbus Day' },
 				{ date: '11-11', name: 'Veterans Day' },
 				{ date: floatingDoW( 4, year, 11, 22 ), name: 'Thanksgiving Day' },
 				{ date: '12-25', name: 'Christmas Day' }
-			];
+			);
 			break;
 
 		case 'uy':
-			holidays = [
+			holidays.push(
 				{ date: '1-1', name: 'Año Nuevo' },
 				{ date: '1-6', name: 'Día de Reyes' },
-				{ date: calcObservation( year, 4, 19, country ), name: 'Desembarco de los 33 Orientales' },
+				...observed( year, 4, 19, country, 'Desembarco de los 33 Orientales' ),
 				{ date: '5-1', name: 'Día de los Trabajadores' },
-				{ date: calcObservation( year, 5, 18, country ), name: 'Batalla de las Piedras' },
+				...observed( year, 5, 18, country, 'Batalla de las Piedras' ),
 				{ date: '6-19', name: 'Natalicio de Artigas y Día del Nunca Más' },
 				{ date: '7-18', name: 'Jura de la Constitución' },
 				{ date: '8-25', name: 'Declaratoria de la Independencia' },
-				{ date: calcObservation( year, 10, 12, country ), name: 'Día de la Raza' },
+				...observed( year, 10, 12, country, 'Día de la Raza' ),
 				{ date: '11-2', name: 'Día de los Difuntos' },
 				{ date: '12-25', name: 'Navidad' }
-			];
+			);
 			break;
 	}
-
-	// calculates floating holidays based on Easter Day
-	if ( easterHolidays.length ) {
-		let easter = computus( year );
-		easterHolidays.forEach( d => {
-			let date = dateAdd( easter, d.days );
-			holidays.push( { date: `${ date.getMonth() + 1 }-${ date.getDate() }`, name: d.name } );
-		});
-	}
-
-	holidays = holidays.concat( getCustomHolidays() );
 
 	// https://stackoverflow.com/questions/7364150/find-object-by-id-in-an-array-of-javascript-objects
 	return holidays.filter( i => i.date == `${month}-${day}` ).map( i => i.name );
@@ -318,50 +373,92 @@ function getMonthDays( year ) {
 }
 
 /**
- * Calculates the observation date for a given holiday according to a country's rules
+ * Returns the holiday only if it's applicable in the current region
  *
- * @param {number} year
- * @param {number} month
- * @param {number} day
- * @param {string} country
- *
- * @returns {string} holiday date in 'month-day' format
+ * @param {array} holidayRegions Regions the holiday is observed in
+ * @param {object} holiday Holiday definition
+ * @returns Array (zero or one) of holiday definitions applicable
  */
-function calcObservation( year, month, day, country ) {
+function inRegions ( holidayRegions, holiday ) {
+	if ( holidayRegions.includes( region ) ) {
+		return [ holiday ];
+	}
+	else {
+		return [];
+	}
+}
 
-	var diff = 0,
+/**
+ * Returns an array of actual and/or observed holiday dates according to a country's rules
+ *
+ * @param {number} year Holiday year
+ * @param {number} month Holiday month
+ * @param {number} day Holiday day
+ * @param {string} country Country (or Country-Region) code
+ * @param {string} name Holiday name
+ * @param {Object} options Additional options
+ * @param {number} options.consecutive How many consecutive holidays is this one a part of (to avoid shifting observed date onto them)
+ * @returns {array} array of event objects
+ */
+function observed( year, month, day, country, name, options ) {
+	options = options || {};
+
+	let diffs = [0],
 		date = new Date( year, month - 1, day ),
-		dow = date.getDay();
+		dow = date.getDay(),
+		observedName = name;
 
 	switch ( country ) {
 		case 'mx' :
 			if ( dow == 0 )
-				diff = 1;
+				diffs = [1];
 			else if ( dow == 6 )
-				diff = -1;
+				diffs = [-1];
 			break;
 
+		case 'au' :
 		case 'uk' :
+			// if a holiday falls on a Sunday and Monday becomes a public holiday instead, both Sunday and Monday dates will be returned
+			var consecutive = options.consecutive || 1;
 			if ( dow == 0 )
-				diff = 1;
+				diffs.push( consecutive );
 			else if ( dow == 6 )
-				diff = 2;
+				diffs.push( 2 );
+			observedName = `${name} (in lieu)`;
 			break;
 
 		case 'ar' :
 		case 'uy' :
 			if ( dow == 2 )
-				diff = -1;
+				diffs = [-1];
 			else if ( dow == 3 )
-				diff = -2;
+				diffs = [-2];
 			else if ( dow == 4 )
-				diff = 4;
+				diffs = [4];
 			else if ( dow == 5 )
-				diff = 3;
+				diffs = [3];
+			break;
+
+		case 'br-ac' :
+			// holidays between Tuesday and Thursday are postponed to Friday
+			if ( dow >= 2 && dow <= 4 )
+				diffs = [ 5 - dow ];
+			break;
+
+		case 'br-sc' :
+			// holidays on working days are postponed to Sunday
+			if ( dow > 0 )
+				diffs = [ 7 - dow ];
 			break;
 	}
 
-	return dateToMonthDay( dateAdd( date, diff ) );
+	return diffs.map(diff => {
+		var newDate = dateToMonthDay( dateAdd( date, diff ) );
+		return {
+			date: newDate,
+			name: diff == 0 ? name : observedName
+		}
+	});
 }
 
 /**
