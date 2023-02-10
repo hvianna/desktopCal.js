@@ -254,6 +254,7 @@ function checkHoliday( year, month, day ) {
 				{ date: floatingDoW( 1, year, 1, 15 ), name: 'Birthday of Martin Luther King Jr.' },
 				{ date: floatingDoW( 1, year, 2, 15 ), name: 'Washington\'s Birthday' },
 				{ date: floatingDoW( 1, year, 5, 25 ), name: 'Memorial Day' },
+				{ date: '6-19', name: 'Juneteenth' },
 				{ date: '7-4', name: 'Independence Day' },
 				{ date: floatingDoW( 1, year, 9, 1 ), name: 'Labor Day' },
 				{ date: floatingDoW( 1, year, 10, 8 ), name: 'Columbus Day' },
