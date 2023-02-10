@@ -661,7 +661,10 @@ function countryOptions() {
 function changeCountry( newValue ) {
 	[ country, region ] = newValue.split('-');
 	localStorage.setItem( 'country', country );
-	localStorage.setItem( 'region', region );
+	if ( region )
+		localStorage.setItem( 'region', region );
+	else
+		localStorage.removeItem( 'region' );
 	updatePreview();
 }
 
