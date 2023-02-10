@@ -1,6 +1,20 @@
 Changelog
 =========
 
+## version 23.2
+
+### Added:
+
++ Support for regional holidays - thank you [koterpillar](https://github.com/koterpillar) [(#11)](https://github.com/hvianna/desktopCal.js/pull/11);
++ Holidays for Australia - thank you [koterpillar](https://github.com/koterpillar) [(#9)](https://github.com/hvianna/desktopCal.js/pull/9);
++ Regional holidays for Brazil.
+
+### Fixed and improved:
+
++ Observation of consecutive holidays in UK - thank you [koterpillar](https://github.com/koterpillar) [(#7)](https://github.com/hvianna/desktopCal.js/issues/7);
++ Add, not replace, holidays in lieu (for UK and AU) - thank you [koterpillar](https://github.com/koterpillar) [(#10)](https://github.com/hvianna/desktopCal.js/pull/10);
++ Updated US holidays: added Juneteenth and renamed Washington's Birthday to Presidents' Day.
+
 ## version 23.1
 
 ### Added:

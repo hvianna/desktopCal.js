@@ -32,6 +32,7 @@ You can add your own custom holidays. These will be saved in your browser's loca
 + [Saving canvas as image](https://weworkweplay.com/play/saving-html5-canvas-as-image/) and [solution to CORS issue on canvas.toDataURL()](https://stackoverflow.com/a/30517793/2370385)
 + [W3Schools Canvas Reference](https://www.w3schools.com/tags/ref_canvas.asp)
 + [How to draw a rounded Rectangle on HTML Canvas?](https://stackoverflow.com/a/7838871/2370385)
++ [Paper sizes](https://papersizes.io/)
 + References for public holidays:
   + [Argentina](https://en.wikipedia.org/wiki/Public_holidays_in_Argentina)
   + [Australia](https://www.fairwork.gov.au/employment-conditions/public-holidays)
@@ -45,7 +46,6 @@ You can add your own custom holidays. These will be saved in your browser's loca
   + [United Kingdom](https://en.wikipedia.org/wiki/Public_holidays_in_the_United_Kingdom)
   + [United States](https://en.wikipedia.org/wiki/Federal_holidays_in_the_United_States)
   + [Uruguay](https://en.wikipedia.org/wiki/Public_holidays_in_Uruguay)
-+ [Paper sizes](https://papersizes.io/)
 
 ## License
 
