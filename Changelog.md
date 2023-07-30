@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## version 23.7
+
++ Correct Labour Day date in Victoria, Australia - props [koterpillar](https://github.com/koterpillar) [(#12)](https://github.com/hvianna/desktopCal.js/pull/12).
+
+
 ## version 23.2
 
 ### Added:
@@ -14,6 +19,7 @@ Changelog
 + Observation of consecutive holidays in UK - thank you [koterpillar](https://github.com/koterpillar) [(#7)](https://github.com/hvianna/desktopCal.js/issues/7);
 + Add, not replace, holidays in lieu (for UK and AU) - thank you [koterpillar](https://github.com/koterpillar) [(#10)](https://github.com/hvianna/desktopCal.js/pull/10);
 + Updated US holidays: added Juneteenth and renamed Washington's Birthday to Presidents' Day.
+
 
 ## version 23.1
 
