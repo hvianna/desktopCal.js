@@ -21,7 +21,7 @@
  */
 'use strict';
 
-const VERSION = '23.2';
+const VERSION = '23.7';
 
 let cropper = [],
 	colorPresets;
