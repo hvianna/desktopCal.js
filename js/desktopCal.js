@@ -410,7 +410,8 @@ function generateCalendar( month, year, canvas = null ) {
 			let i = initialWeekday,
 				d = ndays[ prevMon ] - ( dow < initialWeekday ? dow + 7 : dow ) + initialWeekday + 1;
 			do {
-				html += '<td class="prev-month' + ( i == 0 || checkHoliday( month == 1 ? year - 1 : year, prevMon, d ).length ? ' holiday' : '' ) + '">' + d;
+				html += '<td class="prev-month' + ( i == 0 || checkHoliday( month == 1 ? year - 1 : year, prevMon, d ).length ? ' holiday' : '' ) + '"><span class="day">' + d + '</span>';
+
 				i = ++i % 7;
 				d++;
 			} while ( d <= ndays[ prevMon ] );
@@ -441,17 +442,17 @@ function generateCalendar( month, year, canvas = null ) {
 		}
 		else {
 			if ( holidays.length ) {
-				html += `<td class="holiday">${ i }<span class="holiday-name">`;
+				html += `<td class="holiday"><span class="day">${ i }</span><div class="holidays"><span class="holiday-name">`;
 				holidayList += `<span>${ i } - `;
 				holidays.forEach( ( name, idx ) => {
-					html += ( idx ? '<br>' : '' ) + name;
+					html += ( idx ? '</span><span class="holiday-name">' : '' ) + name;
 					holidayList += ( idx ? ' / ' : '' ) + name;
 				});
 				html += '</span>';
-				holidayList += '</span>';
+				holidayList += '</span></div>';
 			}
 			else
-				html += `<td${ dow == 0 ? ' class="holiday"' : ''}>${ i }`;
+				html += `<td${ dow == 0 ? ' class="holiday"' : ''}><span class="day">${ i }</span>`;
 		}
 
 		dow = ++dow % 7;
