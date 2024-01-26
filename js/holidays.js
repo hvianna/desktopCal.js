@@ -546,6 +546,8 @@ function listCustomHolidays() {
 	var html = '',
 		holidays = getCustomHolidays();
 
+	console.table(holidays);
+
 	holidays.forEach( ( item, i ) => {
 		let d = item.date.split('-');
 		html += `<tr><td>${msg[lang].monthNames[ d[0] ]}</td><td>${d[1]}</td><td>${item.name}</td><td><button type="button" onclick="deleteCustomHoliday( ${i} );">${msg[lang].delete}</button></td></tr>`;
