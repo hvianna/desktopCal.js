@@ -188,6 +188,24 @@ function checkHoliday( year, month, day ) {
 			);
 			break;
 
+		case 'hu':
+			holidays.push(
+				{ date: '1-1', name: 'Újév' },
+				{ date: '3-15', name: '1848-as forradalom' },
+				{ date: '8-20', name: 'Államalapítás ünnepe' },
+				{ date: '5-1', name: 'A munka ünnepe' },
+				{ date: '10-23', name: '1956-os forradalom' },
+				{ date: '11-1', name: 'Mindenszentek' },
+				{ date: '12-25', name: 'Karácsony napja' },
+				{ date: '12-26', name: 'Karácsony másnapja' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, -2 ) ), name: 'Nagypéntek' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 0 ) ), name: 'Húsvétvasárnap' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 1 ) ), name: 'Húsvéthétfő' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 49 ) ), name: 'Pünkösdvasárnap' },
+				{ date: dateToMonthDay( dateAdd( easterSunday, 50 ) ), name: 'Pünkösdhétfő' }
+			);
+			break;
+
 		case 'fr':
 			holidays.push(
 				{ date: '1-1', name: 'Nouvel an' },
@@ -527,6 +545,8 @@ function listCustomHolidays() {
 
 	var html = '',
 		holidays = getCustomHolidays();
+
+	console.table(holidays);
 
 	holidays.forEach( ( item, i ) => {
 		let d = item.date.split('-');
