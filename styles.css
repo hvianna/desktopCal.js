@@ -128,6 +128,10 @@ p {
 	display: inline-block;
 	margin: 0 calc( ( 100vw - 1230px ) / 4 );
 }
+/* make space for credits */
+#preview {
+    margin-bottom: 5em !important;
+}
 
 #config {
 	color: #555;
