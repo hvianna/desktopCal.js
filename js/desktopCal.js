@@ -711,7 +711,7 @@ function initialize() {
 	let loaded = 0;
 
 	for ( const i of [0,1] ) {
-		fetch( `https://picsum.photos/${w}/${w*.75}/?random` )
+		fetch( `https://picsum.photos/${w}/${(w*.75).toFixed()}.jpg/?random`)
 		.then( response => response.blob() )
 		.then( blob => {
 			const url   = URL.createObjectURL( blob ),
